@@ -5,6 +5,7 @@ using System.Text;
 using Project290.Rendering;
 using Project290.Screens.Title;
 using Project290.Menus.MenuDelegates;
+using Project290.Games.SuperPowerRobots;
 
 namespace Project290.GameElements
 {
@@ -69,6 +70,15 @@ namespace Project290.GameElements
         public static void LoadGameInfo()
         {
             int scoreBoardIndex = 0;
+
+            GameInfoCollection.GameInfos.Add(new GameInfo(
+                "Super Power Robots",
+                "BoxArtGame5",
+                "These robots seem a little phalic",
+                "Owen, Ian, Tom, Sean",
+                "sampleInstructions",
+                scoreBoardIndex,
+                new LaunchFightScreenDelegate(scoreBoardIndex++)));
 
             GameInfoCollection.GameInfos.Add(new GameInfo(
                 "Snake Death",

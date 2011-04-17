@@ -69,6 +69,8 @@
     <Compile Include="FancyFont\FancyCharacter.cs" />
     <Compile Include="FancyFont\FancyString.cs" />
     <Compile Include="Games\StupidGame\StupidGameScreen.cs" />
+    <Compile Include="Games\SuperPowerRobots\FightScreen.cs" />
+    <Compile Include="Games\SuperPowerRobots\LaunchFightScreenDelegate.cs" />
     <Compile Include="Inputs\RumblePack.cs" />
     <Compile Include="Mathematics\RectangleLineClipper.cs" />
     <Compile Include="Menus\BoxArtMenu.cs" />
@@ -347,9 +349,7 @@
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Games\YourGameNameHere\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
