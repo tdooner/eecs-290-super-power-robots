@@ -8,5 +8,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
 {
     class Weapon:Entity
     {
+        //Weapons can spawn Projectiles, attached or unattached.
     }
 }
