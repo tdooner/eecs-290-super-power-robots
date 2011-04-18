@@ -80,7 +80,13 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="SPRGame\4sidedrobotalt.png">
+      <Name>4sidedrobotalt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Shared\Art\tileSafeCheck.png">
       <Name>tileSafeCheck</Name>
@@ -187,6 +193,13 @@
   <ItemGroup>
     <Compile Include="SPRGame\4sidedrobot.png">
       <Name>4sidedrobot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SPRGame\4sidedrobotround.png">
+      <Name>4sidedrobotround</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

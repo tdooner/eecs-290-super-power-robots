@@ -58,7 +58,7 @@ namespace Project290.GameElements
         public static void LoadSPRGameContent()
         {
             // TODO: load all Textures.
-            TextureStatic.Load("4SideFriendlyRobot", @"SPRGame\4sidedrobot");
+            TextureStatic.Load("4SideFriendlyRobot", @"SPRGame\4sidedrobotalt");
             // TODO: load all Audio.
 
             // TODO: load all Fonts, and anything else.
