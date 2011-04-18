@@ -112,13 +112,13 @@
     <Compile Include="FancyFont\FancyCharacter.cs" />
     <Compile Include="FancyFont\FancyString.cs" />
     <Compile Include="Games\StupidGame\StupidGameScreen.cs" />
-    <Compile Include="Games\SuperPowerRobots\FightScreen.cs" />
-    <Compile Include="Games\SuperPowerRobots\LaunchFightScreenDelegate.cs" />
+    <Compile Include="Games\SuperPowerRobots\SPRGameScreen.cs" />
     <Compile Include="Inputs\RumblePack.cs" />
     <Compile Include="Mathematics\RectangleLineClipper.cs" />
     <Compile Include="Menus\BoxArtMenu.cs" />
     <Compile Include="Menus\DescriptionMenuEntry.cs" />
     <Compile Include="Menus\MenuDelegates\GoToTitleDelegate.cs" />
+    <Compile Include="Menus\MenuDelegates\LaunchSPRGameDelegate.cs" />
     <Compile Include="Menus\MenuDelegates\LaunchStupidGameDelegate.cs" />
     <Compile Include="Menus\MenuDelegates\QuitPauseScreenDelegate.cs" />
     <Compile Include="Menus\MenuDelegates\ChangeStorageDeviceDelegate.cs" />

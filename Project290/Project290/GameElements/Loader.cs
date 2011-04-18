@@ -55,10 +55,10 @@ namespace Project290.GameElements
         /// <summary>
         /// Loads the content of a game. There will be one of these methods per mini game
         /// </summary>
-        public static void LoadYOURGAMENAMEHEREContent()
+        public static void LoadSPRGameContent()
         {
             // TODO: load all Textures.
-
+            TextureStatic.Load("4SideFriendlyRobot", @"SPRGame\4sidedrobot");
             // TODO: load all Audio.
 
             // TODO: load all Fonts, and anything else.
@@ -78,7 +78,7 @@ namespace Project290.GameElements
                 "Owen, Ian, Tom, Sean",
                 "sampleInstructions",
                 scoreBoardIndex,
-                new LaunchFightScreenDelegate(scoreBoardIndex++)));
+                new LaunchSPRGameDelegate(scoreBoardIndex++)));
 
             GameInfoCollection.GameInfos.Add(new GameInfo(
                 "Snake Death",

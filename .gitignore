@@ -1,0 +1,11 @@
+*.suo
+*.cache
+*.cachefile
+*.swp
+*.csproj.user
+*.contentproj.user
+Project290/Project290/Xbox*
+Project290/Project290/bin
+Project290/Project290/obj
+Project290/Project290Content/obj
+

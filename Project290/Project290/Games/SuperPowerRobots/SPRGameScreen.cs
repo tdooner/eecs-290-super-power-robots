@@ -9,10 +9,13 @@ using Project290.GameElements;
 using Project290.Inputs;
 using Microsoft.Xna.Framework.Graphics;
 using Project290.Clock;
+using Project290.Physics.Dynamics;
+using Project290.Physics.Collision.Shapes;
+using Project290.Physics.Factories;
 
 namespace Project290.Games.SuperPowerRobots
 {
-    class FightScreen : GameScreen
+    class SPRGameScreen : GameScreen
     {
         /// <summary>
         /// The message on the screen.
@@ -42,15 +45,31 @@ namespace Project290.Games.SuperPowerRobots
         /// <summary>
         /// The time (in ticks since the start of the game) to end it.
         /// </summary>
-        private long gameOverTime;
+        private long gameOverTime, previousGameTime;
+        
+        // DEBUG!!
+        Body wall_e;
+        World fantastica;
+        // </DEBUG!!>
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StupidGameScreen"/> class.
         /// </summary>
         /// <param name="scoreboardIndex">The game-specific index into the scoreboard.</param>
-        public FightScreen(int scoreboardIndex)
+        public SPRGameScreen(int scoreboardIndex)
             : base(scoreboardIndex)
         {
+            // Tom's messing around with the physics engine!
+            previousGameTime = GameClock.Now;
+            fantastica = new World(Vector2.Zero);
+
+            wall_e = BodyFactory.CreateBody(fantastica);
+            wall_e.BodyType = BodyType.Dynamic;
+            wall_e.Mass = 5f;
+            wall_e.Inertia = 5f;
+
+//            wall_e.CreateFixture(new CircleShape(20f, 1.2f));
+            
             // Here should be the construction of all objects and the setting of objects that do not change.
             // The Reset method should be used to set objects that do change.
             this.display = "Going to change this little part";
@@ -88,10 +107,26 @@ namespace Project290.Games.SuperPowerRobots
                 return;
             }
 
-            if (GameWorld.controller.ContainsBool(ActionType.AButtonFirst))
+            wall_e.ResetDynamics();
+            if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) < 0)
             {
-                this.Score += 917;
+                wall_e.ApplyLinearImpulse(new Vector2(0, 5000));
             }
+            if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) > 0)
+            {
+                wall_e.ApplyLinearImpulse(new Vector2(0, -5000));
+            }
+            if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal) > 0)
+            {
+                wall_e.ApplyLinearImpulse(new Vector2(5000, 0));
+            }
+            if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal)< 0)
+            {
+                wall_e.ApplyLinearImpulse(new Vector2(-5000, 0));
+            }
+
+            fantastica.Step(GameClock.Now - previousGameTime);
+            previousGameTime = GameClock.Now;
         }
 
         /// <summary>
@@ -101,7 +136,9 @@ namespace Project290.Games.SuperPowerRobots
         {
             base.Draw();
 
-            Drawer.DrawOutlinedString(
+            Drawer.Draw(TextureStatic.Get("4SideFriendlyRobot"), wall_e.Position, null, Color.White, wall_e.Rotation, Vector2.Zero, 1f,SpriteEffects.None, 0f);
+
+ /*           Drawer.DrawOutlinedString(
                 FontStatic.Get("defaultFont"),
                 this.display,
                 this.displayPosition,
@@ -122,7 +159,7 @@ namespace Project290.Games.SuperPowerRobots
                 1f,
                 SpriteEffects.None,
                 1f);
-
+*/
             string secondsRemaining = Math.Max((Math.Ceiling((this.gameOverTime - GameClock.Now) / 10000000f)), 0).ToString();
             Drawer.DrawOutlinedString(
                 FontStatic.Get("defaultFont"),

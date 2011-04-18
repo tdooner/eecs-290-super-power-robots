@@ -146,7 +146,7 @@ namespace Project290.GameElements
 
             audio = new AudioManager(this);
             Loader.LoadShared();
-            Loader.LoadYOURGAMENAMEHEREContent();
+            Loader.LoadSPRGameContent();
             Loader.LoadGameInfo();
 
             // Create a new SpriteBatch, which can be used to draw textures.
