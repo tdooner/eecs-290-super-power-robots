@@ -74,8 +74,8 @@ namespace Project290.GameElements
             GameInfoCollection.GameInfos.Add(new GameInfo(
                 "Super Power Robots",
                 "BoxArtGame5",
-                "These robots seem a little phalic",
-                "Owen, Ian, Tom, Sean",
+                "These robots seem a little phallic",
+                "Owen, Tom, Ian, Sean (OTIS)",
                 "sampleInstructions",
                 scoreBoardIndex,
                 new LaunchSPRGameDelegate(scoreBoardIndex++)));
