@@ -21,5 +21,9 @@ namespace Project290.Games.SuperPowerRobots.Entities
             get { return m_Body; }
             private set { m_Body = value; }
         }
+
+        //public abstract void Update(float dTime);
+
+        //public abstract void Draw();
     }
 }

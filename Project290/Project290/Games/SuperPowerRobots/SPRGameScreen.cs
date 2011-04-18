@@ -124,6 +124,14 @@ namespace Project290.Games.SuperPowerRobots
             {
                 wall_e.ApplyLinearImpulse(new Vector2(-5000, 0));
             }
+            if (GameWorld.controller.ContainsFloat(ActionType.LeftTrigger) > 0)
+            {
+                wall_e.Rotation += GameWorld.controller.ContainsFloat(ActionType.LeftTrigger);
+            }
+            if (GameWorld.controller.ContainsFloat(ActionType.RightTrigger) > 0)
+            {
+                wall_e.Rotation -= GameWorld.controller.ContainsFloat(ActionType.RightTrigger);
+            }
 
             fantastica.Step(GameClock.Now - previousGameTime);
             previousGameTime = GameClock.Now;
@@ -136,6 +144,7 @@ namespace Project290.Games.SuperPowerRobots
         {
             base.Draw();
 
+            wall_e.Rotation = 2.0f;
             Drawer.Draw(TextureStatic.Get("4SideFriendlyRobot"), wall_e.Position, null, Color.White, wall_e.Rotation, Vector2.Zero, 1f,SpriteEffects.None, 0f);
 
  /*           Drawer.DrawOutlinedString(
