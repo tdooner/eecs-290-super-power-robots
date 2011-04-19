@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Project290.GameElements;
 using Project290.Physics.Dynamics;
+using Project290.Physics.Dynamics.Joints;
 using Project290.Physics.Collision.Shapes;
 using Project290.Physics.Factories;
 using Project290.Inputs;
@@ -16,15 +17,35 @@ namespace Project290.Games.SuperPowerRobots.Entities
     public class Bot : Entity
     {
         //Bots have four Weapons, the Bodies are attached via WeldJoints
-        //private Weapon[] m_weapons;
+        private SortedDictionary<ulong, Weapon> m_weapons;
         private CircleShape m_shape;
+        private Texture2D texture;
         //temp variable, do not include in final project
         private bool m_player;
 
         public Bot(SPRWorld sprWord, Body body, bool player)
             : base(sprWord, body)
         {
+            this.texture = TextureStatic.Get("4SideFriendlyRobot");
+
             this.m_player = player;
+            this.m_weapons = new SortedDictionary<ulong, Weapon>();
+            this.AddWeapon(0f, new Vector2 (texture.Width / 2 + 20, 0));
+            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, texture.Height / 2 + 20));
+            this.AddWeapon((float) Math.PI, new Vector2 (-texture.Width / 2 - 20, 0));
+            this.AddWeapon((float) (Math.PI * (3.0/2.0)), new Vector2 (0, -texture.Height / 2 - 20));
+        }
+
+        public void AddWeapon(float rotation, Vector2 relativePosition)
+        {
+            Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
+            tempBody.BodyType = BodyType.Dynamic;
+            tempBody.Mass = 0f;
+            tempBody.Inertia = 0f;
+            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation);
+            //weapon.SetRotation(rotation);
+            Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
+            this.m_weapons.Add(weapon.GetID(), weapon);
         }
 
         public Vector2 GetPosition()
@@ -61,6 +82,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
                     this.SetRotation(this.GetRotation() - GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
                 }
             }
+
+            foreach (Weapon w in m_weapons.Values)
+            {
+                w.Update(dTime);
+            }
         }
 
         public override void Draw()
@@ -76,6 +102,12 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 1f,
                 SpriteEffects.None,
                 0f);
+
+            foreach (Weapon w in m_weapons.Values)
+            {
+                w.Draw();
+            }
+
         }
     }
 }

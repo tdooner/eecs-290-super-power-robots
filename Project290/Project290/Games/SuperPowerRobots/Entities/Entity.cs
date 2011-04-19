@@ -9,21 +9,29 @@ namespace Project290.Games.SuperPowerRobots.Entities
 {
     public abstract class Entity
     {
+        protected static ulong s_ID = 0;
+
         private Body m_Body;
         private SPRWorld m_SPRWorld;
         private ulong m_ID;
 
         public Entity(SPRWorld sprWorld, Body body)
         {
-            m_SPRWorld = sprWorld;
+            this.m_SPRWorld = sprWorld;
             this.m_Body = body;
-            m_ID = 1;
+            m_ID = s_ID++;
         }
 
         public Body Body
         {
             get { return m_Body; }
             private set { m_Body = value; }
+        }
+
+        public SPRWorld SPRWorld
+        {
+            get { return m_SPRWorld; }
+            private set { m_SPRWorld = value; }
         }
 
         public Vector2 GetPosition()

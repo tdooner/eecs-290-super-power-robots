@@ -117,6 +117,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Games\SuperPowerRobots\Entities\Entity.cs" />
+    <Compile Include="Games\SuperPowerRobots\Entities\Weapon.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Games\SuperPowerRobots\SPRGameScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRWorld.cs" />
     <Compile Include="Inputs\RumblePack.cs" />

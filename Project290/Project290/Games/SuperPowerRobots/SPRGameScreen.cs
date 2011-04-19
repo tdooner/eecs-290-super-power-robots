@@ -100,13 +100,6 @@ namespace Project290.Games.SuperPowerRobots
         {
             base.Update();
 
-            // Check to see if it's game over.
-            if (GameClock.Now > this.gameOverTime)
-            {
-                this.GameOver();
-                return;
-            }
-
             this.sprWorld.Update(GameClock.Now);
 
             fantastica.Step(GameClock.Now - previousGameTime);
@@ -121,18 +114,6 @@ namespace Project290.Games.SuperPowerRobots
             base.Draw();
 
             this.sprWorld.Draw();
-
-            string secondsRemaining = Math.Max((Math.Ceiling((this.gameOverTime - GameClock.Now) / 10000000f)), 0).ToString();
-            Drawer.DrawOutlinedString(
-                FontStatic.Get("defaultFont"),
-                secondsRemaining,
-                this.countDownTimerPosition,
-                Color.White,
-                0f,
-                FontStatic.Get("defaultFont").MeasureString(secondsRemaining) / 2f,
-                1f,
-                SpriteEffects.None,
-                1f);
         }
     }
 }
