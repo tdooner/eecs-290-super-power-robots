@@ -58,8 +58,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 float rotation = this.GetRotation();
                 Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation) + m_owner.GetVelocity().X, (float) Math.Sin(rotation) + m_owner.GetVelocity().Y);
                 Projectile justFired = new Projectile(this.SPRWorld, tempBody, initialVelocity, this.GetRotation());
-                justFired.Body.Mass = 1f;
-                justFired.Body.Inertia = 1f;
                 this.SPRWorld.AddEntitiy(justFired);
                 this.m_firing = false;
             }
