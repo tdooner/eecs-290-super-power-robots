@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Project290.GameElements;
 using Project290.Physics.Dynamics;
 using Project290.Physics.Collision.Shapes;
+using Project290.Physics.Factories;
 
 namespace Project290.Games.SuperPowerRobots.Entities
 {
@@ -16,6 +18,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public Bot(SPRWorld sprWord)
             : base(sprWord)
         {
+            //m_Body = BodyFactory.CreateBody(sprWord);
+
         }
     }
 }

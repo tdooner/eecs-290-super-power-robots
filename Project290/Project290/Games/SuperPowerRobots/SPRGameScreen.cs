@@ -12,6 +12,7 @@ using Project290.Clock;
 using Project290.Physics.Dynamics;
 using Project290.Physics.Collision.Shapes;
 using Project290.Physics.Factories;
+using Project290.Games.SuperPowerRobots.Entities;
 
 namespace Project290.Games.SuperPowerRobots
 {
@@ -46,6 +47,8 @@ namespace Project290.Games.SuperPowerRobots
         /// The time (in ticks since the start of the game) to end it.
         /// </summary>
         private long gameOverTime, previousGameTime;
+
+        private SPRWorld sprWorld;
         
         // DEBUG!!
         Body wall_e;
@@ -62,6 +65,8 @@ namespace Project290.Games.SuperPowerRobots
             // Tom's messing around with the physics engine!
             previousGameTime = GameClock.Now;
             fantastica = new World(Vector2.Zero);
+
+            this.sprWorld = new SPRWorld(fantastica);
 
             wall_e = BodyFactory.CreateBody(fantastica);
             wall_e.BodyType = BodyType.Dynamic;
@@ -107,31 +112,7 @@ namespace Project290.Games.SuperPowerRobots
                 return;
             }
 
-            wall_e.ResetDynamics();
-            if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) < 0)
-            {
-                wall_e.ApplyLinearImpulse(new Vector2(0, 5000));
-            }
-            if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) > 0)
-            {
-                wall_e.ApplyLinearImpulse(new Vector2(0, -5000));
-            }
-            if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal) > 0)
-            {
-                wall_e.ApplyLinearImpulse(new Vector2(5000, 0));
-            }
-            if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal)< 0)
-            {
-                wall_e.ApplyLinearImpulse(new Vector2(-5000, 0));
-            }
-            if (GameWorld.controller.ContainsFloat(ActionType.LeftTrigger) > 0)
-            {
-                wall_e.Rotation += GameWorld.controller.ContainsFloat(ActionType.LeftTrigger);
-            }
-            if (GameWorld.controller.ContainsFloat(ActionType.RightTrigger) > 0)
-            {
-                wall_e.Rotation -= GameWorld.controller.ContainsFloat(ActionType.RightTrigger);
-            }
+            this.sprWorld.Update(GameClock.Now);
 
             fantastica.Step(GameClock.Now - previousGameTime);
             previousGameTime = GameClock.Now;
@@ -144,8 +125,9 @@ namespace Project290.Games.SuperPowerRobots
         {
             base.Draw();
 
-            wall_e.Rotation = 2.0f;
-            Drawer.Draw(TextureStatic.Get("4SideFriendlyRobot"), wall_e.Position, null, Color.White, wall_e.Rotation, Vector2.Zero, 1f,SpriteEffects.None, 0f);
+            this.sprWorld.Draw();
+            
+            //Drawer.Draw(TextureStatic.Get("4SideFriendlyRobot"), wall_e.Position, null, Color.White, wall_e.Rotation, Vector2.Zero, 1f,SpriteEffects.None, 0f);
 
  /*           Drawer.DrawOutlinedString(
                 FontStatic.Get("defaultFont"),

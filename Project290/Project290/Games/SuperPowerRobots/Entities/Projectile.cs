@@ -9,9 +9,10 @@ namespace Project290.Games.SuperPowerRobots.Entities
     class Projectile : Entity
     {
         private CircleShape shape;
+        private Body body;
 
-        public Projectile(SPRWorld sprWorld)
-            : base(sprWorld)
+        public Projectile(SPRWorld sprWorld, Body body)
+            : base(sprWord, body)
         {
         }
     }

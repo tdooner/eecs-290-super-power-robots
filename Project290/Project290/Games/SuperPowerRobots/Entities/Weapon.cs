@@ -10,8 +10,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
     {
         private Body m_Body;
 
-        public Weapon(SPRWorld sprWorld)
-            : base(sprWorld)
+        public Weapon(SPRWorld sprWorld, Body body)
+            : base(sprWord, body)
         {
         }
         //Weapons can spawn Projectiles, attached or unattached.
