@@ -113,6 +113,9 @@
     <Compile Include="FancyFont\FancyString.cs" />
     <Compile Include="Games\StupidGame\StupidGameScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\SPRAI.cs" />
+    <Compile Include="Games\SuperPowerRobots\Entities\Bot.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Games\SuperPowerRobots\Entities\Entity.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRGameScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRWorld.cs" />

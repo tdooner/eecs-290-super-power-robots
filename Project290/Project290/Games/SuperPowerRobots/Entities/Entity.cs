@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace Project290.Games.SuperPowerRobots.Entities
 {
-    class Entity
+    public abstract class Entity
     {
         private Body m_Body;
-        protected SPRWorld m_SPRWorld;
+        private SPRWorld m_SPRWorld;
         private ulong m_ID;
 
         public Entity(SPRWorld sprWorld, Body body)
@@ -56,8 +56,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.Body.Rotation = rotation;
         }
 
-        //public abstract void Update(float dTime);
+        public abstract void Update(float dTime);
 
-        //public abstract void Draw();
+        public abstract void Draw();
     }
 }

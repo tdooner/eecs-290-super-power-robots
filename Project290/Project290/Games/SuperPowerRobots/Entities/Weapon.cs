@@ -6,14 +6,20 @@ using Project290.Physics.Dynamics;
 
 namespace Project290.Games.SuperPowerRobots.Entities
 {
-    class Weapon:Entity
+    public class Weapon:Entity
     {
-        private Body m_Body;
-
         public Weapon(SPRWorld sprWorld, Body body)
-            : base(sprWord, body)
+            : base(sprWorld, body)
         {
         }
         //Weapons can spawn Projectiles, attached or unattached.
+
+        public void Updated(float dTime)
+        {
+        }
+
+        public void Draw()
+        {
+        }
     }
 }

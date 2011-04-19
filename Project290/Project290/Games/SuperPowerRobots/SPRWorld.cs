@@ -16,7 +16,7 @@ using Project290.Games.SuperPowerRobots.Entities;
 
 namespace Project290.Games.SuperPowerRobots
 {
-    class SPRWorld
+    public class SPRWorld
     {
         private World m_World;
         private SortedDictionary<ulong, Entity> m_Entities;
@@ -33,7 +33,7 @@ namespace Project290.Games.SuperPowerRobots
             tempBody.Mass = 5f;
             tempBody.Inertia = 5f;
 
-            Entity testing = new Entity(this, tempBody);
+            Bot testing = new Bot(this, tempBody, true);
 
             this.AddEntitiy(testing);
 
@@ -51,31 +51,7 @@ namespace Project290.Games.SuperPowerRobots
             //call m_World.Step() first, to update the physics
             foreach (Entity e in m_Entities.Values)
             {
-
-                if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) < 0)
-                {
-                    e.ApplyLinearImpulse(new Vector2(0, 5000));
-                }
-                if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) > 0)
-                {
-                    e.ApplyLinearImpulse(new Vector2(0, -5000));
-                }
-                if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal) > 0)
-                {
-                    e.ApplyLinearImpulse(new Vector2(5000, 0));
-                }
-                if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal) < 0)
-                {
-                    e.ApplyLinearImpulse(new Vector2(-5000, 0));
-                }
-                if (GameWorld.controller.ContainsFloat(ActionType.LeftTrigger) > 0)
-                {
-                    e.SetRotation(e.GetRotation() + GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
-                }
-                if (GameWorld.controller.ContainsFloat(ActionType.RightTrigger) > 0)
-                {
-                    e.SetRotation(e.GetRotation() - GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
-                }
+                e.Update(dTime);
             }
 
             //then call the entity updates, take damage, listen to controls, spawn any projectiles, etc.
@@ -87,7 +63,7 @@ namespace Project290.Games.SuperPowerRobots
         {
             foreach (Entity e in m_Entities.Values)
             {
-                Drawer.Draw(TextureStatic.Get("4SideFriendlyRobot"), e.GetPosition(), null, Color.White, e.GetRotation(), Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                e.Draw();
             }
         }
     }

@@ -68,11 +68,6 @@ namespace Project290.Games.SuperPowerRobots
 
             this.sprWorld = new SPRWorld(fantastica);
 
-            wall_e = BodyFactory.CreateBody(fantastica);
-            wall_e.BodyType = BodyType.Dynamic;
-            wall_e.Mass = 5f;
-            wall_e.Inertia = 5f;
-
 //            wall_e.CreateFixture(new CircleShape(20f, 1.2f));
             
             // Here should be the construction of all objects and the setting of objects that do not change.
@@ -126,31 +121,7 @@ namespace Project290.Games.SuperPowerRobots
             base.Draw();
 
             this.sprWorld.Draw();
-            
-            //Drawer.Draw(TextureStatic.Get("4SideFriendlyRobot"), wall_e.Position, null, Color.White, wall_e.Rotation, Vector2.Zero, 1f,SpriteEffects.None, 0f);
 
- /*           Drawer.DrawOutlinedString(
-                FontStatic.Get("defaultFont"),
-                this.display,
-                this.displayPosition,
-                Color.White,
-                0f,
-                this.displayOrigin,
-                1f,
-                SpriteEffects.None,
-                1f);
-
-            Drawer.DrawOutlinedString(
-                FontStatic.Get("defaultFont"),
-                Drawer.FormatNumber(this.Score),
-                this.scorePosition,
-                Color.White,
-                0f,
-                FontStatic.Get("defaultFont").MeasureString(this.Score.ToString()) / 2f,
-                1f,
-                SpriteEffects.None,
-                1f);
-*/
             string secondsRemaining = Math.Max((Math.Ceiling((this.gameOverTime - GameClock.Now) / 10000000f)), 0).ToString();
             Drawer.DrawOutlinedString(
                 FontStatic.Get("defaultFont"),
