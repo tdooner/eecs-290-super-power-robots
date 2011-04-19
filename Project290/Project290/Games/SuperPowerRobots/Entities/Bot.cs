@@ -30,18 +30,20 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
             this.m_player = player;
             this.m_weapons = new SortedDictionary<ulong, Weapon>();
+            
             this.AddWeapon(0f, new Vector2 (texture.Width / 2 + 20, 0));
             this.AddWeapon((float) Math.PI / 2, new Vector2 (0, texture.Height / 2 + 20));
             this.AddWeapon((float) Math.PI, new Vector2 (-texture.Width / 2 - 20, 0));
             this.AddWeapon((float) (Math.PI * (3.0/2.0)), new Vector2 (0, -texture.Height / 2 - 20));
+            
         }
 
         public void AddWeapon(float rotation, Vector2 relativePosition)
         {
             Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
             tempBody.BodyType = BodyType.Dynamic;
-            tempBody.Mass = 0f;
-            tempBody.Inertia = 0f;
+            tempBody.Mass = 0.0000000001f;
+            tempBody.Inertia = 0.000000000001f;
             Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation);
             //weapon.SetRotation(rotation);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
@@ -75,11 +77,13 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 }
                 if (GameWorld.controller.ContainsFloat(ActionType.LeftTrigger) > 0)
                 {
-                    this.SetRotation(this.GetRotation() + GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
+                    this.ApplyAngularImpulse(-GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
+                    //this.SetRotation(this.GetRotation() + GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
                 }
                 if (GameWorld.controller.ContainsFloat(ActionType.RightTrigger) > 0)
                 {
-                    this.SetRotation(this.GetRotation() - GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
+                    this.ApplyAngularImpulse(GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
+                    //this.SetRotation(this.GetRotation() - GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
                 }
             }
 
