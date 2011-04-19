@@ -25,7 +25,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public override void Update(float dTime)
         {
-            this.ApplyLinearImpulse(this.m_velocity);
+            this.Body.ApplyLinearImpulse(this.m_velocity);
         }
 
         public override void Draw()

@@ -100,7 +100,7 @@ namespace Project290.Games.SuperPowerRobots
         {
             base.Update();
 
-            this.sprWorld.Update(GameClock.Now);
+            this.sprWorld.Update(GameClock.Now - previousGameTime);
 
             fantastica.Step(GameClock.Now - previousGameTime);
             previousGameTime = GameClock.Now;

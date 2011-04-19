@@ -14,6 +14,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
     {
         private Bot m_owner;
         private bool m_firing;
+        private float m_reloadTime;
+        private float m_reloading;
         Texture2D texture;
 
         public Weapon(SPRWorld sprWorld, Body body, Bot bot, float rotation, String textureName)
@@ -23,26 +25,42 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.SetRotation(rotation);
             this.m_owner = bot;
             this.m_firing = false;
+            this.m_reloadTime = 2000000f; // Time, in seconds^-7, between shots.
+            this.m_reloading = 0;
         }
         //Weapons can spawn Projectiles, attached or unattached.
 
         public void Fire()
         {
-            this.m_firing = true;
+            if (m_reloading <= 0)
+            {
+                this.m_firing = true;
+                m_reloading = m_reloadTime;
+            }
         }
 
         public override void Update(float dTime)
         {
-            Console.WriteLine(this.GetRotation() % Math.PI);
+            if (m_reloading > 0)
+            {
+                m_reloading -= dTime;
+            }
 
-            if (this.m_firing && texture == TextureStatic.Get("Gun"))
+            //Console.WriteLine(this.GetRotation() % Math.PI);
+
+            if (this.m_firing && texture == TextureStatic.Get("Gun")) // This is not a good way of checking the type of weapon...
             {
                 Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
                 tempBody.BodyType = BodyType.Dynamic;
                 tempBody.Mass = 0.000001f;
-                tempBody.Inertia = 0.000001f;
+                tempBody.Inertia = 100f;
                 tempBody.Position = this.GetPosition();
-                this.SPRWorld.AddEntitiy(new Projectile(this.SPRWorld, tempBody, m_owner.GetVelocity() * this.GetRotation() * 1000f, this.GetRotation()));
+                float rotation = this.GetRotation();
+                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation) + m_owner.GetVelocity().X, (float) Math.Sin(rotation) + m_owner.GetVelocity().Y);
+                Projectile justFired = new Projectile(this.SPRWorld, tempBody, initialVelocity, this.GetRotation());
+                justFired.Body.Mass = 1f;
+                justFired.Body.Inertia = 1f;
+                this.SPRWorld.AddEntitiy(justFired);
                 this.m_firing = false;
             }
         }
