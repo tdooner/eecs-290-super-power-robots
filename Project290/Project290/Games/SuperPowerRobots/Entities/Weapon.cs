@@ -26,20 +26,24 @@ namespace Project290.Games.SuperPowerRobots.Entities
         }
         //Weapons can spawn Projectiles, attached or unattached.
 
-        public void SetFire(bool fire)
+        public void Fire()
         {
-            this.m_firing = fire;
+            this.m_firing = true;
         }
 
         public override void Update(float dTime)
         {
-            if (this.m_firing)
+            Console.WriteLine(this.GetRotation() % Math.PI);
+
+            if (this.m_firing && texture == TextureStatic.Get("Gun"))
             {
                 Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
                 tempBody.BodyType = BodyType.Dynamic;
                 tempBody.Mass = 0.000001f;
                 tempBody.Inertia = 0.000001f;
-                this.SPRWorld.AddEntitiy(new Projectile(this.SPRWorld, 
+                tempBody.Position = this.GetPosition();
+                this.SPRWorld.AddEntitiy(new Projectile(this.SPRWorld, tempBody, m_owner.GetVelocity() * this.GetRotation() * 1000f, this.GetRotation()));
+                this.m_firing = false;
             }
         }
 

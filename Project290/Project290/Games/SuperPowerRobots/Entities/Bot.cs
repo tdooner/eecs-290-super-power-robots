@@ -20,21 +20,23 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private SortedDictionary<ulong, Weapon> m_weapons;
         private CircleShape m_shape;
         private Texture2D texture;
+        private Vector2 velocity;
         //temp variable, do not include in final project
         private bool m_player;
 
         public Bot(SPRWorld sprWord, Body body, bool player)
             : base(sprWord, body)
         {
+            velocity = Vector2.Zero;
             this.texture = TextureStatic.Get("4SideFriendlyRobot");
 
             this.m_player = player;
             this.m_weapons = new SortedDictionary<ulong, Weapon>();
-            
+
+            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -texture.Height / 2 - 20), "Shield");
             this.AddWeapon(0f, new Vector2 (texture.Width / 2 + 20, 0), "Gun");
             this.AddWeapon((float) Math.PI / 2, new Vector2 (0, texture.Height / 2 + 20), "Gun");
             this.AddWeapon((float) Math.PI, new Vector2 (-texture.Width / 2 - 20, 0), "Axe");
-            this.AddWeapon((float) (Math.PI * (3.0/2.0)), new Vector2 (0, -texture.Height / 2 - 20), "Shield");
             
         }
 
@@ -55,47 +57,72 @@ namespace Project290.Games.SuperPowerRobots.Entities
             return new Vector2(this.Body.Position.X, this.Body.Position.Y);
         }
 
+        public Vector2 GetVelocity()
+        {
+            return this.velocity;
+        }
+
         public override void Update(float dTime)
         {
             if (this.m_player)
             {
+                this.velocity = Vector2.Zero;
                 if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) < 0)
                 {
-                    this.ApplyLinearImpulse(new Vector2(0, 5000));
+                    this.velocity.Y = 5000;
+                    //this.ApplyLinearImpulse(new Vector2(0, 5000));
                 }
                 if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) > 0)
                 {
-                    this.ApplyLinearImpulse(new Vector2(0, -5000));
+                    this.velocity.Y = -5000;
+                    //this.ApplyLinearImpulse(new Vector2(0, -5000));
                 }
                 if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal) > 0)
                 {
-                    this.ApplyLinearImpulse(new Vector2(5000, 0));
+                    this.velocity.X = 5000;
+                    //this.ApplyLinearImpulse(new Vector2(5000, 0));
                 }
                 if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal) < 0)
                 {
-                    this.ApplyLinearImpulse(new Vector2(-5000, 0));
+                    this.velocity.X = -5000;
+                    //this.ApplyLinearImpulse(new Vector2(-5000, 0));
                 }
+                this.ApplyLinearImpulse(velocity);
                 if (GameWorld.controller.ContainsFloat(ActionType.LeftTrigger) > 0)
                 {
                     this.ApplyAngularImpulse(-GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
                     //this.SetRotation(this.GetRotation() + GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
                 }
+
                 if (GameWorld.controller.ContainsFloat(ActionType.RightTrigger) > 0)
                 {
                     this.ApplyAngularImpulse(GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
                     //this.SetRotation(this.GetRotation() - GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
                 }
-                if (GameWorld.controller.ContainsFloat(ActionType.LookHorizontal) != 0 || GameWorld.controller.ContainsFloat(ActionType.LookVertical) != 0)
+                if (GameWorld.controller.ContainsBool(ActionType.BButton))
                 {
-                    float rotationalFire = (float)Math.Atan2(GameWorld.controller.ContainsFloat(ActionType.LookHorizontal), GameWorld.controller.ContainsFloat(ActionType.LookVertical));
+                    this.m_weapons.Values.ElementAt(1).Fire();
+                }
+                if (GameWorld.controller.ContainsBool(ActionType.AButton))
+                {
+                    this.m_weapons.Values.ElementAt(2).Fire();
+                }
+                /*if (GameWorld.controller.ContainsFloat(ActionType.LookHorizontal) != 0 || GameWorld.controller.ContainsFloat(ActionType.LookVertical) != 0)
+                {
+                    float rotationalFire = (float)Math.Atan2(GameWorld.controller.ContainsFloat(ActionType.LookVertical), GameWorld.controller.ContainsFloat(ActionType.LookHorizontal));
+                    if (rotationalFire < 0)
+                    {
+                        rotationalFire = (float) ((2 * Math.PI) - rotationalFire);
+                    }
+                    //Console.WriteLine(rotationalFire);
                     Weapon fireWeapon = null;
                     foreach (Weapon w in m_weapons.Values)
                     {
                         if (fireWeapon == null) fireWeapon = w;
                         else
                         {
-                            float dif1 = Math.Abs((float) (rotationalFire - (w.GetRotation() % (2 * Math.PI))));
-                            float dif2 = Math.Abs((float) (rotationalFire - (fireWeapon.GetRotation() % (2 * Math.PI))));
+                            float dif1 = Math.Abs((float) (rotationalFire - (w.GetRotation() % (Math.PI))));
+                            float dif2 = Math.Abs((float) (rotationalFire - (fireWeapon.GetRotation() % (Math.PI))));
                             if (dif1 < dif2)
                             {
                                 fireWeapon = w;
@@ -103,7 +130,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                         }
                     }
                     fireWeapon.SetFire(true);
-                }
+                }*/
             }
 
             foreach (Weapon w in m_weapons.Values)

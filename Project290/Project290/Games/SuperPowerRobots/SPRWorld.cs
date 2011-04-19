@@ -49,10 +49,15 @@ namespace Project290.Games.SuperPowerRobots
         public void Update(float dTime)
         {
             //call m_World.Step() first, to update the physics
-            foreach (Entity e in m_Entities.Values)
+            for (int i = 0; i < m_Entities.Values.Count; i++)
+            {
+                m_Entities.Values.ElementAt(i).Update(dTime);
+            }
+
+            /*foreach (Entity e in m_Entities.Values)
             {
                 e.Update(dTime);
-            }
+            }*/
 
             //then call the entity updates, take damage, listen to controls, spawn any projectiles, etc.
 
