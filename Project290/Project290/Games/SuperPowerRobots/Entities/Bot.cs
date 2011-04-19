@@ -31,20 +31,20 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.m_player = player;
             this.m_weapons = new SortedDictionary<ulong, Weapon>();
             
-            this.AddWeapon(0f, new Vector2 (texture.Width / 2 + 20, 0));
-            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, texture.Height / 2 + 20));
-            this.AddWeapon((float) Math.PI, new Vector2 (-texture.Width / 2 - 20, 0));
-            this.AddWeapon((float) (Math.PI * (3.0/2.0)), new Vector2 (0, -texture.Height / 2 - 20));
+            this.AddWeapon(0f, new Vector2 (texture.Width / 2 + 20, 0), "Gun");
+            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, texture.Height / 2 + 20), "Gun");
+            this.AddWeapon((float) Math.PI, new Vector2 (-texture.Width / 2 - 20, 0), "Axe");
+            this.AddWeapon((float) (Math.PI * (3.0/2.0)), new Vector2 (0, -texture.Height / 2 - 20), "Shield");
             
         }
 
-        public void AddWeapon(float rotation, Vector2 relativePosition)
+        public void AddWeapon(float rotation, Vector2 relativePosition, String textureName)
         {
             Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
             tempBody.BodyType = BodyType.Dynamic;
-            tempBody.Mass = 0.0000000001f;
-            tempBody.Inertia = 0.000000000001f;
-            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation);
+            tempBody.Mass = 0.000001f;
+            tempBody.Inertia = 0.000001f;
+            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, textureName);
             //weapon.SetRotation(rotation);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
             this.m_weapons.Add(weapon.GetID(), weapon);
@@ -84,6 +84,25 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 {
                     this.ApplyAngularImpulse(GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
                     //this.SetRotation(this.GetRotation() - GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
+                }
+                if (GameWorld.controller.ContainsFloat(ActionType.LookHorizontal) != 0 || GameWorld.controller.ContainsFloat(ActionType.LookVertical) != 0)
+                {
+                    float rotationalFire = (float)Math.Atan2(GameWorld.controller.ContainsFloat(ActionType.LookHorizontal), GameWorld.controller.ContainsFloat(ActionType.LookVertical));
+                    Weapon fireWeapon = null;
+                    foreach (Weapon w in m_weapons.Values)
+                    {
+                        if (fireWeapon == null) fireWeapon = w;
+                        else
+                        {
+                            float dif1 = Math.Abs((float) (rotationalFire - (w.GetRotation() % (2 * Math.PI))));
+                            float dif2 = Math.Abs((float) (rotationalFire - (fireWeapon.GetRotation() % (2 * Math.PI))));
+                            if (dif1 < dif2)
+                            {
+                                fireWeapon = w;
+                            }
+                        }
+                    }
+                    fireWeapon.SetFire(true);
                 }
             }
 
