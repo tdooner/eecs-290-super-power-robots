@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Project290.Physics.Dynamics;
 using Project290.Physics.Factories;
 using Project290.Rendering;
+using Project290.Physics.Collision.Shapes;
 
 namespace Project290.Games.SuperPowerRobots.Entities
 {
@@ -52,11 +53,9 @@ namespace Project290.Games.SuperPowerRobots.Entities
             {
                 Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
                 tempBody.BodyType = BodyType.Dynamic;
-                tempBody.Mass = 0.000001f;
-                tempBody.Inertia = 100f;
                 tempBody.Position = this.GetPosition();
                 float rotation = this.GetRotation();
-                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation) + m_owner.GetVelocity().X, (float) Math.Sin(rotation) + m_owner.GetVelocity().Y);
+                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation));
                 Projectile justFired = new Projectile(this.SPRWorld, tempBody, initialVelocity, this.GetRotation());
                 this.SPRWorld.AddEntitiy(justFired);
                 this.m_firing = false;

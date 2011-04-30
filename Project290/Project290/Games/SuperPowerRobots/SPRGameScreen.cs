@@ -12,7 +12,7 @@ using Project290.Clock;
 using Project290.Physics.Dynamics;
 using Project290.Physics.Collision.Shapes;
 using Project290.Physics.Factories;
-using Project290.Games.SuperPowerRobots.Entities;
+using Project290.Games.SuperPowerRobots.Entities; 
 
 namespace Project290.Games.SuperPowerRobots
 {
@@ -63,9 +63,11 @@ namespace Project290.Games.SuperPowerRobots
             : base(scoreboardIndex)
         {
             // Tom's messing around with the physics engine!
+
+            // Note: In the world of Fantastica, 64px is 1 meter.
             previousGameTime = GameClock.Now;
             fantastica = new World(Vector2.Zero);
-
+            Physics.Settings.MaxPolygonVertices = 30; // Defaults to 8? What are we, running on a TI-83 or something?
             this.sprWorld = new SPRWorld(fantastica);
 
 //            wall_e.CreateFixture(new CircleShape(20f, 1.2f));
@@ -73,7 +75,7 @@ namespace Project290.Games.SuperPowerRobots
             // Here should be the construction of all objects and the setting of objects that do not change.
             // The Reset method should be used to set objects that do change.
             this.display = "Going to change this little part";
-            this.displayPosition = new Vector2(1920 / 2, 300); // Remember, screen resolution is guarenteed to be 1920*1080
+            this.displayPosition = new Vector2(1920 / 2, 300); // Remember, screen resolution is guaranteed to be 1920*1080
             this.displayOrigin = FontStatic.Get("defaultFont").MeasureString(this.display) / 2f;
             this.scorePosition = new Vector2(1920 / 2, 500);
             this.countDownTimerPosition = new Vector2(1920 / 2, 700);

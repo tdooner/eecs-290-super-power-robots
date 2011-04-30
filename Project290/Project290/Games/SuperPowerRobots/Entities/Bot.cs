@@ -11,6 +11,8 @@ using Project290.Physics.Collision.Shapes;
 using Project290.Physics.Factories;
 using Project290.Inputs;
 using Project290.Rendering;
+using Project290.Physics.Common;
+using Project290.Physics.Common.PolygonManipulation;
 
 namespace Project290.Games.SuperPowerRobots.Entities
 {
@@ -20,17 +22,39 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private SortedDictionary<ulong, Weapon> m_weapons;
         private CircleShape m_shape;
         private Texture2D texture;
-        private Vector2 velocity;
+        private Vector2 thrust;
+        private List<Fixture> fixtures = new List<Fixture>();
         //temp variable, do not include in final project
-        private bool m_player;
+        private Bot.Player m_player;
+        private Bot.Type m_type;
 
-        public Bot(SPRWorld sprWord, Body body, bool player)
+        public enum Player
+        {
+            Human = 0,
+            Computer = 1
+        }
+        public enum Type
+        {
+            FourSided = 0
+        }
+
+        public Bot(SPRWorld sprWord, Body body, Bot.Player player, Bot.Type type)
             : base(sprWord, body)
         {
-            velocity = Vector2.Zero;
-            this.texture = TextureStatic.Get("4SideFriendlyRobot");
+            thrust = Vector2.Zero;
 
+            // Figure out which bot this is, and load the appropriate textures.
             this.m_player = player;
+            this.m_type = type;
+            if (this.m_player == Bot.Player.Human)
+            {
+                this.texture = TextureStatic.Get("4SideFriendlyRobot");
+            }
+            if (this.m_player == Bot.Player.Computer)
+            {
+                this.texture = TextureStatic.Get("4SideEnemyRobot");
+            }
+
             this.m_weapons = new SortedDictionary<ulong, Weapon>();
 
             this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -texture.Height / 2 - 20), "Shield");
@@ -38,16 +62,24 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.AddWeapon((float) Math.PI / 2, new Vector2 (0, texture.Height / 2 + 20), "Gun");
             this.AddWeapon((float) Math.PI, new Vector2 (-texture.Width / 2 - 20, 0), "Axe");
             
-        }
+        }   
 
         public void AddWeapon(float rotation, Vector2 relativePosition, String textureName)
         {
             Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
             tempBody.BodyType = BodyType.Dynamic;
-            tempBody.Mass = 0.000001f;
-            tempBody.Inertia = 0.000001f;
+//          tempBody.Mass = .05f;
+//          tempBody.Inertia = .00000005f;
+            Vertices v = SPRWorld.computedSpritePolygons[textureName];
+            // Simplify the object until it has few enough verticies.
+            while (v.Count > Physics.Settings.MaxPolygonVertices) // Infinite loop potential?
+            {
+                v = SimplifyTools.DouglasPeuckerSimplify(v, 2); // Where 2 is a completely arbitrary number?
+            }
+            Fixture f = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.00001f, tempBody);
+            fixtures.Add(f);
+            tempBody.SetTransform(Vector2.Zero, rotation);
             Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, textureName);
-            //weapon.SetRotation(rotation);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
             this.m_weapons.Add(weapon.GetID(), weapon);
         }
@@ -59,45 +91,26 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public Vector2 GetVelocity()
         {
-            return this.velocity;
+            return this.thrust;
         }
 
         public override void Update(float dTime)
         {
-            if (this.m_player)
+            this.thrust = Vector2.Zero;
+            if (this.m_player == Bot.Player.Human)
             {
-                this.velocity = Vector2.Zero;
-                if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) < 0)
-                {
-                    this.velocity.Y = 5000;
-                    //this.ApplyLinearImpulse(new Vector2(0, 5000));
-                }
-                if (GameWorld.controller.ContainsFloat(ActionType.MoveVertical) > 0)
-                {
-                    this.velocity.Y = -5000;
-                    //this.ApplyLinearImpulse(new Vector2(0, -5000));
-                }
-                if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal) > 0)
-                {
-                    this.velocity.X = 5000;
-                    //this.ApplyLinearImpulse(new Vector2(5000, 0));
-                }
-                if (GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal) < 0)
-                {
-                    this.velocity.X = -5000;
-                    //this.ApplyLinearImpulse(new Vector2(-5000, 0));
-                }
-                this.ApplyLinearImpulse(velocity);
+                
+                this.thrust.X = .05f * GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal);
+                this.thrust.Y = -.05f * GameWorld.controller.ContainsFloat(ActionType.MoveVertical);
+
                 if (GameWorld.controller.ContainsFloat(ActionType.LeftTrigger) > 0)
                 {
-                    this.ApplyAngularImpulse(-GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
-                    //this.SetRotation(this.GetRotation() + GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
+                    this.Body.ApplyAngularImpulse(-.05f * GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
                 }
 
                 if (GameWorld.controller.ContainsFloat(ActionType.RightTrigger) > 0)
                 {
-                    this.ApplyAngularImpulse(GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
-                    //this.SetRotation(this.GetRotation() - GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
+                    this.Body.ApplyAngularImpulse(.05f*GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
                 }
                 if (GameWorld.controller.ContainsBool(ActionType.BButton))
                 {
@@ -107,32 +120,14 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 {
                     this.m_weapons.Values.ElementAt(2).Fire();
                 }
-                /*if (GameWorld.controller.ContainsFloat(ActionType.LookHorizontal) != 0 || GameWorld.controller.ContainsFloat(ActionType.LookVertical) != 0)
-                {
-                    float rotationalFire = (float)Math.Atan2(GameWorld.controller.ContainsFloat(ActionType.LookVertical), GameWorld.controller.ContainsFloat(ActionType.LookHorizontal));
-                    if (rotationalFire < 0)
-                    {
-                        rotationalFire = (float) ((2 * Math.PI) - rotationalFire);
-                    }
-                    //Console.WriteLine(rotationalFire);
-                    Weapon fireWeapon = null;
-                    foreach (Weapon w in m_weapons.Values)
-                    {
-                        if (fireWeapon == null) fireWeapon = w;
-                        else
-                        {
-                            float dif1 = Math.Abs((float) (rotationalFire - (w.GetRotation() % (Math.PI))));
-                            float dif2 = Math.Abs((float) (rotationalFire - (fireWeapon.GetRotation() % (Math.PI))));
-                            if (dif1 < dif2)
-                            {
-                                fireWeapon = w;
-                            }
-                        }
-                    }
-                    fireWeapon.SetFire(true);
-                }*/
             }
-
+            if (this.m_player == Bot.Player.Computer)
+            {
+                // UNCOMMENT TO HAVE AN ENEMY THAT RUNS AWAY!
+                //this.thrust.X = .075f;
+                //this.thrust.Y = .075f;
+            }
+            this.Body.ApplyLinearImpulse(thrust);
             foreach (Weapon w in m_weapons.Values)
             {
                 w.Update(dTime);
@@ -141,7 +136,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public override void Draw()
         {
-            Texture2D texture = TextureStatic.Get("4SideFriendlyRobot");
+            //Texture2D texture = TextureStatic.Get("4SideFriendlyRobot");
             Drawer.Draw(
                 texture,
                 this.GetPosition(),
@@ -152,7 +147,10 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 1f,
                 SpriteEffects.None,
                 0f);
-
+            foreach (Fixture f in fixtures)
+            {
+                
+            }
             foreach (Weapon w in m_weapons.Values)
             {
                 w.Draw();

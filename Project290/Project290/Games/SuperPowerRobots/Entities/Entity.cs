@@ -56,7 +56,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public void ApplyAngularImpulse(float impulse)
         {
-            this.Body.ApplyAngularImpulse((float) (impulse / 100000));
+            this.Body.ApplyAngularImpulse(impulse);
         }
 
         public void SetRotation(float rotation)

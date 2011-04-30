@@ -59,6 +59,7 @@ namespace Project290.GameElements
         {
             // TODO: load all Textures.
             TextureStatic.Load("4SideFriendlyRobot", @"SPRGame\4sidedrobotalt");
+            TextureStatic.Load("4SideEnemyRobot", @"SPRGame\4sidedenemyrobot2"); 
             TextureStatic.Load("BlankSide", @"SPRGame\blankside");
             TextureStatic.Load("Axe", @"SPRGame\axe");
             TextureStatic.Load("Gun", @"SPRGame\gun");
