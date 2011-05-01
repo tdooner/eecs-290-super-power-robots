@@ -47,7 +47,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 m_reloading -= dTime;
             }
 
-            if (this.m_firing && GetTexture() == TextureStatic.Get("Gun")) // This is not a good way of checking the type of weapon...
+            if (this.m_firing && weaponType == WeaponType.gun) // This is not a good way of checking the type of weapon...
             {
                 Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
                 tempBody.BodyType = BodyType.Dynamic;

@@ -45,7 +45,10 @@ namespace Project290.Games.SuperPowerRobots
                 Vertices v = Melkman.GetConvexHull(PolygonTools.CreatePolygon(data, a.Width, a.Height));
                 Vector2 scale = new Vector2(Settings.MetersPerPixel, Settings.MetersPerPixel);
                 v.Scale(ref scale);
-                computedSpritePolygons.Add(texture, v);
+                if (!computedSpritePolygons.ContainsKey(texture))
+                {
+                    computedSpritePolygons.Add(texture, v);
+                }
             }
 
             //walls

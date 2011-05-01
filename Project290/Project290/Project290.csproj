@@ -125,8 +125,12 @@
     <Compile Include="Games\SuperPowerRobots\Entities\Weapon.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Games\SuperPowerRobots\Entities\WeaponType.cs" />
+    <Compile Include="Games\SuperPowerRobots\Menus\MainMenu.cs" />
+    <Compile Include="Games\SuperPowerRobots\Menus\MenuDelegates\PlayGameDelegate.cs" />
     <Compile Include="Games\SuperPowerRobots\Settings.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRGameScreen.cs" />
+    <Compile Include="Games\SuperPowerRobots\SPRMainScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRWorld.cs" />
     <Compile Include="Inputs\RumblePack.cs" />
     <Compile Include="Mathematics\RectangleLineClipper.cs" />

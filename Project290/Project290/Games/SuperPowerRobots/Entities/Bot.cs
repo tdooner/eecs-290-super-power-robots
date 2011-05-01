@@ -71,7 +71,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             f.Friction = 0.5f;
             f.Restitution = 0f;
             //tempBody.SetTransform(Vector2.Zero, rotation);
-            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), TextureStatic.Get(textureName).Width * Settings.MetersPerPixel, TextureStatic.Get(textureName).Height * Settings.MetersPerPixel);
+            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), TextureStatic.Get(textureName).Width * Settings.MetersPerPixel, TextureStatic.Get(textureName).Height * Settings.MetersPerPixel, weaponType);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
             this.Weapons.Add(weapon.GetID(), weapon);
             SPRWorld.AddEntity(weapon);

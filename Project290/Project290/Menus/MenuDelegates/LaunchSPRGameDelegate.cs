@@ -40,7 +40,7 @@ namespace Project290.Menus.MenuDelegates
                 GameWorld.screens[GameWorld.screens.Count - 1].Disposed = true;
             }
 
-            GameWorld.screens.Play(new SPRGameScreen(this.scoreBoardIndex)); // The number passed here must be unique per game.
+            GameWorld.screens.Play(new SPRMainScreen(this.scoreBoardIndex)); // The number passed here must be unique per game.
         }
     }
 }
