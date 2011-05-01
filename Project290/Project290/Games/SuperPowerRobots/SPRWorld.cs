@@ -28,6 +28,15 @@ namespace Project290.Games.SuperPowerRobots
         public static Dictionary<String, Vertices> computedSpritePolygons = new Dictionary<string,Vertices>();
         //private Entity testing;
 
+        // Anything that is a fixture must have an object type for collision logic purposes
+        public enum ObjectTypes
+        {
+            Bot = 1,
+            Weapon = 2,  // Since weapons will be fixtures, they too need an object type.
+            Bullet = 3,
+            Wall = 4
+        }
+
         public SPRWorld(World world)
         {
             m_World = world;
@@ -55,10 +64,10 @@ namespace Project290.Games.SuperPowerRobots
             Vector2[] outer = { new Vector2(0, 0) * Settings.MetersPerPixel, new Vector2(0, 1920) * Settings.MetersPerPixel, new Vector2(1080, 1920) * Settings.MetersPerPixel, new Vector2(1080, 0) * Settings.MetersPerPixel };
             Vector2[] inner = { new Vector2(200, 200) * Settings.MetersPerPixel, new Vector2(200, 1720) * Settings.MetersPerPixel, new Vector2(880, 1720) * Settings.MetersPerPixel, new Vector2(880, 200) * Settings.MetersPerPixel };
 
-            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 100) * Settings.MetersPerPixel).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(100, 540) * Settings.MetersPerPixel).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 980) * Settings.MetersPerPixel).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(1820, 540) * Settings.MetersPerPixel).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 100) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(100, 540) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 980) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(1820, 540) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
 
             int botHalfWidth = 31; // Half the bot's width (e.g. the distance from the centroid to the edge)
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
@@ -73,6 +82,7 @@ namespace Project290.Games.SuperPowerRobots
             f.OnCollision += MyOnCollision;
             f.Friction = .5f;
             f.Restitution = 0f;
+            f.UserData = SPRWorld.ObjectTypes.Bot;
             tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
             Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
 
@@ -85,6 +95,7 @@ namespace Project290.Games.SuperPowerRobots
             g.OnCollision += MyOnCollision;
             g.Friction = .5f;
             g.Restitution = 0f;
+            g.UserData = SPRWorld.ObjectTypes.Bot;
             enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
             Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
 

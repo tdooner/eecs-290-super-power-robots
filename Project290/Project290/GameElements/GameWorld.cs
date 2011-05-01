@@ -206,7 +206,7 @@ namespace Project290.GameElements
             }
 
             GameClock.Update();
-            ForceSignIn();
+            //ForceSignIn();
             gameSaver.Update();
             audio.Update(gameTime);
             controller.Update();
