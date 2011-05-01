@@ -4,6 +4,7 @@ Content\Shared\BoxArt\BoxArtGame3.xnb
 Content\Shared\BoxArt\BoxArtGame4.xnb
 Content\Shared\BoxArt\BoxArtGame5.xnb
 Content\Shared\Art\Blank.xnb
+Content\SPRGame\4sidedrobotalt.xnb
 Content\Shared\Art\tileSafeCheck.xnb
 Content\Shared\Fonts\controllerFont.xnb
 Content\DefaultBackground\particle1.xnb
@@ -14,6 +15,13 @@ Content\Shared\Art\titleNameBorder.xnb
 Content\Shared\Art\instructionBorder.xnb
 Content\Shared\Art\sampleInstructions.xnb
 Content\Shared\Art\gradient.xnb
+Content\SPRGame\4sidedrobot.xnb
+Content\SPRGame\blankside.xnb
+Content\SPRGame\whitestuff.xnb
+Content\SPRGame\4sidedenemyrobot2.xnb
+Content\SPRGame\axe_aligned.xnb
+Content\SPRGame\gun_aligned.xnb
+Content\SPRGame\shield_aligned.xnb
 Content\Shared\Fonts\defaultFont.xnb
 Content\Shared\Sounds\boxArtScroll.xnb
 Content\Shared\Sounds\menuClick.xnb
