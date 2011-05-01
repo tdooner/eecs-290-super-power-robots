@@ -112,6 +112,7 @@
     <Compile Include="FancyFont\FancyCharacter.cs" />
     <Compile Include="FancyFont\FancyString.cs" />
     <Compile Include="Games\StupidGame\StupidGameScreen.cs" />
+    <Compile Include="Games\SuperPowerRobots\Battle.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\BrickAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\HumanAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\SPRAI.cs" />
@@ -125,7 +126,6 @@
     <Compile Include="Games\SuperPowerRobots\Entities\Weapon.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Games\SuperPowerRobots\Entities\WeaponType.cs" />
     <Compile Include="Games\SuperPowerRobots\Menus\MainMenu.cs" />
     <Compile Include="Games\SuperPowerRobots\Menus\MenuDelegates\PlayGameDelegate.cs" />
     <Compile Include="Games\SuperPowerRobots\Settings.cs" />
@@ -293,6 +293,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
+    <Content Include="Games\SuperPowerRobots\Storage\Battles.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>

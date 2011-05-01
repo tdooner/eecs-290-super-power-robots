@@ -26,6 +26,7 @@ namespace Project290.Games.SuperPowerRobots
         private World m_World;
         private SortedDictionary<ulong, Entity> m_Entities;
         public static Dictionary<String, Vertices> computedSpritePolygons = new Dictionary<string,Vertices>();
+        private Battle battle;
         //private Entity testing;
 
         public SPRWorld(World world)
@@ -37,6 +38,8 @@ namespace Project290.Games.SuperPowerRobots
             // NOTE: Stores the convex hull for each item, since collision detection
             //          relies upon these verticies being convex polygons.
             String[] toPreload = new String[] { "Gun", "Axe", "Shield" };
+
+            this.battle = new Battle();
 
             foreach (String texture in toPreload) {
                 Texture2D a = TextureStatic.Get(texture);
@@ -74,7 +77,7 @@ namespace Project290.Games.SuperPowerRobots
             f.Friction = .5f;
             f.Restitution = 0f;
             tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
-            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel);
+            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 500f);
 
             this.AddEntity(testing);
 
@@ -86,7 +89,7 @@ namespace Project290.Games.SuperPowerRobots
             g.Friction = .5f;
             g.Restitution = 0f;
             enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
-            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel);
+            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 500f);
 
             this.AddEntity(enemyBot);
 
