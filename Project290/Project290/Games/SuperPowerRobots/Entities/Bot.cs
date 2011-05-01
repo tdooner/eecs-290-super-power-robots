@@ -49,10 +49,10 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
             this.Weapons = new SortedDictionary<ulong, Weapon>();
 
-            this.AddWeapon(0f, new Vector2 (this.GetWidth(), 0), "Gun");
-            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight()), "Gun");
-            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -this.GetHeight()), "Shield");
-            this.AddWeapon((float) Math.PI, new Vector2 (-this.GetWidth(), 0), "Axe");
+            this.AddWeapon(0f, new Vector2 (this.GetWidth() / 2, 0), "Gun");
+            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight() / 2), "Gun");
+            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -this.GetHeight() / 2), "Shield");
+            this.AddWeapon((float) Math.PI, new Vector2 (-this.GetWidth() / 2, 0), "Axe");
             
         }   
 
@@ -60,8 +60,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
         {
             Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
             tempBody.BodyType = BodyType.Dynamic;
-//          tempBody.Mass = .05f;
-//          tempBody.Inertia = .00000005f;
             Vertices v = SPRWorld.computedSpritePolygons[textureName];
             // Simplify the object until it has few enough verticies.
             while (v.Count > Physics.Settings.MaxPolygonVertices) // Infinite loop potential?
@@ -71,7 +69,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             Fixture f = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.0000001f, tempBody);
             fixtures.Add(f);
             //tempBody.SetTransform(Vector2.Zero, rotation);
-            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), 10 * Settings.MetersPerPixel, 10 * Settings.MetersPerPixel);
+            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), TextureStatic.Get(textureName).Width * Settings.MetersPerPixel, TextureStatic.Get(textureName).Height * Settings.MetersPerPixel);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
             this.Weapons.Add(weapon.GetID(), weapon);
             SPRWorld.AddEntity(weapon);
@@ -100,8 +98,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public override void Update(float dTime)
         {
             m_Control.Update(dTime, this);
-            this.Body.ApplyLinearImpulse(50000f * m_Control.Move);
-            this.Body.ApplyAngularImpulse(50000f * m_Control.Spin);
+            this.Body.ApplyLinearImpulse(0.05f * m_Control.Move);
+            this.Body.ApplyAngularImpulse(0.05f * m_Control.Spin);
 
             bool[] weapons = m_Control.Weapons;
             int fire = 0; //mark the weapon to fire using the right stick

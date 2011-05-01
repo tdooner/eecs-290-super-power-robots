@@ -61,9 +61,9 @@ namespace Project290.GameElements
             TextureStatic.Load("4SideFriendlyRobot", @"SPRGame\4sidedrobotalt");
             TextureStatic.Load("4SideEnemyRobot", @"SPRGame\4sidedenemyrobot2"); 
             TextureStatic.Load("BlankSide", @"SPRGame\blankside");
-            TextureStatic.Load("Axe", @"SPRGame\axe");
-            TextureStatic.Load("Gun", @"SPRGame\gun");
-            TextureStatic.Load("Shield", @"SPRGame\shield");
+            TextureStatic.Load("Axe", @"SPRGame\axe_aligned");
+            TextureStatic.Load("Gun", @"SPRGame\gun_aligned");
+            TextureStatic.Load("Shield", @"SPRGame\shield_aligned");
             TextureStatic.Load("Projectile", @"SPRGame\whitestuff");
             // TODO: load all Audio.
 
