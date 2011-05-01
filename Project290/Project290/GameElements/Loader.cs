@@ -65,6 +65,7 @@ namespace Project290.GameElements
             TextureStatic.Load("Gun", @"SPRGame\gun_aligned");
             TextureStatic.Load("Shield", @"SPRGame\shield_aligned");
             TextureStatic.Load("Projectile", @"SPRGame\whitestuff");
+            TextureStatic.Load("background", @"SPRGame\background");
             // TODO: load all Audio.
 
             // TODO: load all Fonts, and anything else.
