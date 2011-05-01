@@ -76,9 +76,9 @@ namespace Project290.Games.SuperPowerRobots.Entities
             {
                 v = SimplifyTools.DouglasPeuckerSimplify(v, 2); // Where 2 is a completely arbitrary number?
             }
-            Fixture f = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.00001f, tempBody);
+            Fixture f = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.0000001f, tempBody);
             fixtures.Add(f);
-            tempBody.SetTransform(Vector2.Zero, rotation);
+            //tempBody.SetTransform(Vector2.Zero, rotation);
             Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, textureName);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
             this.m_weapons.Add(weapon.GetID(), weapon);

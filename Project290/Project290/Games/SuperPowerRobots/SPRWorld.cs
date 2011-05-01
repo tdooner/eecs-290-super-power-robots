@@ -16,6 +16,7 @@ using Project290.Games.SuperPowerRobots.Entities;
 using Project290.Physics.Common;
 using Project290.Physics.Common.ConvexHull;
 using Project290.Games.SuperPowerRobots.Controls;
+using Project290.Physics.Dynamics.Contacts;
 
 namespace Project290.Games.SuperPowerRobots
 {
@@ -50,9 +51,9 @@ namespace Project290.Games.SuperPowerRobots
             //  in the FixtureFactory.CreatePolygon call.  (is currently 10f)
             Body tempBody = BodyFactory.CreateBody(world);
             tempBody.BodyType = BodyType.Dynamic;
-            Vector2[] edges = { new Vector2(-20, -20), new Vector2(20f, -20f), new Vector2(20f, 20f), new Vector2(-20f, 20f) };
-            FixtureFactory.CreatePolygon(new Vertices(edges), 1f, tempBody);
-
+            Vector2[] edges = { new Vector2(-31, -31), new Vector2(31f, -31f), new Vector2(31f, 31f), new Vector2(-31f, 31f) };
+            Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 1f, tempBody);
+            f.OnCollision += MyOnCollision;
             Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this));
 
             this.AddEntity(testing);
@@ -60,7 +61,8 @@ namespace Project290.Games.SuperPowerRobots
             // Enemy Robot
             Body enemy = BodyFactory.CreateBody(world);
             enemy.BodyType = BodyType.Dynamic;
-            FixtureFactory.CreatePolygon(new Vertices(edges), 1f, enemy);
+            Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 1f, enemy);
+            g.OnCollision += MyOnCollision;
             enemy.SetTransform(new Vector2(400, 400), 0);
             Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this));
 
@@ -75,41 +77,41 @@ namespace Project290.Games.SuperPowerRobots
             this.m_Entities.Add(e.GetID(), e);
         }
 
+        public bool MyOnCollision(Fixture f1, Fixture f2, Contact c)
+        {
+            f2.Body.Dispose();
+            return true;
+        }
+
         public void Update(float dTime)
         {
-            //call m_World.Step() first, to update the physics
-            for (int i = 0; i < m_Entities.Values.Count; i++)
+            //then call the entity updates, take damage, listen to controls, spawn any projectiles, etc.
+
+            //update all entities
+            for (int i = 0; i < m_Entities.Values.Count; i++ )
             {
                 m_Entities.Values.ElementAt(i).Update(dTime);
             }
-
-            /*foreach (Entity e in m_Entities.Values)
-            {
-                e.Update(dTime);
-            }*/
-
-            //then call the entity updates, take damage, listen to controls, spawn any projectiles, etc.
-
+            
             //check for dead bots
-            KillDeadEntities();
-        }
+            List<ulong> toRemove = new List<ulong>();
 
-        private void KillDeadEntities()
-        {
-            List<Entity> dieNow = new List<Entity>();
-            foreach (Entity e in m_Entities.Values)
+            foreach (KeyValuePair<ulong, Entity> a in m_Entities)
             {
-                if (e.IsDead())
+                Entity e = a.Value;
+                // If the physics library has gotten rid of that entity's body, we should get rid of it as an entity.
+                if (!m_World.BodyList.Contains(e.Body)) 
                 {
-                    //need to check if e is player
-                    dieNow.Add(e);
+                    toRemove.Add(a.Key);
                 }
             }
-            foreach (Entity e in dieNow)
+            foreach (ulong key in toRemove)
             {
-                m_Entities.Remove(e.GetID());
+                m_Entities.Remove(key);
             }
+
         }
+
         public void Draw()
         {
             foreach (Entity e in m_Entities.Values)
