@@ -20,7 +20,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
     public class Bot : Entity
     {
         //Bots have four Weapons, the Bodies are attached via WeldJoints
-        private SortedDictionary<ulong, Weapon> m_weapons;
+        public SortedDictionary<ulong, Weapon> Weapons;
+        private Texture2D texture;
         private List<Fixture> fixtures = new List<Fixture>();
         //temp variable, do not include in final project
         private Bot.Player m_player;
@@ -46,7 +47,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.m_type = type;
             this.m_Control = control;
 
-            this.m_weapons = new SortedDictionary<ulong, Weapon>();
+            this.Weapons = new SortedDictionary<ulong, Weapon>();
 
             this.AddWeapon(0f, new Vector2 (this.GetWidth(), 0), "Gun");
             this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight()), "Gun");
@@ -72,7 +73,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
             //tempBody.SetTransform(Vector2.Zero, rotation);
             Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), 10 * Settings.MetersPerPixel, 10 * Settings.MetersPerPixel);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
-            this.m_weapons.Add(weapon.GetID(), weapon);
+            this.Weapons.Add(weapon.GetID(), weapon);
+            SPRWorld.AddEntity(weapon);
         }
 
         public Vector2 GetPosition()
@@ -98,23 +100,23 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public override void Update(float dTime)
         {
             m_Control.Update(dTime, this);
-            this.Body.ApplyLinearImpulse(.05f * m_Control.Move);
-            this.Body.ApplyAngularImpulse(.05f * m_Control.Spin);
+            this.Body.ApplyLinearImpulse(50000f * m_Control.Move);
+            this.Body.ApplyAngularImpulse(50000f * m_Control.Spin);
 
             bool[] weapons = m_Control.Weapons;
             int fire = 0; //mark the weapon to fire using the right stick
             for (int i = 0; i < weapons.Length; i++)
             {
-                if (weapons[i]) this.m_weapons.Values.ElementAt(i).Fire();
+                if (weapons[i]) this.Weapons.Values.ElementAt(i).Fire();
 
-                Vector2 weapDir = new Vector2((float)Math.Cos(this.m_weapons.Values.ElementAt(i).GetRotation()), (float)Math.Sin(this.m_weapons.Values.ElementAt(i).GetRotation()));
-                Vector2 maxDir = new Vector2((float)Math.Cos(this.m_weapons.Values.ElementAt(fire).GetRotation()), (float)Math.Sin(this.m_weapons.Values.ElementAt(fire).GetRotation()));
+                Vector2 weapDir = new Vector2((float)Math.Cos(this.Weapons.Values.ElementAt(i).GetRotation()), (float)Math.Sin(this.Weapons.Values.ElementAt(i).GetRotation()));
+                Vector2 maxDir = new Vector2((float)Math.Cos(this.Weapons.Values.ElementAt(fire).GetRotation()), (float)Math.Sin(this.Weapons.Values.ElementAt(fire).GetRotation()));
                 if(Vector2.Dot(m_Control.Fire, weapDir) > Vector2.Dot(m_Control.Fire, maxDir)) fire = i;
             }
 
-            if (m_Control.Fire.LengthSquared() > 0) this.m_weapons.Values.ElementAt(fire).Fire();
+            if (m_Control.Fire.LengthSquared() > 0) this.Weapons.Values.ElementAt(fire).Fire();
 
-            foreach (Weapon w in m_weapons.Values)
+            foreach (Weapon w in Weapons.Values)
             {
                 w.Update(dTime);
             }
@@ -123,7 +125,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public override void Draw()
         {
             base.Draw();
-            foreach (Weapon w in m_weapons.Values)
+            foreach (Weapon w in Weapons.Values)
             {
                 w.Draw();
             }
