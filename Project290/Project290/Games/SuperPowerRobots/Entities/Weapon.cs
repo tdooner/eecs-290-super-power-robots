@@ -17,8 +17,9 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private bool m_firing;
         private float m_reloadTime;
         private float m_reloading;
+        private WeaponType weaponType;
 
-        public Weapon(SPRWorld sprWorld, Body body, Bot bot, float rotation, Texture2D texture, float width, float height)
+        public Weapon(SPRWorld sprWorld, Body body, Bot bot, float rotation, Texture2D texture, float width, float height, WeaponType weaponType)
             : base(sprWorld, body, texture, width, height)
         {
             this.SetRotation(rotation);
@@ -26,6 +27,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.m_firing = false;
             this.m_reloadTime = .2f;
             this.m_reloading = 0;
+            this.weaponType = weaponType;
         }
         //Weapons can spawn Projectiles, attached or unattached.
 

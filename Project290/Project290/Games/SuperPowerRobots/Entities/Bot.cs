@@ -49,14 +49,14 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
             this.Weapons = new SortedDictionary<ulong, Weapon>();
 
-            this.AddWeapon(0f, new Vector2 (this.GetWidth() / 2, 0), "Gun");
-            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight() / 2), "Gun");
-            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -this.GetHeight() / 2), "Shield");
-            this.AddWeapon((float) Math.PI, new Vector2 (-this.GetWidth() / 2, 0), "Axe");
+            this.AddWeapon(0f, new Vector2 (this.GetWidth() / 2, 0), "Gun", WeaponType.gun);
+            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight() / 2), "Gun", WeaponType.gun);
+            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -this.GetHeight() / 2), "Shield", WeaponType.shield);
+            this.AddWeapon((float) Math.PI, new Vector2 (-this.GetWidth() / 2, 0), "Axe", WeaponType.melee);
             
         }   
 
-        public void AddWeapon(float rotation, Vector2 relativePosition, String textureName)
+        public void AddWeapon(float rotation, Vector2 relativePosition, String textureName, WeaponType weaponType)
         {
             Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
             tempBody.BodyType = BodyType.Dynamic;
