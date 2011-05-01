@@ -12,6 +12,12 @@ using Project290.Physics.Dynamics.Joints;
 
 namespace Project290.Games.SuperPowerRobots.Entities
 {
+    public enum WeaponType
+    {
+        gun,
+        melee,
+        shield
+    }
     public class Weapon : Entity
     {
         private Bot m_owner;
@@ -50,7 +56,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 m_reloading -= dTime;
             }
 
-            if (this.m_firing && weaponType == WeaponType.gun) // This is not a good way of checking the type of weapon...
+            if (this.m_firing && weaponType == WeaponType.gun)
             {
                 Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
                 tempBody.BodyType = BodyType.Dynamic;
