@@ -46,7 +46,7 @@ namespace Project290.Games.SuperPowerRobots
                 v.Scale(ref scale);
                 computedSpritePolygons.Add(texture, v);
             }
-            Vector2[] edges = { new Vector2(-31, -31) * Settings.MetersPerPixel, new Vector2(31f, -31f) * Settings.MetersPerPixel, new Vector2(31f, 31f) * Settings.MetersPerPixel, new Vector2(-31f, 31f) * Settings.MetersPerPixel };
+            Vector2[] edges = { new Vector2(-62, -62) * Settings.MetersPerPixel, new Vector2(62f, -62f) * Settings.MetersPerPixel, new Vector2(62f, 62f) * Settings.MetersPerPixel, new Vector2(-62f, 62f) * Settings.MetersPerPixel };
 
             // Human Player
 
@@ -56,7 +56,7 @@ namespace Project290.Games.SuperPowerRobots
             tempBody.BodyType = BodyType.Dynamic;
             Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
             f.OnCollision += MyOnCollision;
-            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 31 * Settings.MetersPerPixel, 31 * Settings.MetersPerPixel);
+            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 62 * Settings.MetersPerPixel, 62 * Settings.MetersPerPixel);
 
             this.AddEntity(testing);
 
@@ -66,7 +66,7 @@ namespace Project290.Games.SuperPowerRobots
             Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, enemy);
             g.OnCollision += MyOnCollision;
             enemy.SetTransform(new Vector2(400, 400) * Settings.MetersPerPixel, 0);
-            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 31 * Settings.MetersPerPixel, 31 * Settings.MetersPerPixel);
+            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 62 * Settings.MetersPerPixel, 62 * Settings.MetersPerPixel);
 
             this.AddEntity(enemyBot);
 
