@@ -17,6 +17,7 @@ using Project290.Physics.Common;
 using Project290.Physics.Common.ConvexHull;
 using Project290.Games.SuperPowerRobots.Controls;
 using Project290.Physics.Dynamics.Contacts;
+using Project290.Physics.Common.PolygonManipulation;
 
 namespace Project290.Games.SuperPowerRobots
 {
@@ -47,6 +48,15 @@ namespace Project290.Games.SuperPowerRobots
                 computedSpritePolygons.Add(texture, v);
             }
 
+            //walls
+            Vector2[] outer = { new Vector2(0, 0) * Settings.MetersPerPixel, new Vector2(0, 1920) * Settings.MetersPerPixel, new Vector2(1080, 1920) * Settings.MetersPerPixel, new Vector2(1080, 0) * Settings.MetersPerPixel };
+            Vector2[] inner = { new Vector2(200, 200) * Settings.MetersPerPixel, new Vector2(200, 1720) * Settings.MetersPerPixel, new Vector2(880, 1720) * Settings.MetersPerPixel, new Vector2(880, 200) * Settings.MetersPerPixel };
+
+            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 100) * Settings.MetersPerPixel).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(100, 540) * Settings.MetersPerPixel).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 980) * Settings.MetersPerPixel).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(1820, 540) * Settings.MetersPerPixel).Body.BodyType = BodyType.Static;
+
             int botHalfWidth = 31; // Half the bot's width (e.g. the distance from the centroid to the edge)
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
 
@@ -58,6 +68,9 @@ namespace Project290.Games.SuperPowerRobots
             tempBody.BodyType = BodyType.Dynamic;
             Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
             f.OnCollision += MyOnCollision;
+            f.Friction = .5f;
+            f.Restitution = 0f;
+            tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
             Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel);
 
             this.AddEntity(testing);
@@ -67,7 +80,9 @@ namespace Project290.Games.SuperPowerRobots
             enemy.BodyType = BodyType.Dynamic;
             Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, enemy);
             g.OnCollision += MyOnCollision;
-            enemy.SetTransform(new Vector2(400, 400) * Settings.MetersPerPixel, 0);
+            g.Friction = .5f;
+            g.Restitution = 0f;
+            enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
             Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel);
 
             this.AddEntity(enemyBot);
