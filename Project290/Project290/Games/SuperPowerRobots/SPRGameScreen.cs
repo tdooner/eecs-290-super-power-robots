@@ -107,6 +107,8 @@ namespace Project290.Games.SuperPowerRobots
             
             fantastica.Step((GameClock.Now - previousGameTime) / 10000000f);
 
+            //fantastica.ProcessChanges(); // Since bullets can be destroyed in the fantastica.Step()
+
 			previousGameTime = GameClock.Now;
         }
 
