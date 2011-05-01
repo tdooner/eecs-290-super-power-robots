@@ -16,8 +16,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private float m_rotation;
         private float m_Life;
 
-        public Projectile(SPRWorld sprWorld, Body body, Vector2 velocity, float rotation, float life)
-            : base(sprWorld, body)
+        public Projectile(SPRWorld sprWorld, Body body, Texture2D texture, Vector2 velocity, float rotation, float life, float width, float height)
+            : base(sprWorld, body, texture, width, height)
         {
             this.m_rotation = rotation;
             this.m_velocity = velocity;
@@ -32,21 +32,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 m_Life -= dTime;
                 if (m_Life <= 0) this.SetDead(true);
             }
-        }
-
-        public override void Draw()
-        {
-            Texture2D texture = TextureStatic.Get("Projectile");
-            Drawer.Draw(
-                texture,
-                this.GetPosition(),
-                null,
-                Color.White,
-                this.GetRotation(),
-                new Vector2(texture.Width / 2, texture.Height / 2),
-                1f,
-                SpriteEffects.None,
-                0f);
         }
     }
 }

@@ -21,7 +21,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
     {
         //Bots have four Weapons, the Bodies are attached via WeldJoints
         private SortedDictionary<ulong, Weapon> m_weapons;
-        private Texture2D texture;
         private List<Fixture> fixtures = new List<Fixture>();
         //temp variable, do not include in final project
         private Bot.Player m_player;
@@ -38,29 +37,21 @@ namespace Project290.Games.SuperPowerRobots.Entities
             FourSided = 0
         }
 
-        public Bot(SPRWorld sprWord, Body body, Bot.Player player, Bot.Type type, SPRAI control)
-            : base(sprWord, body)
+        public Bot(SPRWorld sprWord, Body body, Bot.Player player, Bot.Type type, SPRAI control, Texture2D texture, float width, float height)
+            : base(sprWord, body, texture, width, height)
         {
 
             // Figure out which bot this is, and load the appropriate textures.
             this.m_player = player;
             this.m_type = type;
             this.m_Control = control;
-            if (this.m_player == Bot.Player.Human)
-            {
-                this.texture = TextureStatic.Get("4SideFriendlyRobot");
-            }
-            if (this.m_player == Bot.Player.Computer)
-            {
-                this.texture = TextureStatic.Get("4SideEnemyRobot");
-            }
 
             this.m_weapons = new SortedDictionary<ulong, Weapon>();
 
-            this.AddWeapon(0f, new Vector2 (texture.Width / 2 + 20, 0), "Gun");
-            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, texture.Height / 2 + 20), "Gun");
-            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -texture.Height / 2 - 20), "Shield");
-            this.AddWeapon((float) Math.PI, new Vector2 (-texture.Width / 2 - 20, 0), "Axe");
+            this.AddWeapon(0f, new Vector2 (this.GetWidth(), 0), "Gun");
+            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight()), "Gun");
+            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -this.GetHeight()), "Shield");
+            this.AddWeapon((float) Math.PI, new Vector2 (-this.GetWidth(), 0), "Axe");
             
         }   
 
@@ -79,7 +70,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             Fixture f = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.0000001f, tempBody);
             fixtures.Add(f);
             //tempBody.SetTransform(Vector2.Zero, rotation);
-            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, textureName);
+            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), 10 * Settings.MetersPerPixel, 10 * Settings.MetersPerPixel);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
             this.m_weapons.Add(weapon.GetID(), weapon);
         }
@@ -131,26 +122,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public override void Draw()
         {
-            //Texture2D texture = TextureStatic.Get("4SideFriendlyRobot");
-            Drawer.Draw(
-                texture,
-                this.GetPosition(),
-                null,
-                Color.White,
-                this.GetRotation(),
-                new Vector2(texture.Width / 2, texture.Height / 2),
-                1f,
-                SpriteEffects.None,
-                0f);
-            foreach (Fixture f in fixtures)
-            {
-                
-            }
+            base.Draw();
             foreach (Weapon w in m_weapons.Values)
             {
                 w.Draw();
             }
-
         }
     }
 }

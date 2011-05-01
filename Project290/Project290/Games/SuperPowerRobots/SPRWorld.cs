@@ -51,20 +51,20 @@ namespace Project290.Games.SuperPowerRobots
             //  in the FixtureFactory.CreatePolygon call.  (is currently 10f)
             Body tempBody = BodyFactory.CreateBody(world);
             tempBody.BodyType = BodyType.Dynamic;
-            Vector2[] edges = { new Vector2(-31, -31), new Vector2(31f, -31f), new Vector2(31f, 31f), new Vector2(-31f, 31f) };
-            Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 1f, tempBody);
+            Vector2[] edges = { new Vector2(-31, -31) * Settings.MetersPerPixel, new Vector2(31f, -31f) * Settings.MetersPerPixel, new Vector2(31f, 31f) * Settings.MetersPerPixel, new Vector2(-31f, 31f) * Settings.MetersPerPixel };
+            Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
             f.OnCollision += MyOnCollision;
-            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this));
+            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 31 * Settings.MetersPerPixel, 31 * Settings.MetersPerPixel);
 
             this.AddEntity(testing);
 
             // Enemy Robot
             Body enemy = BodyFactory.CreateBody(world);
             enemy.BodyType = BodyType.Dynamic;
-            Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 1f, enemy);
+            Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, enemy);
             g.OnCollision += MyOnCollision;
-            enemy.SetTransform(new Vector2(400, 400), 0);
-            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this));
+            enemy.SetTransform(new Vector2(400, 400) * Settings.MetersPerPixel, 0);
+            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 31 * Settings.MetersPerPixel, 31 * Settings.MetersPerPixel);
 
             this.AddEntity(enemyBot);
 
@@ -79,7 +79,7 @@ namespace Project290.Games.SuperPowerRobots
 
         public bool MyOnCollision(Fixture f1, Fixture f2, Contact c)
         {
-            f2.Body.Dispose();
+            //f2.Body.Dispose();
             return true;
         }
 

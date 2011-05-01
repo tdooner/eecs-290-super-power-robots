@@ -17,12 +17,10 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private bool m_firing;
         private float m_reloadTime;
         private float m_reloading;
-        Texture2D texture;
 
-        public Weapon(SPRWorld sprWorld, Body body, Bot bot, float rotation, String textureName)
-            : base(sprWorld, body)
+        public Weapon(SPRWorld sprWorld, Body body, Bot bot, float rotation, Texture2D texture, float width, float height)
+            : base(sprWorld, body, texture, width, height)
         {
-            texture = TextureStatic.Get(textureName);
             this.SetRotation(rotation);
             this.m_owner = bot;
             this.m_firing = false;
@@ -49,31 +47,17 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
             //Console.WriteLine(this.GetRotation() % Math.PI);
 
-            if (this.m_firing && texture == TextureStatic.Get("Gun")) // This is not a good way of checking the type of weapon...
+            if (this.m_firing && GetTexture() == TextureStatic.Get("Gun")) // This is not a good way of checking the type of weapon...
             {
                 Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
                 tempBody.BodyType = BodyType.Dynamic;
                 tempBody.Position = this.GetPosition();
                 float rotation = this.GetRotation();
-                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation));
-                Projectile justFired = new Projectile(this.SPRWorld, tempBody, initialVelocity, this.GetRotation(), 5);
+                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation)) * .1f;
+                Projectile justFired = new Projectile(this.SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel);
                 this.SPRWorld.AddEntity(justFired);
                 this.m_firing = false;
             }
-        }
-
-        public override void Draw()
-        {
-            Drawer.Draw(
-                texture,
-                this.GetPosition(),
-                null,
-                Color.White,
-                this.GetRotation(),
-                new Vector2(texture.Width / 2, texture.Height / 2),
-                1f,
-                SpriteEffects.None,
-                0f);
         }
     }
 }
