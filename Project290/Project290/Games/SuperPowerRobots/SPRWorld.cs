@@ -84,7 +84,7 @@ namespace Project290.Games.SuperPowerRobots
             f.Restitution = 0f;
             f.UserData = SPRWorld.ObjectTypes.Bot;
             tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
-            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel);
+            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
 
             this.AddEntity(testing);
 
@@ -97,7 +97,7 @@ namespace Project290.Games.SuperPowerRobots
             g.Restitution = 0f;
             g.UserData = SPRWorld.ObjectTypes.Bot;
             enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
-            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel);
+            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
 
             this.AddEntity(enemyBot);
 
@@ -151,6 +151,15 @@ namespace Project290.Games.SuperPowerRobots
 
         public void Draw()
         {
+            Drawer.Draw(
+                TextureStatic.Get("background"),
+                Drawer.FullScreenRectangle,
+                null,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                SpriteEffects.None,
+                0f);
             foreach (Entity e in m_Entities.Values)
             {
                 e.Draw();
