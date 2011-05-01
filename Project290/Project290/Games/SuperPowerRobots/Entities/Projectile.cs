@@ -26,12 +26,13 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public override void Update(float dTime)
         {
-            if (!IsDead())
-            {
+            //if (!IsDead())
+            //{
+            this.Body.ResetDynamics();
                 this.Body.ApplyLinearImpulse(this.m_velocity);
-                m_Life -= dTime;
-                if (m_Life <= 0) this.SetDead(true);
-            }
+            //    m_Life -= dTime;
+            //    if (m_Life <= 0) this.SetDead(true);
+            //}
         }
     }
 }

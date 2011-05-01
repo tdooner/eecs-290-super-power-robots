@@ -96,6 +96,10 @@ namespace Project290.Games.SuperPowerRobots
             {
                 m_Entities.Values.ElementAt(i).Update(dTime);
             }
+
+            // Because weapons will spawn projectiles in their update cycles, we must process changes to the physics
+            // before we remove stuff.
+            this.m_World.ProcessChanges();
             
             //check for dead bots
             List<ulong> toRemove = new List<ulong>();

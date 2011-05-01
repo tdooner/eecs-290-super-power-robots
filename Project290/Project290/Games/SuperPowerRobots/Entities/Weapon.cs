@@ -45,17 +45,17 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 m_reloading -= dTime;
             }
 
-            //Console.WriteLine(this.GetRotation() % Math.PI);
-
             if (this.m_firing && GetTexture() == TextureStatic.Get("Gun")) // This is not a good way of checking the type of weapon...
             {
                 Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
                 tempBody.BodyType = BodyType.Dynamic;
-                tempBody.Position = this.GetPosition();
                 float rotation = this.GetRotation();
-                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation)) * .1f;
+                tempBody.Position = this.GetPosition() + 40 * Settings.MetersPerPixel * (new Vector2((float) Math.Cos(rotation), (float)Math.Sin(rotation)));
+                tempBody.SetTransform(tempBody.Position, 0);
+                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation));
                 Projectile justFired = new Projectile(this.SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel);
                 this.SPRWorld.AddEntity(justFired);
+
                 this.m_firing = false;
             }
         }
