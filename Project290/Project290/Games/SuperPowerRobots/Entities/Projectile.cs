@@ -26,6 +26,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.m_power = power;
         }
 
+        public float GetPower()
+        {
+            return m_power;
+        }
+
         public override void Update(float dTime)
         {
             //if (!IsDead())

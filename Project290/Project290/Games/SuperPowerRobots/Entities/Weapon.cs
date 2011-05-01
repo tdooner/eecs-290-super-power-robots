@@ -31,6 +31,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private float m_reloadTime;
         private float m_reloading;
         private float m_power;
+        private float m_health;
         private WeaponType weaponType;
         private Fixture m_Fixture;
         private Texture2D m_Texture;
@@ -49,6 +50,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             m_Rotation = relativeRotation;
             m_Texture = TextureStatic.Get(textureName);
             m_Scale = scale;
+            this.m_health = health;
 
             Vertices v = SPRWorld.computedSpritePolygons[textureName];
             // Simplify the object until it has few enough verticies.
@@ -144,6 +146,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
             }
         }
 
+        public void GetDamaged(float damage)
+        {
+            this.m_health -= damage;
+        }
+
         public void Draw()
         {
             Drawer.Draw(
@@ -163,6 +170,18 @@ namespace Project290.Games.SuperPowerRobots.Entities
             // Fixture a is always the bullet, and Fixture b is what it hit.
             if ((SPRWorld.ObjectTypes) b.UserData == SPRWorld.ObjectTypes.Wall)
             {
+                Projectile p = (Projectile) a.UserData;
+                if (b.UserData is Weapon)
+                {
+                    Weapon w = (Weapon) b.UserData;
+                    w.GetDamaged(p.GetPower());
+                }
+
+                if (b.UserData is Bot)
+                {
+                    Bot bot = (Bot)b.UserData;
+                    bot.GetDamaged(p.GetPower());
+                }
                 a.Body.Dispose(); // Simply delete the bullet.
             }
             if ((SPRWorld.ObjectTypes)b.UserData == SPRWorld.ObjectTypes.Weapon)
