@@ -157,6 +157,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                m_Scale,
                SpriteEffects.None,
                .3f);
+        }
 
         public bool OnBulletHit(Fixture a, Fixture b, Contact c)
         {
