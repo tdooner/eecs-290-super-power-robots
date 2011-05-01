@@ -293,6 +293,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
+    <Content Include="Games\SuperPowerRobots\Storage\Allies.xml" />
     <Content Include="Games\SuperPowerRobots\Storage\Battles.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

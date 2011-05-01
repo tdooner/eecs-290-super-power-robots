@@ -40,6 +40,7 @@ namespace Project290.Games.SuperPowerRobots
 
         public SPRWorld(World world)
         {
+            int botHalfWidth = 31; // Half the bot's width (e.g. the distance from the centroid to the edge)
             m_World = world;
             this.m_Entities = new SortedDictionary<ulong,Entity>();
 
@@ -47,8 +48,6 @@ namespace Project290.Games.SuperPowerRobots
             // NOTE: Stores the convex hull for each item, since collision detection
             //          relies upon these verticies being convex polygons.
             String[] toPreload = new String[] { "Gun", "Axe", "Shield" };
-
-            this.battle = new Battle();
 
             foreach (String texture in toPreload) {
                 Texture2D a = TextureStatic.Get(texture);
@@ -72,14 +71,15 @@ namespace Project290.Games.SuperPowerRobots
             FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 980) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
             FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(1820, 540) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
 
-            int botHalfWidth = 31; // Half the bot's width (e.g. the distance from the centroid to the edge)
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
+
+            this.battle = new Battle(this, botHalfWidth, world);
 
             // Human Player
 
             // To change the mass of the robot, change the density parameter
             //  in the FixtureFactory.CreatePolygon call.  (is currently 10f)
-            Body tempBody = BodyFactory.CreateBody(world);
+            /*Body tempBody = BodyFactory.CreateBody(world);
             tempBody.BodyType = BodyType.Dynamic;
             Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
             f.OnCollision += MyOnCollision;
@@ -89,10 +89,10 @@ namespace Project290.Games.SuperPowerRobots
             tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
             Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 500f);
 
-            this.AddEntity(testing);
-
+            this.AddEntity(testing);*/
+            
             // Enemy Robot
-            Body enemy = BodyFactory.CreateBody(world);
+            /*Body enemy = BodyFactory.CreateBody(world);
             enemy.BodyType = BodyType.Dynamic;
             Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, enemy);
             g.OnCollision += MyOnCollision;
@@ -102,7 +102,9 @@ namespace Project290.Games.SuperPowerRobots
             enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
             Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 500f);
 
-            this.AddEntity(enemyBot);
+            this.AddEntity(enemyBot);*/
+
+            //this.m_Entities = this.battle.AllEntities();
 
         }
 
