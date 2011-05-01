@@ -20,8 +20,10 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private Texture2D m_Texture;
         private float m_Width;
         private float m_Height;
+        private float m_maxHealth;
+        private float m_health;
 
-        public Entity(SPRWorld sprWorld, Body body, Texture2D texture, float width, float height)
+        public Entity(SPRWorld sprWorld, Body body, Texture2D texture, float width, float height, float maxHealth)
         {
             this.m_SPRWorld = sprWorld;
             this.m_Body = body;
@@ -30,6 +32,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
             m_Texture = texture;
             m_Width = width;
             m_Height = height;
+            this.m_maxHealth = maxHealth;
+            this.m_health = maxHealth;
         }
 
         public Body Body
@@ -129,6 +133,16 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 m_Width * Settings.PixelsPerMeter / m_Texture.Width,
                 SpriteEffects.None,
                 0f);
+        }
+
+        public float getMaxHealth()
+        {
+            return m_maxHealth;
+        }
+
+        public float getHealth()
+        {
+            return m_health;
         }
     }
 }

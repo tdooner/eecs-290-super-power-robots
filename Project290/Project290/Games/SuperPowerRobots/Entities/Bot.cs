@@ -38,8 +38,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
             FourSided = 0
         }
 
-        public Bot(SPRWorld sprWord, Body body, Bot.Player player, Bot.Type type, SPRAI control, Texture2D texture, float width, float height)
-            : base(sprWord, body, texture, width, height)
+        public Bot(SPRWorld sprWord, Body body, Bot.Player player, Bot.Type type, SPRAI control, Texture2D texture, float width, float height, float health)
+            : base(sprWord, body, texture, width, height, health)
         {
 
             // Figure out which bot this is, and load the appropriate textures.
@@ -49,14 +49,14 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
             this.Weapons = new SortedDictionary<ulong, Weapon>();
 
-            this.AddWeapon(0f, new Vector2 (this.GetWidth() / 2, 0), "Gun", WeaponType.gun);
-            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight() / 2), "Gun", WeaponType.gun);
-            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -this.GetHeight() / 2), "Shield", WeaponType.shield);
-            this.AddWeapon((float) Math.PI, new Vector2 (-this.GetWidth() / 2, 0), "Axe", WeaponType.melee);
+            this.AddWeapon(0f, new Vector2 (this.GetWidth() / 2, 0), "Gun", WeaponType.gun, (float) 100, (float) 10);
+            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight() / 2), "Gun", WeaponType.gun, (float) 100, (float) 10);
+            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -this.GetHeight() / 2), "Shield", WeaponType.shield, (float) 500, (float) 50);
+            this.AddWeapon((float) Math.PI, new Vector2 (-this.GetWidth() / 2, 0), "Axe", WeaponType.melee, (float) 100, (float) 0);
             
         }   
 
-        public void AddWeapon(float rotation, Vector2 relativePosition, String textureName, WeaponType weaponType)
+        public void AddWeapon(float rotation, Vector2 relativePosition, String textureName, WeaponType weaponType, float health, float power)
         {
             Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
             tempBody.BodyType = BodyType.Dynamic;
@@ -71,7 +71,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             f.Friction = 0.5f;
             f.Restitution = 0f;
             //tempBody.SetTransform(Vector2.Zero, rotation);
-            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), TextureStatic.Get(textureName).Width * Settings.MetersPerPixel, TextureStatic.Get(textureName).Height * Settings.MetersPerPixel, weaponType);
+            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), TextureStatic.Get(textureName).Width * Settings.MetersPerPixel, TextureStatic.Get(textureName).Height * Settings.MetersPerPixel, weaponType, health, power);
             Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
             this.Weapons.Add(weapon.GetID(), weapon);
             SPRWorld.AddEntity(weapon);
