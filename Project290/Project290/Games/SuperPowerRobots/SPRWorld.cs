@@ -75,37 +75,6 @@ namespace Project290.Games.SuperPowerRobots
 
             this.battle = new Battle(this, botHalfWidth, world);
 
-            // Human Player
-
-            // To change the mass of the robot, change the density parameter
-            //  in the FixtureFactory.CreatePolygon call.  (is currently 10f)
-            /*Body tempBody = BodyFactory.CreateBody(world);
-            tempBody.BodyType = BodyType.Dynamic;
-            Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
-            f.OnCollision += MyOnCollision;
-            f.Friction = .5f;
-            f.Restitution = 0f;
-            f.UserData = SPRWorld.ObjectTypes.Bot;
-            tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
-            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 500f);
-
-            this.AddEntity(testing);*/
-            
-            // Enemy Robot
-            /*Body enemy = BodyFactory.CreateBody(world);
-            enemy.BodyType = BodyType.Dynamic;
-            Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, enemy);
-            g.OnCollision += MyOnCollision;
-            g.Friction = .5f;
-            g.Restitution = 0f;
-            g.UserData = SPRWorld.ObjectTypes.Bot;
-            enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
-            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 500f);
-
-            this.AddEntity(enemyBot);*/
-
-            //this.m_Entities = this.battle.AllEntities();
-
         }
 
         public World World { get { return m_World; } }
@@ -156,6 +125,15 @@ namespace Project290.Games.SuperPowerRobots
 
         public void Draw()
         {
+            Drawer.Draw(
+                TextureStatic.Get("background"),
+                Drawer.FullScreenRectangle,
+                null,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                SpriteEffects.None,
+                0f);
             foreach (Entity e in m_Entities.Values)
             {
                 e.Draw();

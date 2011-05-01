@@ -20,7 +20,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
     public class Bot : Entity
     {
         //Bots have four Weapons, the Bodies are attached via WeldJoints
-        public SortedDictionary<ulong, Weapon> Weapons;
+        private Weapon[] m_Weapons;
         private Texture2D texture;
         private List<Fixture> fixtures = new List<Fixture>();
         //temp variable, do not include in final project
@@ -41,45 +41,26 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public Bot(SPRWorld sprWord, Body body, Bot.Player player, Bot.Type type, SPRAI control, Texture2D texture, float width, float height, float health)
             : base(sprWord, body, texture, width, height, health)
         {
-
-            // Figure out which bot this is, and load the appropriate textures.
             this.m_player = player;
             this.m_type = type;
             this.m_Control = control;
 
-            this.Weapons = new SortedDictionary<ulong, Weapon>();
+            this.m_Weapons = new Weapon[4];
 
-            this.AddWeapon(0f, new Vector2 (this.GetWidth() / 2, 0), "Gun", WeaponType.gun, (float) 100, (float) 10);
-            this.AddWeapon((float) Math.PI / 2, new Vector2 (0, this.GetHeight() / 2), "Gun", WeaponType.gun, (float) 100, (float) 10);
-            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -this.GetHeight() / 2), "Shield", WeaponType.shield, (float) 500, (float) 50);
-            this.AddWeapon((float) Math.PI, new Vector2 (-this.GetWidth() / 2, 0), "Axe", WeaponType.melee, (float) 100, (float) 0);
+            this.AddWeapon(0, "Gun", WeaponType.gun, (float) 100, (float) 10);
+            this.AddWeapon(1, "Gun", WeaponType.gun, (float)100, (float)10);
+            this.AddWeapon(2, "Shield", WeaponType.shield, (float) 500, (float) 50);
+            this.AddWeapon(3, "Gun", WeaponType.melee, (float)100, (float)0);
             
         }   
 
-        public void AddWeapon(float rotation, Vector2 relativePosition, String textureName, WeaponType weaponType, float health, float power)
+        public void AddWeapon(int side, String textureName, WeaponType weaponType, float health, float power)
         {
-            Body tempBody = BodyFactory.CreateBody(this.SPRWorld.World);
-            tempBody.BodyType = BodyType.Dynamic;
-            Vertices v = SPRWorld.computedSpritePolygons[textureName];
-            // Simplify the object until it has few enough verticies.
-            while (v.Count > Physics.Settings.MaxPolygonVertices) // Infinite loop potential?
-            {
-                v = SimplifyTools.DouglasPeuckerSimplify(v, 2); // Where 2 is a completely arbitrary number?
-            }
-            Fixture f = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.0000001f, tempBody, SPRWorld.ObjectTypes.Weapon);
-            fixtures.Add(f);
-            f.Friction = 0.5f;
-            f.Restitution = 0f;
-            //tempBody.SetTransform(Vector2.Zero, rotation);
-            Weapon weapon = new Weapon(this.SPRWorld, tempBody, this, rotation, TextureStatic.Get(textureName), TextureStatic.Get(textureName).Width * Settings.MetersPerPixel, TextureStatic.Get(textureName).Height * Settings.MetersPerPixel, weaponType, health, power);
-            Joint joint = JointFactory.CreateWeldJoint(this.SPRWorld.World, this.Body, weapon.Body, relativePosition, Vector2.Zero);
-            this.Weapons.Add(weapon.GetID(), weapon);
-            SPRWorld.AddEntity(weapon);
-        }
+            float relativeRotation = side * (float)Math.PI / 2f;
+            Vector2 relativePosition = new Vector2(-((side - 1) % 2) * GetWidth() / 2, ((side - 2) % 2) * GetHeight() / 2);
 
-        public Vector2 GetPosition()
-        {
-            return this.Body.Position;
+            Weapon weapon = new Weapon(this.SPRWorld, this, relativePosition, relativeRotation, textureName, new Vector2(1,1), weaponType, health, power);
+            this.m_Weapons[side] = weapon;
         }
 
         public Vector2 GetVelocity()
@@ -107,16 +88,16 @@ namespace Project290.Games.SuperPowerRobots.Entities
             int fire = 0; //mark the weapon to fire using the right stick
             for (int i = 0; i < weapons.Length; i++)
             {
-                if (weapons[i]) this.Weapons.Values.ElementAt(i).Fire();
+                if (weapons[i]) m_Weapons[i].Fire();
 
-                Vector2 weapDir = new Vector2((float)Math.Cos(this.Weapons.Values.ElementAt(i).GetRotation()), (float)Math.Sin(this.Weapons.Values.ElementAt(i).GetRotation()));
-                Vector2 maxDir = new Vector2((float)Math.Cos(this.Weapons.Values.ElementAt(fire).GetRotation()), (float)Math.Sin(this.Weapons.Values.ElementAt(fire).GetRotation()));
+                Vector2 weapDir = new Vector2((float)Math.Cos(m_Weapons[i].GetAbsRotation()), (float)Math.Sin(m_Weapons[i].GetAbsRotation()));
+                Vector2 maxDir = new Vector2((float)Math.Cos(m_Weapons[fire].GetAbsRotation()), (float)Math.Sin(m_Weapons[fire].GetAbsRotation()));
                 if(Vector2.Dot(m_Control.Fire, weapDir) > Vector2.Dot(m_Control.Fire, maxDir)) fire = i;
             }
 
-            if (m_Control.Fire.LengthSquared() > 0) this.Weapons.Values.ElementAt(fire).Fire();
+            if (m_Control.Fire.LengthSquared() > 0) m_Weapons[fire].Fire();
 
-            foreach (Weapon w in Weapons.Values)
+            foreach (Weapon w in m_Weapons)
             {
                 w.Update(dTime);
             }
@@ -125,7 +106,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public override void Draw()
         {
             base.Draw();
-            foreach (Weapon w in Weapons.Values)
+            foreach (Weapon w in m_Weapons)
             {
                 w.Draw();
             }

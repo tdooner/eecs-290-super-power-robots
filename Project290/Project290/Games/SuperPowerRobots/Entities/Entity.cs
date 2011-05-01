@@ -118,6 +118,17 @@ namespace Project290.Games.SuperPowerRobots.Entities
             m_Height = height;
         }
 
+        public Vector2 GetScale()
+        {
+            return new Vector2(m_Width, m_Height);
+        }
+
+        public void SetScale(Vector2 scale)
+        {
+            m_Width = scale.X;
+            m_Height = scale.Y;
+        }
+
         public abstract void Update(float dTime);
 
         public virtual void Draw()
@@ -132,7 +143,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 new Vector2(m_Texture.Width / 2, m_Texture.Height / 2),
                 m_Width * Settings.PixelsPerMeter / m_Texture.Width,
                 SpriteEffects.None,
-                0f);
+                .7f);
         }
 
         public float getMaxHealth()
