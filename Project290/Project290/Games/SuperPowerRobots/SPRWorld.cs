@@ -38,14 +38,12 @@ namespace Project290.Games.SuperPowerRobots
             String[] toPreload = new String[] { "Gun", "Axe", "Shield" };
 
             foreach (String texture in toPreload) {
-                //Texture2D a = TextureStatic.Get(texture);
-                //uint[] data = new uint[a.Width * a.Height];
-                //a.GetData<uint>(data);
-                //Vertices v = Melkman.GetConvexHull(PolygonTools.CreatePolygon(data, a.Width, a.Height));
-
-                // For testing:
-                Vertices v = new Vertices(new Vector2[] { new Vector2(-10, -62), new Vector2(10f, -62f), new Vector2(10f, 62f), new Vector2(-10f, 62f) });
-
+                Texture2D a = TextureStatic.Get(texture);
+                uint[] data = new uint[a.Width * a.Height];
+                a.GetData<uint>(data);
+                Vertices v = Melkman.GetConvexHull(PolygonTools.CreatePolygon(data, a.Width, a.Height));
+                Vector2 scale = new Vector2(Settings.MetersPerPixel, Settings.MetersPerPixel);
+                v.Scale(ref scale);
                 computedSpritePolygons.Add(texture, v);
             }
             Vector2[] edges = { new Vector2(-31, -31) * Settings.MetersPerPixel, new Vector2(31f, -31f) * Settings.MetersPerPixel, new Vector2(31f, 31f) * Settings.MetersPerPixel, new Vector2(-31f, 31f) * Settings.MetersPerPixel };
