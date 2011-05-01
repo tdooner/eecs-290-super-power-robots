@@ -48,8 +48,7 @@ namespace Project290.Games.SuperPowerRobots
 
                 computedSpritePolygons.Add(texture, v);
             }
-
-            Vector2[] edges = { new Vector2(-31, -31), new Vector2(31f, -31f), new Vector2(31f, 31f), new Vector2(-31f, 31f) };
+            Vector2[] edges = { new Vector2(-31, -31) * Settings.MetersPerPixel, new Vector2(31f, -31f) * Settings.MetersPerPixel, new Vector2(31f, 31f) * Settings.MetersPerPixel, new Vector2(-31f, 31f) * Settings.MetersPerPixel };
 
             // Human Player
 
@@ -57,7 +56,6 @@ namespace Project290.Games.SuperPowerRobots
             //  in the FixtureFactory.CreatePolygon call.  (is currently 10f)
             Body tempBody = BodyFactory.CreateBody(world);
             tempBody.BodyType = BodyType.Dynamic;
-            Vector2[] edges = { new Vector2(-31, -31) * Settings.MetersPerPixel, new Vector2(31f, -31f) * Settings.MetersPerPixel, new Vector2(31f, 31f) * Settings.MetersPerPixel, new Vector2(-31f, 31f) * Settings.MetersPerPixel };
             Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
             f.OnCollision += MyOnCollision;
             Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this), TextureStatic.Get("4SideFriendlyRobot"), 31 * Settings.MetersPerPixel, 31 * Settings.MetersPerPixel);
