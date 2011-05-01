@@ -15,13 +15,15 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private Vector2 m_velocity;
         private float m_rotation;
         private float m_Life;
+        private float m_power;
 
-        public Projectile(SPRWorld sprWorld, Body body, Texture2D texture, Vector2 velocity, float rotation, float life, float width, float height)
+        public Projectile(SPRWorld sprWorld, Body body, Texture2D texture, Vector2 velocity, float rotation, float life, float width, float height, float power)
             : base(sprWorld, body, texture, width, height, (float)1.0)
         {
             this.m_rotation = rotation;
             this.m_velocity = velocity;
             this.m_Life = life;
+            this.m_power = power;
         }
 
         public override void Update(float dTime)

@@ -69,7 +69,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 f.UserData = SPRWorld.ObjectTypes.Bullet;
                 f.OnCollision += OnBulletHit;
                 Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation)) / 10000000;
-                Projectile justFired = new Projectile(this.SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel);
+                Projectile justFired = new Projectile(this.SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel, m_power);
                 this.SPRWorld.AddEntity(justFired);
                 this.m_firing = false;
             }
@@ -81,7 +81,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 float rotation = this.GetRotation();
                 tempBody.Position = this.GetPosition();
                 tempBody.SetTransform(tempBody.Position, 0);
-                Projectile justFired = new Projectile(this.SPRWorld, tempBody, TextureStatic.Get("Axe"), new Vector2(0, 0), this.GetRotation(), 5, Settings.MetersPerPixel * 5, 5 * Settings.MetersPerPixel);
+                Projectile justFired = new Projectile(this.SPRWorld, tempBody, TextureStatic.Get("Axe"), new Vector2(0, 0), this.GetRotation(), 5, Settings.MetersPerPixel * 5, 5 * Settings.MetersPerPixel, m_power);
                 AngleJoint joint = JointFactory.CreateAngleJoint(this.SPRWorld.World, this.m_owner.Body, this.Body);
             }
         }
@@ -99,6 +99,10 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 a.Body.Dispose(); // Simply delete the bullet.
             }
             return true;
+        }
+
+        public void GetDamaged(float damage)
+        {
         }
     }
 }
