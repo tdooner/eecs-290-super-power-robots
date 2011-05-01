@@ -68,6 +68,7 @@ namespace Project290.Games.SuperPowerRobots
             previousGameTime = GameClock.Now;
             fantastica = new World(Vector2.Zero);
             Physics.Settings.MaxPolygonVertices = 30; // Defaults to 8? What are we, running on a TI-83 or something?
+            Physics.Settings.EnableDiagnostics = false;
             this.sprWorld = new SPRWorld(fantastica);
 
 //            wall_e.CreateFixture(new CircleShape(20f, 1.2f));

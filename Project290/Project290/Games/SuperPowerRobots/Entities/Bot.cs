@@ -66,7 +66,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             {
                 v = SimplifyTools.DouglasPeuckerSimplify(v, 2); // Where 2 is a completely arbitrary number?
             }
-            Fixture f = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.0000001f, tempBody);
+            Fixture f = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.0000001f, tempBody, SPRWorld.ObjectTypes.Weapon);
             fixtures.Add(f);
             f.Friction = 0.5f;
             f.Restitution = 0f;
