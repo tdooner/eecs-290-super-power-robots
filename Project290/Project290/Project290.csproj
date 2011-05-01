@@ -112,6 +112,7 @@
     <Compile Include="FancyFont\FancyCharacter.cs" />
     <Compile Include="FancyFont\FancyString.cs" />
     <Compile Include="Games\StupidGame\StupidGameScreen.cs" />
+    <Compile Include="Games\SuperPowerRobots\Controls\HumanAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\SPRAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Entities\Bot.cs">
       <SubType>Code</SubType>
