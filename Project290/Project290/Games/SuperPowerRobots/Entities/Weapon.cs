@@ -131,7 +131,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 tempBody.Position = this.GetAbsPosition() + 40 * Settings.MetersPerPixel * (new Vector2((float) Math.Cos(rotation), (float)Math.Sin(rotation)));
                 tempBody.SetTransform(tempBody.Position, 0);
                 Fixture f = FixtureFactory.CreateCircle(4 * Settings.MetersPerPixel, 0.000001f, tempBody);
-                f.UserData = m_World.ObjectTypes.Bullet;
+                f.UserData = SPRWorld.ObjectTypes.Bullet;
                 f.OnCollision += OnBulletHit;
 <<<<<<< HEAD
                 
