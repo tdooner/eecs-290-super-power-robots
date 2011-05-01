@@ -26,7 +26,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.SetRotation(rotation);
             this.m_owner = bot;
             this.m_firing = false;
-            this.m_reloadTime = 2000000f; // Time, in seconds^-7, between shots.
+            this.m_reloadTime = .2f;
             this.m_reloading = 0;
         }
         //Weapons can spawn Projectiles, attached or unattached.
@@ -56,8 +56,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 tempBody.Position = this.GetPosition();
                 float rotation = this.GetRotation();
                 Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation));
-                Projectile justFired = new Projectile(this.SPRWorld, tempBody, initialVelocity, this.GetRotation());
-                this.SPRWorld.AddEntitiy(justFired);
+                Projectile justFired = new Projectile(this.SPRWorld, tempBody, initialVelocity, this.GetRotation(), 5);
+                this.SPRWorld.AddEntity(justFired);
                 this.m_firing = false;
             }
         }

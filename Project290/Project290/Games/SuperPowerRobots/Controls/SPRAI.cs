@@ -8,7 +8,7 @@ using Project290.Games.SuperPowerRobots.Entities;
 namespace Project290.Games.SuperPowerRobots.Controls
 {
     //The base controls class for Bots.
-    abstract class SPRAI
+    public abstract class SPRAI
     {
         private Vector2 m_Move;
         private Vector2 m_Fire;
@@ -62,7 +62,7 @@ namespace Project290.Games.SuperPowerRobots.Controls
 
         /// <summary>
         /// For each weapon, true if weapon is firing, false if not.
-        /// 0 = "B", 1 = "Y", 2 = "X", 3 = "A"
+        /// 0 = "B", 1 = "A", 2 = "X", 3 = "Y"
         /// </summary>
         public bool[] Weapons
         {

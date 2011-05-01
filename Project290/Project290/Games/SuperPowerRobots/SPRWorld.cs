@@ -15,6 +15,7 @@ using Project290.Physics.Factories;
 using Project290.Games.SuperPowerRobots.Entities;
 using Project290.Physics.Common;
 using Project290.Physics.Common.ConvexHull;
+using Project290.Games.SuperPowerRobots.Controls;
 
 namespace Project290.Games.SuperPowerRobots
 {
@@ -52,24 +53,24 @@ namespace Project290.Games.SuperPowerRobots
             Vector2[] edges = { new Vector2(-20, -20), new Vector2(20f, -20f), new Vector2(20f, 20f), new Vector2(-20f, 20f) };
             FixtureFactory.CreatePolygon(new Vertices(edges), 1f, tempBody);
 
-            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided);
+            Bot testing = new Bot(this, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(this));
 
-            this.AddEntitiy(testing);
+            this.AddEntity(testing);
 
             // Enemy Robot
             Body enemy = BodyFactory.CreateBody(world);
             enemy.BodyType = BodyType.Dynamic;
             FixtureFactory.CreatePolygon(new Vertices(edges), 1f, enemy);
             enemy.SetTransform(new Vector2(400, 400), 0);
-            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided);
+            Bot enemyBot = new Bot(this, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(this));
 
-            this.AddEntitiy(enemyBot);
+            this.AddEntity(enemyBot);
 
         }
 
         public World World { get { return m_World; } }
 
-        public void AddEntitiy(Entity e)
+        public void AddEntity(Entity e)
         {
             this.m_Entities.Add(e.GetID(), e);
         }
@@ -90,8 +91,25 @@ namespace Project290.Games.SuperPowerRobots
             //then call the entity updates, take damage, listen to controls, spawn any projectiles, etc.
 
             //check for dead bots
+            KillDeadEntities();
         }
 
+        private void KillDeadEntities()
+        {
+            List<Entity> dieNow = new List<Entity>();
+            foreach (Entity e in m_Entities.Values)
+            {
+                if (e.IsDead())
+                {
+                    //need to check if e is player
+                    dieNow.Add(e);
+                }
+            }
+            foreach (Entity e in dieNow)
+            {
+                m_Entities.Remove(e.GetID());
+            }
+        }
         public void Draw()
         {
             foreach (Entity e in m_Entities.Values)

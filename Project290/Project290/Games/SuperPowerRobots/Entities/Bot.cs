@@ -13,6 +13,7 @@ using Project290.Inputs;
 using Project290.Rendering;
 using Project290.Physics.Common;
 using Project290.Physics.Common.PolygonManipulation;
+using Project290.Games.SuperPowerRobots.Controls;
 
 namespace Project290.Games.SuperPowerRobots.Entities
 {
@@ -20,13 +21,12 @@ namespace Project290.Games.SuperPowerRobots.Entities
     {
         //Bots have four Weapons, the Bodies are attached via WeldJoints
         private SortedDictionary<ulong, Weapon> m_weapons;
-        private CircleShape m_shape;
         private Texture2D texture;
-        private Vector2 thrust;
         private List<Fixture> fixtures = new List<Fixture>();
         //temp variable, do not include in final project
         private Bot.Player m_player;
         private Bot.Type m_type;
+        private SPRAI m_Control;
 
         public enum Player
         {
@@ -38,14 +38,14 @@ namespace Project290.Games.SuperPowerRobots.Entities
             FourSided = 0
         }
 
-        public Bot(SPRWorld sprWord, Body body, Bot.Player player, Bot.Type type)
+        public Bot(SPRWorld sprWord, Body body, Bot.Player player, Bot.Type type, SPRAI control)
             : base(sprWord, body)
         {
-            thrust = Vector2.Zero;
 
             // Figure out which bot this is, and load the appropriate textures.
             this.m_player = player;
             this.m_type = type;
+            this.m_Control = control;
             if (this.m_player == Bot.Player.Human)
             {
                 this.texture = TextureStatic.Get("4SideFriendlyRobot");
@@ -57,9 +57,9 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
             this.m_weapons = new SortedDictionary<ulong, Weapon>();
 
-            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -texture.Height / 2 - 20), "Shield");
             this.AddWeapon(0f, new Vector2 (texture.Width / 2 + 20, 0), "Gun");
             this.AddWeapon((float) Math.PI / 2, new Vector2 (0, texture.Height / 2 + 20), "Gun");
+            this.AddWeapon((float)(Math.PI * (3.0 / 2.0)), new Vector2(0, -texture.Height / 2 - 20), "Shield");
             this.AddWeapon((float) Math.PI, new Vector2 (-texture.Width / 2 - 20, 0), "Axe");
             
         }   
@@ -86,48 +86,43 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public Vector2 GetPosition()
         {
-            return new Vector2(this.Body.Position.X, this.Body.Position.Y);
+            return this.Body.Position;
         }
 
         public Vector2 GetVelocity()
         {
-            return this.thrust;
+            return this.Body.LinearVelocity;
+        }
+
+        public SPRAI GetControl()
+        {
+            return m_Control;
+        }
+
+        public void setControl(SPRAI control)
+        {
+            m_Control = control;
         }
 
         public override void Update(float dTime)
         {
-            this.thrust = Vector2.Zero;
-            if (this.m_player == Bot.Player.Human)
-            {
-                
-                this.thrust.X = .05f * GameWorld.controller.ContainsFloat(ActionType.MoveHorizontal);
-                this.thrust.Y = -.05f * GameWorld.controller.ContainsFloat(ActionType.MoveVertical);
+            m_Control.Update(dTime, this);
+            this.Body.ApplyLinearImpulse(.05f * m_Control.Move);
+            this.Body.ApplyAngularImpulse(.05f * m_Control.Spin);
 
-                if (GameWorld.controller.ContainsFloat(ActionType.LeftTrigger) > 0)
-                {
-                    this.Body.ApplyAngularImpulse(-.05f * GameWorld.controller.ContainsFloat(ActionType.LeftTrigger));
-                }
-
-                if (GameWorld.controller.ContainsFloat(ActionType.RightTrigger) > 0)
-                {
-                    this.Body.ApplyAngularImpulse(.05f*GameWorld.controller.ContainsFloat(ActionType.RightTrigger));
-                }
-                if (GameWorld.controller.ContainsBool(ActionType.BButton))
-                {
-                    this.m_weapons.Values.ElementAt(1).Fire();
-                }
-                if (GameWorld.controller.ContainsBool(ActionType.AButton))
-                {
-                    this.m_weapons.Values.ElementAt(2).Fire();
-                }
-            }
-            if (this.m_player == Bot.Player.Computer)
+            bool[] weapons = m_Control.Weapons;
+            int fire = 0; //mark the weapon to fire using the right stick
+            for (int i = 0; i < weapons.Length; i++)
             {
-                // UNCOMMENT TO HAVE AN ENEMY THAT RUNS AWAY!
-                //this.thrust.X = .075f;
-                //this.thrust.Y = .075f;
+                if (weapons[i]) this.m_weapons.Values.ElementAt(i).Fire();
+
+                Vector2 weapDir = new Vector2((float)Math.Cos(this.m_weapons.Values.ElementAt(i).GetRotation()), (float)Math.Sin(this.m_weapons.Values.ElementAt(i).GetRotation()));
+                Vector2 maxDir = new Vector2((float)Math.Cos(this.m_weapons.Values.ElementAt(fire).GetRotation()), (float)Math.Sin(this.m_weapons.Values.ElementAt(fire).GetRotation()));
+                if(Vector2.Dot(m_Control.Fire, weapDir) > Vector2.Dot(m_Control.Fire, maxDir)) fire = i;
             }
-            this.Body.ApplyLinearImpulse(thrust);
+
+            if (m_Control.Fire.LengthSquared() > 0) this.m_weapons.Values.ElementAt(fire).Fire();
+
             foreach (Weapon w in m_weapons.Values)
             {
                 w.Update(dTime);

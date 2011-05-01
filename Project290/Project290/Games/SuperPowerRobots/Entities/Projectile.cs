@@ -12,20 +12,26 @@ namespace Project290.Games.SuperPowerRobots.Entities
 {
     class Projectile : Entity
     {
-        private CircleShape shape;
         private Vector2 m_velocity;
         private float m_rotation;
+        private float m_Life;
 
-        public Projectile(SPRWorld sprWorld, Body body, Vector2 velocity, float rotation)
+        public Projectile(SPRWorld sprWorld, Body body, Vector2 velocity, float rotation, float life)
             : base(sprWorld, body)
         {
             this.m_rotation = rotation;
             this.m_velocity = velocity;
+            this.m_Life = life;
         }
 
         public override void Update(float dTime)
         {
-            this.Body.ApplyLinearImpulse(this.m_velocity);
+            if (!IsDead())
+            {
+                this.Body.ApplyLinearImpulse(this.m_velocity);
+                m_Life -= dTime;
+                if (m_Life <= 0) this.SetDead(true);
+            }
         }
 
         public override void Draw()

@@ -14,12 +14,14 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private Body m_Body;
         private SPRWorld m_SPRWorld;
         private ulong m_ID;
+        private bool m_Dead;
 
         public Entity(SPRWorld sprWorld, Body body)
         {
             this.m_SPRWorld = sprWorld;
             this.m_Body = body;
             m_ID = s_ID++;
+            m_Dead = false;
         }
 
         public Body Body
@@ -62,6 +64,16 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public void SetRotation(float rotation)
         {
             this.Body.Rotation = rotation;
+        }
+
+        public void SetDead(bool dead)
+        {
+            m_Dead = dead;
+        }
+
+        public bool IsDead()
+        {
+            return m_Dead;
         }
 
         public abstract void Update(float dTime);
