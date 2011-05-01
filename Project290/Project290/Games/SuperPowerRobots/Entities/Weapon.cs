@@ -27,7 +27,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private Bot m_owner;
         private Vector2 m_Position; //relative to owner
         private float m_Rotation; //relative to owner
-        private float m_Health;
         private bool m_firing;
         private float m_reloadTime;
         private float m_reloading;
@@ -133,31 +132,15 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 Fixture f = FixtureFactory.CreateCircle(4 * Settings.MetersPerPixel, 0.000001f, tempBody);
                 f.UserData = SPRWorld.ObjectTypes.Bullet;
                 f.OnCollision += OnBulletHit;
-<<<<<<< HEAD
-                
-               
-                this.SPRWorld.AddEntity(justFired);
-=======
-                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation));
-                Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel);
+                Vector2 initialVelocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
+               Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel, m_power);
+                this.m_SPRWorld.AddEntity(justFired);
                 m_SPRWorld.AddEntity(justFired);
->>>>>>> 41f1f30ae03cfb6c806c32904b66f36a24499257
                 this.m_firing = false;
             }
             
 			if (this.m_firing && weaponType == WeaponType.melee)
             {
-<<<<<<< HEAD
-             
-                
-                
-               
-                
-                
-                AngleJoint joint = JointFactory.CreateAngleJoint(this.SPRWorld.World, this.m_owner.Body, this.Body);
-=======
-                
->>>>>>> 41f1f30ae03cfb6c806c32904b66f36a24499257
             }
         }
 
@@ -190,8 +173,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
             return true;
         }
 
-        public void GetDamaged(float damage)
-        {
-        }
+        
     }
 }
