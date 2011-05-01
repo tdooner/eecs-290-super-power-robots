@@ -65,7 +65,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             m_Fixture = f;
             f.Friction = 0.5f;
             f.Restitution = 0f;
-            f.UserData = SPRWorld.ObjectTypes.Weapon;
+            f.UserData = this;
             /*if (this.weaponType == WeaponType.melee)
             {
                 Body tempBody = BodyFactory.CreateBody(m_SPRWorld.World);
@@ -130,11 +130,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 tempBody.Position = this.GetAbsPosition() + 40 * Settings.MetersPerPixel * (new Vector2((float) Math.Cos(rotation), (float)Math.Sin(rotation)));
                 tempBody.SetTransform(tempBody.Position, 0);
                 Fixture f = FixtureFactory.CreateCircle(4 * Settings.MetersPerPixel, 0.000001f, tempBody);
-                f.UserData = SPRWorld.ObjectTypes.Bullet;
                 f.OnCollision += OnBulletHit;
                 Vector2 initialVelocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-               Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel, m_power);
+                Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel, m_power);
                 this.m_SPRWorld.AddEntity(justFired);
+                f.UserData = justFired;
                 m_SPRWorld.AddEntity(justFired);
                 this.m_firing = false;
             }
@@ -168,6 +168,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             if ((SPRWorld.ObjectTypes)b.UserData == SPRWorld.ObjectTypes.Weapon)
             {
                 // Sean's TODO: Add damage calculations....
+                
                 a.Body.Dispose(); // Simply delete the bullet.
             }
             return true;
