@@ -66,7 +66,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             m_Fixture = f;
             f.Friction = 0.5f;
             f.Restitution = 0f;
-
+            f.UserData = SPRWorld.ObjectTypes.Weapon;
             /*if (this.weaponType == WeaponType.melee)
             {
                 Body tempBody = BodyFactory.CreateBody(m_SPRWorld.World);
