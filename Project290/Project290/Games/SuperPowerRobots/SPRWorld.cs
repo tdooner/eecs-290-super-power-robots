@@ -42,6 +42,8 @@ namespace Project290.Games.SuperPowerRobots
                 uint[] data = new uint[a.Width * a.Height];
                 a.GetData<uint>(data);
                 Vertices v = Melkman.GetConvexHull(PolygonTools.CreatePolygon(data, a.Width, a.Height));
+                Vector2 scale = new Vector2(Settings.MetersPerPixel, Settings.MetersPerPixel);
+                v.Scale(ref scale);
                 computedSpritePolygons.Add(texture, v);
             }
 
