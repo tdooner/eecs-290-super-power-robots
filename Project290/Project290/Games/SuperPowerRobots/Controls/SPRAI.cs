@@ -20,6 +20,14 @@ namespace Project290.Games.SuperPowerRobots.Controls
         {
             m_World = world;
             m_Weapons = new bool[4];
+            m_Move = Vector2.Zero;
+            m_Fire = Vector2.Zero;
+            m_Spin = 0f;
+        }
+
+        public SPRWorld GetSPRWorld()
+        {
+            return m_World;
         }
 
         /// <summary>
@@ -28,9 +36,12 @@ namespace Project290.Games.SuperPowerRobots.Controls
         public Vector2 Move {
             get { return m_Move; }
             protected set {
-                m_Move = value;
-                if (m_Move.LengthSquared() > 1)
-                    m_Move.Normalize();
+                if (!float.IsNaN(value.X) && !float.IsNaN(value.Y))
+                {
+                    m_Move = value;
+                    if (m_Move.LengthSquared() > 1)
+                        m_Move.Normalize();
+                }
             }
         }
 
@@ -42,9 +53,12 @@ namespace Project290.Games.SuperPowerRobots.Controls
             get { return m_Fire; }
             protected set
             {
-                m_Fire = value;
-                if (m_Fire.LengthSquared() > 1)
-                    m_Fire.Normalize();
+                if (!float.IsNaN(value.X) && !float.IsNaN(value.Y))
+                {
+                    m_Fire = value;
+                    if (m_Fire.LengthSquared() > 1)
+                        m_Fire.Normalize();
+                }
             }
         }
 
@@ -56,7 +70,8 @@ namespace Project290.Games.SuperPowerRobots.Controls
             get { return m_Spin; }
             protected set
             {
-                m_Spin = Math.Max(Math.Min(value, 1), -1); //clamp between -1 and 1
+                if (!float.IsNaN(value))
+                    m_Spin = Math.Max(Math.Min(value, 1), -1); //clamp between -1 and 1
             }
         }
 

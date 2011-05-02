@@ -63,6 +63,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.m_Weapons[side] = weapon;
         }
 
+        public Weapon[] GetWeapons()
+        {
+            return m_Weapons;
+        }
+
         public Vector2 GetVelocity()
         {
             return this.Body.LinearVelocity;
@@ -78,10 +83,15 @@ namespace Project290.Games.SuperPowerRobots.Entities
             m_Control = control;
         }
 
+        public bool IsPlayer()
+        {
+            return m_player == Player.Human;
+        }
+
         public override void Update(float dTime)
         {
-            m_Control.Update(dTime, this);
             this.Body.ResetDynamics();
+            m_Control.Update(dTime, this);
             this.Body.ApplyLinearImpulse(10*m_Control.Move);
             this.Body.ApplyAngularImpulse(m_Control.Spin);
 
