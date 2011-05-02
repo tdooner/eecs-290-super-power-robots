@@ -72,6 +72,7 @@ namespace Project290.Games.SuperPowerRobots
         }
         public static void save(int count, string weapon)
         {
+            System.Threading.Thread.Sleep(250);
             weapons[count] = weapon;
             count += 1;
             if (count == 4)
