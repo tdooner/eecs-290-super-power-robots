@@ -19,6 +19,7 @@ using Project290.Physics.Common.ConvexHull;
 using Project290.Games.SuperPowerRobots.Controls;
 using Project290.Physics.Dynamics.Contacts;
 using Project290.Physics.Common.PolygonManipulation;
+using Project290.Physics.Dynamics.Joints;
 
 namespace Project290.Games.SuperPowerRobots
 {
@@ -41,6 +42,9 @@ namespace Project290.Games.SuperPowerRobots
             f.Friction = .5f;
             f.Restitution = 0f;
             tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
+            FixedFrictionJoint j = new FixedFrictionJoint(tempBody, Vector2.Zero);
+            j.MaxForce = 4000;
+            j.MaxTorque = 2000;
             Bot testing = new Bot(sprWorld, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(sprWorld), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
             f.UserData = testing;
 
@@ -54,6 +58,9 @@ namespace Project290.Games.SuperPowerRobots
             g.Friction = .5f;
             g.Restitution = 0f;
             enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
+            FixedFrictionJoint k = new FixedFrictionJoint(enemy, Vector2.Zero);
+            k.MaxForce = 4000;
+            k.MaxTorque = 2000;
             Bot enemyBot = new Bot(sprWorld, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(sprWorld), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
             g.UserData = enemyBot;
 
