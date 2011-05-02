@@ -51,19 +51,6 @@ namespace Project290.Games.SuperPowerRobots
             xmlDoc.Load("Games/SuperPowerRobots/Storage/Battles.xml");
 
             CreateBots(xmlDoc, edges);
-
-            // Enemy Robot
-            /*Body enemy = BodyFactory.CreateBody(world);
-            enemy.BodyType = BodyType.Dynamic;
-            Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, enemy);
-            g.OnCollision += MyOnCollision;
-            g.Friction = .5f;
-            g.Restitution = 0f;
-            g.UserData = SPRWorld.ObjectTypes.Bot;
-            enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
-            Bot enemyBot = new Bot(sprWorld, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(sprWorld), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
-
-            sprWorld.AddEntity(enemyBot);*/
         }
 
         public void CreateBots(XmlDocument xmlDoc, Vector2[] edges)

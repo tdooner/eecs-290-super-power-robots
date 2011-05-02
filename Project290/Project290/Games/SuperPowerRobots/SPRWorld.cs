@@ -30,13 +30,13 @@ namespace Project290.Games.SuperPowerRobots
         //private Entity testing;
 
         // Anything that is a fixture must have an object type for collision logic purposes
-        public enum ObjectTypes
+        /*public enum ObjectTypes
         {
             Bot = 1,
             Weapon = 2,  // Since weapons will be fixtures, they too need an object type.
             Bullet = 3,
             Wall = 4
-        }
+        }*/
 
         public SPRWorld(World world)
         {
@@ -66,14 +66,14 @@ namespace Project290.Games.SuperPowerRobots
             Vector2[] outer = { new Vector2(0, 0) * Settings.MetersPerPixel, new Vector2(0, 1920) * Settings.MetersPerPixel, new Vector2(1080, 1920) * Settings.MetersPerPixel, new Vector2(1080, 0) * Settings.MetersPerPixel };
             Vector2[] inner = { new Vector2(200, 200) * Settings.MetersPerPixel, new Vector2(200, 1720) * Settings.MetersPerPixel, new Vector2(880, 1720) * Settings.MetersPerPixel, new Vector2(880, 200) * Settings.MetersPerPixel };
 
-            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 100) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(100, 540) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 980) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(1820, 540) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 100) * Settings.MetersPerPixel, "Wall").Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(100, 540) * Settings.MetersPerPixel, "Wall").Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 980) * Settings.MetersPerPixel, "Wall").Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(1820, 540) * Settings.MetersPerPixel, "Wall").Body.BodyType = BodyType.Static;
 
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
-
-            this.battle = new Battle(this, botHalfWidth, world);
+            
+			this.battle = new Battle(this, botHalfWidth, world);
 
         }
 
@@ -81,7 +81,8 @@ namespace Project290.Games.SuperPowerRobots
 
         public void AddEntity(Entity e)
         {
-            this.m_Entities.Add(e.GetID(), e);
+            if (!this.m_Entities.ContainsKey(e.GetID()))
+                this.m_Entities.Add(e.GetID(), e);
         }
 
         public bool MyOnCollision(Fixture f1, Fixture f2, Contact c)
