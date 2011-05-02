@@ -111,6 +111,16 @@ namespace Project290.Games.SuperPowerRobots.Entities
             return m_owner.GetPosition() + relPos;
         }
 
+        public WeaponType GetWeaponType()
+        {
+            return weaponType;
+        }
+
+        public float GetHealth()
+        {
+            return m_health;
+        }
+
         public float GetAbsRotation()
         {
             return m_owner.GetRotation() + m_Rotation;

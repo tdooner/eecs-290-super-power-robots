@@ -124,6 +124,11 @@ namespace Project290.Games.SuperPowerRobots
 
         }
 
+        public IEnumerable<Entity> GetEntities()
+        {
+            return m_Entities.Values.AsEnumerable();
+        }
+
         public void Draw()
         {
             Drawer.Draw(
@@ -139,6 +144,18 @@ namespace Project290.Games.SuperPowerRobots
             {
                 e.Draw();
             }
+        }
+
+        public static float SignedAngle(Vector2 v1, Vector2 v2)
+        {
+            if (v1.LengthSquared() == 0 || v2.LengthSquared() == 0) return 0;
+
+            float angle = (float)Math.Acos(Vector2.Dot(v1, v2) / (v1.Length() * v2.Length()));
+            if (float.IsNaN(angle)) angle = 0;
+
+            float cross = (v1.X * v2.Y) - (v1.Y * v2.X);
+
+            return angle * cross / Math.Abs(cross);
         }
     }
 }

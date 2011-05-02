@@ -115,6 +115,7 @@
     <Compile Include="Games\SuperPowerRobots\Battle.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\BrickAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\HumanAI.cs" />
+    <Compile Include="Games\SuperPowerRobots\Controls\ModeAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\SPRAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Entities\Bot.cs">
       <SubType>Code</SubType>

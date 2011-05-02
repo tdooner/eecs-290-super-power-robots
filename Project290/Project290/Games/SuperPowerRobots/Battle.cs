@@ -93,10 +93,36 @@ namespace Project290.Games.SuperPowerRobots
                 f.OnCollision += MyOnCollision;
                 f.Friction = .5f;
                 f.Restitution = 0f;
-                //f.UserData = SPRWorld.ObjectTypes.Bot;
                 tempBody.SetTransform(position * Settings.MetersPerPixel, 0);
 
                 Bot newBot = new Bot(sprWorld, tempBody, AIType, Bot.Type.FourSided, control, texture, 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, health);
+
+                for (int weaponNumber = 0; weaponNumber < 4; weaponNumber++)
+                {
+                    XmlNodeList weaponChilds = innerNodes[weaponNumber + 5].ChildNodes;
+                    int side = weaponNumber;
+                    WeaponType weaponType;
+                    switch (weaponChilds[0].InnerText)
+                    {
+                        case "gun":
+                            weaponType = WeaponType.gun;
+                            break;
+                        case "shield":
+                            weaponType = WeaponType.shield;
+                            break;
+                        case "melee":
+                            weaponType = WeaponType.melee;
+                            break;
+                        default:
+                            weaponType = WeaponType.gun;
+                            break;
+                    }
+                    String weaponTexture = weaponChilds[1].InnerText;
+                    float weaponHealth = float.Parse(weaponChilds[2].InnerText);
+                    float weaponPower = float.Parse(weaponChilds[3].InnerText);
+
+                    newBot.AddWeapon(weaponNumber, weaponTexture, weaponType, weaponHealth, weaponPower);
+                }
 
                 sprWorld.AddEntity(newBot);
             }
