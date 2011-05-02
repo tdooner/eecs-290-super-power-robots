@@ -128,12 +128,12 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 tempBody.BodyType = BodyType.Dynamic;
                 tempBody.IsBullet = true;
                 float rotation = this.GetAbsRotation();
-                tempBody.Position = this.GetAbsPosition() + 40 * Settings.MetersPerPixel * (new Vector2((float) Math.Cos(rotation), (float)Math.Sin(rotation)));
+                tempBody.Position = this.GetAbsPosition() + 45 * Settings.MetersPerPixel * (new Vector2((float) Math.Cos(rotation), (float)Math.Sin(rotation)));
                 tempBody.SetTransform(tempBody.Position, 0);
-                Fixture f = FixtureFactory.CreateCircle(4 * Settings.MetersPerPixel, 0.000001f, tempBody);
+                Fixture f = FixtureFactory.CreateCircle(4 * Settings.MetersPerPixel, 1f, tempBody);
                 f.UserData = SPRWorld.ObjectTypes.Bullet;
                 f.OnCollision += OnBulletHit;
-                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation));
+                Vector2 initialVelocity = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation))/100;
                 Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel);
                 m_SPRWorld.AddEntity(justFired);
                 this.m_firing = false;
@@ -159,6 +159,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                .3f);
         }
 
+        // Maybe moving this method to Projectile is apprporiate.
         public bool OnBulletHit(Fixture a, Fixture b, Contact c)
         {
             // Fixture a is always the bullet, and Fixture b is what it hit.
