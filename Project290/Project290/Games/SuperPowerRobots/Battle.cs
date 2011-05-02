@@ -34,7 +34,7 @@ namespace Project290.Games.SuperPowerRobots
 
         private int botHalfWidth;
 
-        public Battle(SPRWorld sprWorld, int botHalfWidth, World world)
+        public Battle(SPRWorld sprWorld, int botHalfWidth, World world, int currentLevel)
         {
             this.sprWorld = sprWorld;
             this.botHalfWidth = botHalfWidth;
@@ -44,18 +44,24 @@ namespace Project290.Games.SuperPowerRobots
 
             xmlDoc.Load("Games/SuperPowerRobots/Storage/Allies.xml");
 
+            XmlNodeList nodes = xmlDoc.GetElementsByTagName("Bot");
+
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
 
-            CreateBots(xmlDoc, edges);
+            CreateBots(nodes, edges);
 
             xmlDoc.Load("Games/SuperPowerRobots/Storage/Battles.xml");
 
-            CreateBots(xmlDoc, edges);
+            nodes = xmlDoc.GetElementsByTagName("Level");
+
+            nodes = nodes[currentLevel].ChildNodes;
+
+            CreateBots(nodes, edges);
         }
 
-        public void CreateBots(XmlDocument xmlDoc, Vector2[] edges)
+        public void CreateBots(XmlNodeList nodes, Vector2[] edges)
         {
-            XmlNodeList nodes = xmlDoc.GetElementsByTagName("Bot");
+            Console.WriteLine(nodes.Count);
 
             foreach (XmlNode botNode in nodes)
             {

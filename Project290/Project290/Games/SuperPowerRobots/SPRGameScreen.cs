@@ -49,6 +49,8 @@ namespace Project290.Games.SuperPowerRobots
         private long gameOverTime, previousGameTime;
 
         private SPRWorld sprWorld;
+
+        private int currentLevel;
         
         // DEBUG!!
         Body wall_e;
@@ -64,11 +66,13 @@ namespace Project290.Games.SuperPowerRobots
         {
             // Tom's messing around with the physics engine!
 
+            currentLevel = 0;
+
             previousGameTime = GameClock.Now;
             fantastica = new World(Vector2.Zero);
             Physics.Settings.MaxPolygonVertices = 30; // Defaults to 8? What are we, running on a TI-83 or something?
             Physics.Settings.EnableDiagnostics = false;
-            this.sprWorld = new SPRWorld(fantastica);
+            this.sprWorld = new SPRWorld(fantastica, currentLevel);
 
 //            wall_e.CreateFixture(new CircleShape(20f, 1.2f));
             
