@@ -3,4 +3,7 @@
 <Bot>
   <AI>BrickAI</AI>
   <Health>500</Health>
+  <Texture>4SideEnemyRobot</Texture>
+  <PositionX>600</PositionX>
+  <PositionY>600</PositionY>
 </Bot>

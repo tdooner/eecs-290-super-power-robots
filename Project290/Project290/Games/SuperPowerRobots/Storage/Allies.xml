@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Bot>
+  <AI>HumanAI</AI>
+  <Health>500</Health>
+  <Texture>4SideFriendlyRobot</Texture>
+  <PositionX>200</PositionX>
+  <PositionY>200</PositionY>
+</Bot>

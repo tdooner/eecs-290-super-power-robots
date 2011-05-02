@@ -28,26 +28,32 @@ namespace Project290.Games.SuperPowerRobots
 
         private SortedDictionary<ulong, Entity> m_Entities;
 
+        private SPRWorld sprWorld;
+
+        private World world;
+
+        private int botHalfWidth;
+
         public Battle(SPRWorld sprWorld, int botHalfWidth, World world)
         {
-            this.m_Entities = new SortedDictionary<ulong, Entity>();
+            this.sprWorld = sprWorld;
+            this.botHalfWidth = botHalfWidth;
+            this.world = world;
+
+            xmlDoc = new XmlDocument();
+
+            xmlDoc.Load("Games/SuperPowerRobots/Storage/Allies.xml");
 
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
 
-            Body tempBody = BodyFactory.CreateBody(world);
-            tempBody.BodyType = BodyType.Dynamic;
-            Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
-            f.OnCollision += MyOnCollision;
-            f.Friction = .5f;
-            f.Restitution = 0f;
-            f.UserData = SPRWorld.ObjectTypes.Bot;
-            tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
-            Bot testing = new Bot(sprWorld, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(sprWorld), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
+            CreateBots(xmlDoc, edges);
 
-            sprWorld.AddEntity(testing);
-            
+            xmlDoc.Load("Games/SuperPowerRobots/Storage/Battles.xml");
+
+            CreateBots(xmlDoc, edges);
+
             // Enemy Robot
-            Body enemy = BodyFactory.CreateBody(world);
+            /*Body enemy = BodyFactory.CreateBody(world);
             enemy.BodyType = BodyType.Dynamic;
             Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, enemy);
             g.OnCollision += MyOnCollision;
@@ -57,19 +63,56 @@ namespace Project290.Games.SuperPowerRobots
             enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
             Bot enemyBot = new Bot(sprWorld, enemy, Bot.Player.Computer, Bot.Type.FourSided, new BrickAI(sprWorld), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
 
-            sprWorld.AddEntity(enemyBot);
+            sprWorld.AddEntity(enemyBot);*/
+        }
 
-            /*xmlDoc = new XmlDocument();
+        public void CreateBots(XmlDocument xmlDoc, Vector2[] edges)
+        {
+            XmlNodeList nodes = xmlDoc.GetElementsByTagName("Bot");
 
-            xmlDoc.Load("Games/SuperPowerRoobts/Storage/Allies.xml");
+            foreach (XmlNode botNode in nodes)
+            {
+                XmlNodeList innerNodes = botNode.ChildNodes;
+                
+                Bot.Player AIType;
 
-            XmlNodeList Allies = xmlDoc.GetElementsByTagName("Bot");
+                Console.WriteLine(innerNodes[0].InnerText);
 
-            xmlDoc.Load("Games/SuperPowerRobots/Storage/Battles.xml");
+                SPRAI control;
 
-            XmlNodeList Enemies = xmlDoc.GetElementsByTagName("Bot");
+                switch (innerNodes[0].InnerText)
+                {
+                    case "HumanAI":
+                        AIType = Bot.Player.Human;
+                        control = new HumanAI(sprWorld);
+                        break;
+                    case "BrickAI":
+                        AIType = Bot.Player.Computer;
+                        control = new BrickAI(sprWorld);
+                        break;
+                    default:
+                        AIType = Bot.Player.Human;
+                        control = new HumanAI(sprWorld);
+                        break;
+                }
 
-            Console.WriteLine(Enemies[0].InnerText);*/
+                float health = float.Parse(innerNodes[1].InnerText);
+                Texture2D texture = TextureStatic.Get(innerNodes[2].InnerText);
+                Vector2 position = new Vector2(int.Parse(innerNodes[3].InnerText), int.Parse(innerNodes[4].InnerText));
+
+                Body tempBody = BodyFactory.CreateBody(world);
+                tempBody.BodyType = BodyType.Dynamic;
+                Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
+                f.OnCollision += MyOnCollision;
+                f.Friction = .5f;
+                f.Restitution = 0f;
+                f.UserData = SPRWorld.ObjectTypes.Bot;
+                tempBody.SetTransform(position * Settings.MetersPerPixel, 0);
+
+                Bot newBot = new Bot(sprWorld, tempBody, AIType, Bot.Type.FourSided, control, texture, 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, health);
+
+                sprWorld.AddEntity(newBot);
+            }
         }
 
         public void AddEntity(Entity e)
