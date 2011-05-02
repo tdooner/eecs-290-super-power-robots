@@ -30,10 +30,10 @@ namespace Project290.Screens
         {
             pictures = new String[5];
             thresh = new float[5];
-            thresh[0] = 500f;
-            thresh[1] = 500f;
-            thresh[2] = 500f;
-            thresh[3] = 500f;
+            thresh[0] = 16000f;
+            thresh[1] = 24000f;
+            thresh[2] = 28000f;
+            thresh[3] = 18000f;
             thresh[4] = 500f;
             this.time = 0f;
             this.currentTime = (long)System.DateTime.Now.Millisecond;
