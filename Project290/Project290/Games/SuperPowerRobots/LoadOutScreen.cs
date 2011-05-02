@@ -62,7 +62,6 @@ namespace Project290.Games.SuperPowerRobots
         }
         public void save(string weapon)
         {
-            System.Threading.Thread.Sleep(250);
             weapons[count] = weapon;
             count += 1;
             if (count == 4)
@@ -70,7 +69,7 @@ namespace Project290.Games.SuperPowerRobots
                 // gtfo.
                 Dictionary<string, string> a = new Dictionary<string, string>();
                 a.Add("Gun", "gun");
-                a.Add("Melee", "shield");
+                a.Add("Melee", "melee");
                 a.Add("Shield", "shield");
                 Dictionary<string, string> b = new Dictionary<string, string>();
                 b.Add("Gun", "Gun");

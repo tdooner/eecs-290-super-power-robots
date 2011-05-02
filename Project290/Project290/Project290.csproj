@@ -137,6 +137,7 @@
     <Compile Include="Games\SuperPowerRobots\Settings.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRGameScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRMainScreen.cs" />
+    <Compile Include="Games\SuperPowerRobots\SPRWinScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRWorld.cs" />
     <Compile Include="Inputs\RumblePack.cs" />
     <Compile Include="Mathematics\RectangleLineClipper.cs" />
@@ -301,6 +302,7 @@
     <Content Include="Game.ico" />
     <Content Include="Games\SuperPowerRobots\Storage\Allies.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Games\SuperPowerRobots\Storage\Battles.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -118,7 +118,6 @@ namespace Project290.Games.SuperPowerRobots
                 Body tempBody = BodyFactory.CreateBody(world);
                 tempBody.BodyType = BodyType.Dynamic;
                 Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
-                f.OnCollision += MyOnCollision;
                 f.Friction = .5f;
                 f.Restitution = 0f;
                 tempBody.SetTransform(position * Settings.MetersPerPixel, 0);
@@ -165,12 +164,6 @@ namespace Project290.Games.SuperPowerRobots
         public SortedDictionary<ulong, Entity> AllEntities()
         {
             return this.m_Entities;
-        }
-
-        public bool MyOnCollision(Fixture f1, Fixture f2, Contact c)
-        {
-            //f2.Body.Dispose();
-            return true;
         }
     }
 }

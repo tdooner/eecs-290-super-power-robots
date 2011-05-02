@@ -72,6 +72,7 @@ namespace Project290.GameElements
             TextureStatic.Load("pic3", @"SPRGame\2");
             TextureStatic.Load("pic4", @"SPRGame\3");
             TextureStatic.Load("pic5", @"SPRGame\4");
+            TextureStatic.Load("winnerwinnerchickendinner", @"SPRGame\win");
             // TODO: load all Audio.
             GameWorld.audio.LoadSong("intro", @"SPRGame\maybe2");
             GameWorld.audio.LoadSong("sprloadout", @"SPRGame\sprloadout");

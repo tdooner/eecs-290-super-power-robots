@@ -85,11 +85,12 @@ namespace Project290.Games.SuperPowerRobots
 
         public void NextLevel()
         {
+            currentLevel += 1;
             fantastica = new World(Vector2.Zero);
             Physics.Settings.MaxPolygonVertices = 30; // Defaults to 8? What are we, running on a TI-83 or something?
             Physics.Settings.EnableDiagnostics = false;
             addedEndScreen = false;
-            this.sprWorld = new SPRWorld(fantastica, ++currentLevel);
+            this.sprWorld = new SPRWorld(fantastica, currentLevel);
         }
 
         /// <summary>
@@ -99,7 +100,15 @@ namespace Project290.Games.SuperPowerRobots
         internal override void Reset()
         {
             base.Reset();
-            
+            currentLevel = 0;
+            scoreKeeper = new ScoreKeeper(true);
+            previousGameTime = GameClock.Now;
+            fantastica = new World(Vector2.Zero);
+            Physics.Settings.MaxPolygonVertices = 30; // Defaults to 8? What are we, running on a TI-83 or something?
+            Physics.Settings.EnableDiagnostics = false;
+            Battle.nextAllies = "";
+            this.sprWorld = new SPRWorld(fantastica, currentLevel);
+
             this.gameOverTime = GameClock.Now + 10000000 * 10; // 10 Seconds.
         }
 
@@ -109,10 +118,22 @@ namespace Project290.Games.SuperPowerRobots
         public override void Update()
         {
             base.Update();
-            
+
+            if (this.sprWorld.m_hasLost && addedEndScreen == false)
+            {
+                GameWorld.screens.Play(new GameOverScreen((uint)ScoreKeeper.score));
+                addedEndScreen = true;
+            }
             if (this.sprWorld.m_isGameOver == true && addedEndScreen == false)
             {
-                GameWorld.screens.Play(new LoadOutScreen(m_scoreboardIndex, this));
+                if (currentLevel > 5)
+                {
+                    GameWorld.screens.Play(new SPRWinScreen());
+                }
+                else
+                {
+                    GameWorld.screens.Play(new LoadOutScreen(m_scoreboardIndex, this));
+                }
                 addedEndScreen = true;
             }
             if (addedEndScreen)
