@@ -56,7 +56,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
         {
             // Fixture a is always the bullet, and Fixture b is what it hit.
 
-            if (b.UserData is String && b.UserData == "Wall")
+            if (b.UserData is String && ((string)(b.UserData.ToString())).Equals("Wall"))
             {
                 if (!m_toRemove.Contains(a.Body))
                     m_toRemove.Add(a.Body);
