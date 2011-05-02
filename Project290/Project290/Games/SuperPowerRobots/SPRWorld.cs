@@ -74,7 +74,7 @@ namespace Project290.Games.SuperPowerRobots
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
             
 			this.battle = new Battle(this, botHalfWidth, world, currentLevel);
-
+            GameWorld.audio.SongPlay("sprbattle");
         }
 
         public World World { get { return m_World; } }

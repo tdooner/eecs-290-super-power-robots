@@ -74,6 +74,8 @@ namespace Project290.GameElements
             TextureStatic.Load("pic5", @"SPRGame\4");
             // TODO: load all Audio.
             GameWorld.audio.LoadSong("intro", @"SPRGame\maybe2");
+            GameWorld.audio.LoadSong("sprloadout", @"SPRGame\sprloadout");
+            GameWorld.audio.LoadSong("sprbattle", @"SPRGame\sprbattle");
             // TODO: load all Fonts, and anything else.
         }
 

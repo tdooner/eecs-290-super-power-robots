@@ -93,6 +93,12 @@ namespace Project290.Games.SuperPowerRobots
             Console.WriteLine("aaaaa");
             if (count < pictures.Length)
             {
+                Drawer.DrawRectangle(
+                    new Rectangle(0, 0, 1920, 1080),
+                    1920, 
+                    0.4f, 
+                    Color.Black
+                );
                 Drawer.Draw(
                     TextureStatic.Get(this.pictures[count]),
                     new Rectangle(1920/2,1080/2,1520,680),
