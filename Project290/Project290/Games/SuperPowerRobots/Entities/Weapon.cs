@@ -148,7 +148,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             }
         }
 
-        public void GetDamaged(float damage)
+        public void TakeDamage(float damage)
         {
             this.m_health -= damage;
         }

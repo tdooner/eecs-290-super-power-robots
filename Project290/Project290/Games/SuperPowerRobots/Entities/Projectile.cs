@@ -70,13 +70,13 @@ namespace Project290.Games.SuperPowerRobots.Entities
             if (b.UserData is Weapon)
             {
                 Weapon w = (Weapon)b.UserData;
-                w.GetDamaged(p.GetPower());
+                w.TakeDamage(p.GetPower());
             }
             // If we hit a bot
             if (b.UserData is Bot)
             {
                 Bot bot = (Bot)b.UserData;
-                bot.GetDamaged(p.GetPower());
+                bot.TakeDamage(p.GetPower());
             }
             if (!m_toRemove.Contains(a.Body))
                 m_toRemove.Add(a.Body);
