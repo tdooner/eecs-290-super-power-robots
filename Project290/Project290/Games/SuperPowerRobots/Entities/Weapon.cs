@@ -196,6 +196,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public void TakeDamage(float damage)
         {
             this.m_health -= damage;
+            ScoreKeeper.AddScore((int)damage);
         }
 
         public void Draw()

@@ -4,7 +4,41 @@
   <Level>
     <Bot>
       <AI>BrickAI</AI>
-      <Health>500</Health>
+      <Health>100</Health>
+      <Texture>4SideEnemyRobot</Texture>
+      <PositionX>1000</PositionX>
+      <PositionY>600</PositionY>
+      <Weapon>
+        <Type>shield</Type>
+        <Texture>Shield</Texture>
+        <Health>20</Health>
+        <Power>0</Power>
+      </Weapon>
+      <Weapon>
+        <Type>shield</Type>
+        <Texture>Shield</Texture>
+        <Health>20</Health>
+        <Power>0</Power>
+      </Weapon>
+      <Weapon>
+        <Type>shield</Type>
+        <Texture>Shield</Texture>
+        <Health>20</Health>
+        <Power>0</Power>
+      </Weapon>
+      <Weapon>
+        <Type>shield</Type>
+        <Texture>Shield</Texture>
+        <Health>20</Health>
+        <Power>0</Power>
+      </Weapon>
+    </Bot>
+    <Award>150</Award>
+  </Level>
+  <Level>
+    <Bot>
+      <AI>ModeAI</AI>
+      <Health>200</Health>
       <Texture>4SideEnemyRobot</Texture>
       <PositionX>600</PositionX>
       <PositionY>600</PositionY>
@@ -15,56 +49,24 @@
         <Power>10</Power>
       </Weapon>
       <Weapon>
-        <Type>gun</Type>
-        <Texture>Gun</Texture>
-        <Health>100</Health>
+        <Type>shield</Type>
+        <Texture>Shield</Texture>
+        <Health>30</Health>
         <Power>10</Power>
       </Weapon>
       <Weapon>
         <Type>shield</Type>
         <Texture>Shield</Texture>
-        <Health>500</Health>
+        <Health>30</Health>
         <Power>50</Power>
-      </Weapon>
-      <Weapon>
-        <Type>melee</Type>
-        <Texture>Shield</Texture>
-        <Health>100</Health>
-        <Power>10</Power>
-      </Weapon>
-    </Bot>
-  </Level>
-  <Level>
-    <Bot>
-      <AI>BrickAI</AI>
-      <Health>500</Health>
-      <Texture>4SideEnemyRobot</Texture>
-      <PositionX>1000</PositionX>
-      <PositionY>600</PositionY>
-      <Weapon>
-        <Type>gun</Type>
-        <Texture>Gun</Texture>
-        <Health>100</Health>
-        <Power>10</Power>
-      </Weapon>
-      <Weapon>
-        <Type>gun</Type>
-        <Texture>Gun</Texture>
-        <Health>100</Health>
-        <Power>10</Power>
       </Weapon>
       <Weapon>
         <Type>shield</Type>
         <Texture>Shield</Texture>
-        <Health>500</Health>
-        <Power>50</Power>
-      </Weapon>
-      <Weapon>
-        <Type>gun</Type>
-        <Texture>Gun</Texture>
-        <Health>100</Health>
+        <Health>30</Health>
         <Power>10</Power>
       </Weapon>
     </Bot>
+    <Award>1000</Award>
   </Level>
 </Levels>

@@ -4,8 +4,8 @@ namespace Project290.Games.SuperPowerRobots
 {
     class ScoreKeeper
     {
-        static int score { get; private set; }
-        static int money { get; private set; }
+        public static int score { get; private set; }
+        public static int money { get; private set; }
 
         public ScoreKeeper()
         {

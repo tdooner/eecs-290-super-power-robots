@@ -130,6 +130,7 @@
     <Compile Include="Games\SuperPowerRobots\IntroScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\Menus\MainMenu.cs" />
     <Compile Include="Games\SuperPowerRobots\Menus\MenuDelegates\PlayGameDelegate.cs" />
+    <Compile Include="Games\SuperPowerRobots\ScoreKeeper.cs" />
     <Compile Include="Games\SuperPowerRobots\Settings.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRGameScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\SPRMainScreen.cs" />

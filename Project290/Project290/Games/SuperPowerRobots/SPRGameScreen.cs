@@ -51,6 +51,8 @@ namespace Project290.Games.SuperPowerRobots
         private SPRWorld sprWorld;
 
         private int currentLevel;
+
+        public ScoreKeeper scoreKeeper;
         
         // DEBUG!!
         Body wall_e;
@@ -67,22 +69,13 @@ namespace Project290.Games.SuperPowerRobots
             // Tom's messing around with the physics engine!
 
             currentLevel = 0;
+            scoreKeeper = new ScoreKeeper(true);
 
             previousGameTime = GameClock.Now;
             fantastica = new World(Vector2.Zero);
             Physics.Settings.MaxPolygonVertices = 30; // Defaults to 8? What are we, running on a TI-83 or something?
             Physics.Settings.EnableDiagnostics = false;
             this.sprWorld = new SPRWorld(fantastica, currentLevel);
-
-//            wall_e.CreateFixture(new CircleShape(20f, 1.2f));
-            
-            // Here should be the construction of all objects and the setting of objects that do not change.
-            // The Reset method should be used to set objects that do change.
-            this.display = "Going to change this little part";
-            this.displayPosition = new Vector2(1920 / 2, 300); // Remember, screen resolution is guaranteed to be 1920*1080
-            this.displayOrigin = FontStatic.Get("defaultFont").MeasureString(this.display) / 2f;
-            this.scorePosition = new Vector2(1920 / 2, 500);
-            this.countDownTimerPosition = new Vector2(1920 / 2, 700);
 
             // Always call reset at the end of the constructor!
             this.Reset();
@@ -110,13 +103,11 @@ namespace Project290.Games.SuperPowerRobots
             
             fantastica.Step((GameClock.Now - previousGameTime) / 10000000f);
 
-            //fantastica.ProcessChanges(); // Since bullets can be destroyed in the fantastica.Step()
-
 			previousGameTime = GameClock.Now;
 
             if (this.sprWorld.m_isGameOver == true)
             {
-                Console.Write("hi");
+                ScoreKeeper.AddMoney(this.sprWorld.WinReward());
                 // Any type of stuff to be done after the bout is over shall go here.
                 // Wooo!
             }

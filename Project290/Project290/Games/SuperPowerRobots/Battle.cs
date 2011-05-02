@@ -34,6 +34,8 @@ namespace Project290.Games.SuperPowerRobots
 
         private int botHalfWidth;
 
+        public int winReward { get; private set; }
+
         public Battle(SPRWorld sprWorld, int botHalfWidth, World world, int currentLevel)
         {
             this.sprWorld = sprWorld;
@@ -67,6 +69,11 @@ namespace Project290.Games.SuperPowerRobots
 
             foreach (XmlNode botNode in nodes)
             {
+                if (botNode.Name == "Award")
+                {
+                    this.winReward = int.Parse(botNode.InnerText);
+                    continue;
+                }
                 XmlNodeList innerNodes = botNode.ChildNodes;
                 
                 Bot.Player AIType;

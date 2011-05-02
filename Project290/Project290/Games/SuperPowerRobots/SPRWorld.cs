@@ -139,6 +139,11 @@ namespace Project290.Games.SuperPowerRobots
             return m_Entities.Values.AsEnumerable();
         }
 
+        public int WinReward()
+        {
+            return this.battle.winReward;
+        }
+
         public void Draw()
         {
             Drawer.Draw(
@@ -150,6 +155,17 @@ namespace Project290.Games.SuperPowerRobots
                 Vector2.Zero,
                 SpriteEffects.None,
                 0f);
+            Drawer.DrawString(
+                FontStatic.Get("defaultFont"),
+                "Score: " + ScoreKeeper.score.ToString(),
+                new Vector2(205,205),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                0.4f,
+                SpriteEffects.None,
+                1f
+            );
             foreach (Entity e in m_Entities.Values)
             {
                 e.Draw();

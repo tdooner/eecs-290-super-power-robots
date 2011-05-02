@@ -61,7 +61,7 @@ namespace Project290.Games.SuperPowerRobots
 
             if (count >= thresh.Length)
             {
-                Console.WriteLine("penismonger");
+                Console.WriteLine("bbbbb");
                 this.isOver = true;
             }
             else
@@ -90,7 +90,7 @@ namespace Project290.Games.SuperPowerRobots
         public override void Draw()
         {
             base.Draw();
-            Console.WriteLine("penises");
+            Console.WriteLine("aaaaa");
             if (count < pictures.Length)
             {
                 Drawer.Draw(
