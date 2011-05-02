@@ -30,11 +30,11 @@ namespace Project290.Screens
         {
             pictures = new String[5];
             thresh = new float[5];
-            thresh[0] = 1000f;
-            thresh[1] = 1000f;
-            thresh[2] = 1000f;
-            thresh[3] = 1000f;
-            thresh[4] = 1000f;
+            thresh[0] = 500f;
+            thresh[1] = 500f;
+            thresh[2] = 500f;
+            thresh[3] = 500f;
+            thresh[4] = 500f;
             this.time = 0f;
             this.currentTime = (long)System.DateTime.Now.Millisecond;
             pictures[0] = "pic1";
@@ -49,47 +49,53 @@ namespace Project290.Screens
             this.isOver = false;
         }
 
-        public void Update()
+        public override void Update()
         {
-            base.Disposed = true;
-            GameWorld.screens.Add(new GameScreen(this.scoreBoardIndex));
-            /*
-            base.Update();
-            float dTime = currentTime - (long)System.DateTime.Now.Millisecond;
-            currentTime = (long)System.DateTime.Now.Millisecond;
-            time += dTime;
-            Console.WriteLine(time);
-
-            if (time > thresh[count])
+            if (count >= thresh.Length)
             {
-                count++;
-                time = 0;
-            }
-
-            if (count > thresh.Length)
+                Console.WriteLine("penismonger");
                 this.isOver = true;
+            }
+            else
+            {
+                base.Update();
+                float dTime = Math.Abs(currentTime - (long)System.DateTime.Now.Millisecond);
+                currentTime = (long)System.DateTime.Now.Millisecond;
+                time += dTime;
+                Console.WriteLine(time);
+
+
+                if (time > thresh[count])
+                {
+                    count++;
+                    time = 0;
+                }
+            }
 
             if (this.isOver)
             {
-                base.Disposed = true;
-                GameWorld.screens.Add(new GameScreen(this.scoreBoardIndex));
-            }*/
+                this.Disposed = true;
+                GameWorld.screens.Add(new Project290.Games.SuperPowerRobots.SPRGameScreen(this.scoreBoardIndex));
+            }
         }
 
         public override void Draw()
         {
             base.Draw();
-
-            Drawer.Draw(
-                TextureStatic.Get(this.pictures[count]),
-                new Vector2(1920f / 2f, 1080f / 2f),
-                null,
-                Color.White,
-                0f,
-                TextureStatic.GetOrigin(this.pictures[count]),
-                1f,
-                SpriteEffects.None,
-                0.5f);
+            Console.WriteLine("penises");
+            if (count < pictures.Length)
+            {
+                Drawer.Draw(
+                    TextureStatic.Get(this.pictures[count]),
+                    new Vector2(1920f / 2f, 1080f / 2f),
+                    null,
+                    Color.White,
+                    0f,
+                    TextureStatic.GetOrigin(this.pictures[count]),
+                    1f,
+                    SpriteEffects.None,
+                    0.5f);
+            }
         }
     }
 }
