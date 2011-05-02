@@ -19,6 +19,7 @@ using Project290.Physics.Common.ConvexHull;
 using Project290.Games.SuperPowerRobots.Controls;
 using Project290.Physics.Dynamics.Contacts;
 using Project290.Physics.Common.PolygonManipulation;
+using Project290.Physics.Dynamics.Joints;
 
 namespace Project290.Games.SuperPowerRobots
 {

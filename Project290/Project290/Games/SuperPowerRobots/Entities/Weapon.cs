@@ -63,7 +63,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
             //v.Translate(ref relativePosition);
             v.Rotate(relativeRotation);
 
-            Fixture f = FixtureFactory.CreatePolygon(v, 1f, bot.Body, relativePosition);
+            Fixture f = FixtureFactory.CreatePolygon(sprWorld.World, v, 1f, relativePosition);
+            f.Body = bot.Body;
             m_Fixture = f;
             f.Friction = 0.5f;
             f.Restitution = 0f;
