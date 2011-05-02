@@ -252,6 +252,9 @@
   <ItemGroup>
     <Compile Include="SPRGame\SPRBoxArt.png">
       <Name>SPRBoxArt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+	</Compile>
     <Compile Include="SPRGame\1.png">
       <Name>1</Name>
       <Importer>TextureImporter</Importer>
