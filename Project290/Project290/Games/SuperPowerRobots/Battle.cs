@@ -94,7 +94,7 @@ namespace Project290.Games.SuperPowerRobots
                 f.OnCollision += MyOnCollision;
                 f.Friction = .5f;
                 f.Restitution = 0f;
-                f.UserData = SPRWorld.ObjectTypes.Bot;
+                //f.UserData = SPRWorld.ObjectTypes.Bot;
                 tempBody.SetTransform(position * Settings.MetersPerPixel, 0);
 
                 Bot newBot = new Bot(sprWorld, tempBody, AIType, Bot.Type.FourSided, control, texture, 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, health);
