@@ -22,6 +22,7 @@ Content\SPRGame\4sidedenemyrobot2.xnb
 Content\SPRGame\axe_aligned.xnb
 Content\SPRGame\gun_aligned.xnb
 Content\SPRGame\shield_aligned.xnb
+Content\SPRGame\background.xnb
 Content\Shared\Fonts\defaultFont.xnb
 Content\Shared\Sounds\boxArtScroll.xnb
 Content\Shared\Sounds\menuClick.xnb
@@ -30,6 +31,11 @@ Content\Shared\Sounds\menuScrollDown.xnb
 Content\Shared\Sounds\menuScrollUp.xnb
 Content\Shared\Sounds\volumeControlDown.xnb
 Content\Shared\Sounds\volumeControlUp.xnb
-Content\SPRGame\background.xnb
 Content\SPRGame\SPRBackground.xnb
+Content\SPRGame\1.xnb
+Content\SPRGame\2.xnb
+Content\SPRGame\3.xnb
+Content\SPRGame\4.xnb
+Content\SPRGame\5.xnb
+Games\SuperPowerRobots\Storage\Allies.xml
 Games\SuperPowerRobots\Storage\Battles.xml
