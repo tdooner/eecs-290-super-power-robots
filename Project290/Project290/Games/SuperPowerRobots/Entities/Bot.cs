@@ -81,8 +81,9 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public override void Update(float dTime)
         {
             m_Control.Update(dTime, this);
-            this.Body.ApplyLinearImpulse(0.05f * m_Control.Move);
-            this.Body.ApplyAngularImpulse(0.05f * m_Control.Spin);
+            this.Body.ResetDynamics();
+            this.Body.ApplyLinearImpulse(10*m_Control.Move);
+            this.Body.ApplyAngularImpulse(m_Control.Spin);
 
             bool[] weapons = m_Control.Weapons;
             int fire = 0; //mark the weapon to fire using the right stick
