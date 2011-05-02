@@ -68,10 +68,10 @@ namespace Project290.GameElements
             TextureStatic.Load("background", @"SPRGame\SPRbackground");
             TextureStatic.Load("boxartSPR", @"SPRGame\SPRBoxArt");
             TextureStatic.Load("pic1", @"SPRGame\1");
-            TextureStatic.Load("pic2", @"SPRGame\2");
-            TextureStatic.Load("pic3", @"SPRGame\3");
-            TextureStatic.Load("pic4", @"SPRGame\4");
-            TextureStatic.Load("pic5", @"SPRGame\5");
+            TextureStatic.Load("pic2", @"SPRGame\5");
+            TextureStatic.Load("pic3", @"SPRGame\2");
+            TextureStatic.Load("pic4", @"SPRGame\3");
+            TextureStatic.Load("pic5", @"SPRGame\4");
             // TODO: load all Audio.
             GameWorld.audio.LoadSong("intro", @"SPRGame\maybe2");
             // TODO: load all Fonts, and anything else.

@@ -5,8 +5,8 @@
     <AI>HumanAI</AI>
     <Health>500</Health>
     <Texture>4SideFriendlyRobot</Texture>
-    <PositionX>200</PositionX>
-    <PositionY>200</PositionY>
+    <PositionX>400</PositionX>
+    <PositionY>400</PositionY>
     <Weapon>
       <Type>gun</Type>
       <Texture>Gun</Texture>
@@ -26,8 +26,8 @@
       <Power>50</Power>
     </Weapon>
     <Weapon>
-      <Type>gun</Type>
-      <Texture>Gun</Texture>
+      <Type>melee</Type>
+      <Texture>Shield</Texture>
       <Health>100</Health>
       <Power>10</Power>
     </Weapon>

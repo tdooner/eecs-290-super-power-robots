@@ -90,5 +90,28 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 m_toRemove.Add(a.Body);
             return true;
         }
+        public static bool OnMeleeHit(Fixture a, Fixture b, Contact c)
+        {
+            Projectile p = (Projectile)a.UserData;
+            // If we hit a weapon.
+            if (b.UserData is Weapon)
+            {
+                Weapon w = (Weapon)b.UserData;
+                w.TakeDamage(p.GetPower());
+            }
+            // If we hit a bot
+            if (b.UserData is Bot)
+            {
+                Bot bot = (Bot)b.UserData;
+                bot.TakeDamage(p.GetPower());
+            }
+            // If we hit a projectile (e.g. an axe)
+            if (b.UserData is Projectile)
+            {
+                Projectile o = (Projectile)b.UserData;
+                o.TakeDamage(p.GetPower());
+            }
+            return true;
+        }
     }
 }

@@ -116,6 +116,7 @@ namespace Project290.Games.SuperPowerRobots
 
             if (this.sprWorld.m_isGameOver == true)
             {
+                Console.Write("hi");
                 // Any type of stuff to be done after the bout is over shall go here.
                 // Wooo!
             }
