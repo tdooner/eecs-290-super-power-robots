@@ -87,6 +87,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 tempBody.SetTransform(this.GetAbsPosition(), this.GetAbsRotation());
                 Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Axe"), new Vector2(0, 0), this.GetRelRotation(), 5, Settings.MetersPerPixel * 80, 80 * Settings.MetersPerPixel, m_power);
                 f2.UserData = justFired;
+                f2.OnCollision += Projectile.OnMeleeHit;
                 RevoluteJoint joint = JointFactory.CreateRevoluteJoint(m_SPRWorld.World, this.m_owner.Body, tempBody, Vector2.Zero);
                 joint.MaxMotorTorque = 160;
                 joint.LimitEnabled = true;
@@ -181,6 +182,15 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 m_AxeJoint.MotorSpeed = (float)Math.Cos(m_Time * 10) * 10;
                 this.m_firing = false;
             }
+
+            // Similar to Entity.Update()
+            if (this.m_health <= 0f)
+            {
+                this.m_owner.RemoveWeapon(this);
+            }
+
+            this.m_SPRWorld.World.ProcessChanges();
+            
         }
 
         public void TakeDamage(float damage)

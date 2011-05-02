@@ -27,8 +27,8 @@
         <Power>50</Power>
       </Weapon>
       <Weapon>
-        <Type>gun</Type>
-        <Texture>Gun</Texture>
+        <Type>melee</Type>
+        <Texture>Shield</Texture>
         <Health>100</Health>
         <Power>10</Power>
       </Weapon>

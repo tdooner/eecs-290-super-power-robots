@@ -134,7 +134,15 @@ namespace Project290.Games.SuperPowerRobots.Entities
             m_Height = scale.Y;
         }
 
-        public abstract void Update(float dTime);
+        public virtual void Update(float dTime)
+        {
+            if (this.m_health <= 0f)
+            {
+                this.Body.Dispose();
+            }
+
+            this.m_SPRWorld.World.ProcessChanges(); // Let's not be ashamed to call this method to cover up our lack of understanding the physics library.
+        }
 
         public virtual void Draw()
         {

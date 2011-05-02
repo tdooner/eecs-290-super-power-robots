@@ -207,6 +207,8 @@ namespace Project290.Games.SuperPowerRobots.Controls
                 Weapon[] weapons = m_Self.GetWeapons();
                 for (int i = 0; i < 4; i++)
                 {
+                    if (weapons[i] == null)
+                        continue;
                     if (weapons[i].GetWeaponType() == WeaponType.shield && (bestShield < 0 || weapons[bestShield].GetWeaponType() != WeaponType.shield || weapons[i].GetHealth() > weapons[bestShield].GetHealth()))
                         bestShield = i;
                 }
@@ -217,6 +219,8 @@ namespace Project290.Games.SuperPowerRobots.Controls
                     bestShield = 0;
                     for (int i = 0; i < 4; i++)
                     {
+                        if (weapons[i] == null || weapons[bestShield] == null)
+                            continue;
                         if (weapons[i].GetHealth() > weapons[bestShield].GetHealth()) bestShield = i;
                     }
                 }
@@ -229,6 +233,8 @@ namespace Project290.Games.SuperPowerRobots.Controls
                 Weapon[] weapons = m_Self.GetWeapons();
                 for (int i = 0; i < 4; i++)
                 {
+                    if (weapons[i] == null || (bestGun >= 0 && weapons[bestGun] == null))
+                        continue;
                     if (weapons[i].GetWeaponType() == WeaponType.gun && (bestGun < 0 || weapons[bestGun].GetWeaponType() != WeaponType.gun || weapons[i].GetPower() > weapons[bestGun].GetPower()))
                         bestGun = i;
                 }
@@ -241,6 +247,8 @@ namespace Project290.Games.SuperPowerRobots.Controls
                 Weapon[] weapons = m_Self.GetWeapons();
                 for (int i = 0; i < 4; i++)
                 {
+                    if (weapons[i] == null)
+                        continue;
                     if (weapons[i].GetWeaponType() == WeaponType.melee && (bestMelee < 0 || weapons[bestMelee].GetWeaponType() != WeaponType.melee || weapons[i].GetPower() > weapons[bestMelee].GetPower()))
                         bestMelee = i;
                 }

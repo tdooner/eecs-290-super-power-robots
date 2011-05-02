@@ -128,6 +128,7 @@
     <Compile Include="Games\SuperPowerRobots\Entities\Weapon.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Games\SuperPowerRobots\IntroScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\Menus\MainMenu.cs" />
     <Compile Include="Games\SuperPowerRobots\Menus\MenuDelegates\PlayGameDelegate.cs" />
     <Compile Include="Games\SuperPowerRobots\Settings.cs" />
@@ -250,7 +251,6 @@
     <Compile Include="Physics\Settings.cs" />
     <Compile Include="Rendering\FontStatic.cs" />
     <Compile Include="Screens\Background\BackgroundScreen.cs" />
-    <Compile Include="Games\SuperPowerRobots\IntroScreen.cs" />
     <Compile Include="Screens\CreditsScreen.cs" />
     <Compile Include="Screens\GameOverScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />

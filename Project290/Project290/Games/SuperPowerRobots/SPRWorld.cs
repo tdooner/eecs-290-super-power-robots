@@ -27,6 +27,7 @@ namespace Project290.Games.SuperPowerRobots
         private SortedDictionary<ulong, Entity> m_Entities;
         public static Dictionary<String, Vertices> computedSpritePolygons = new Dictionary<string,Vertices>();
         private Battle battle;
+        public bool m_isGameOver { get; private set; }
 
         // Anything that is a fixture must have an object type for collision logic purposes
         /*public enum ObjectTypes
@@ -121,6 +122,16 @@ namespace Project290.Games.SuperPowerRobots
                 m_Entities.Remove(key);
             }
 
+            // Detect if the game is over (i.e. all Computer bots are destroyed)
+            this.m_isGameOver = true;
+            foreach (Entity e in m_Entities.Values)
+            {
+                if (e is Bot)
+                {
+                    if (((Bot)e).m_player == Bot.Player.Computer)
+                        this.m_isGameOver = false;
+                }
+            }
         }
 
         public IEnumerable<Entity> GetEntities()
