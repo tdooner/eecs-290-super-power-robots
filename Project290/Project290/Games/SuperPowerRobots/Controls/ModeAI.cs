@@ -53,7 +53,7 @@ namespace Project290.Games.SuperPowerRobots.Controls
             Vector2 facing = new Vector2((float)Math.Cos(ownRot + relRot), (float)Math.Sin(ownRot + relRot));
             Vector2 desired = m_Player.GetPosition() - self.GetPosition();
 
-            this.Spin = Math.Min(Math.Max(SPRWorld.SignedAngle(facing, desired) * 4, -1), 1);
+            this.Spin = Math.Min(Math.Max(SPRWorld.SignedAngle(facing, desired) * 4, -1), 1) * .5f;
             this.Move = move;
             this.Weapons = chooseFire();
         }
