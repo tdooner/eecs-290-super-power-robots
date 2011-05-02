@@ -53,7 +53,6 @@ namespace Project290.Screens
         {
             if (count >= thresh.Length)
             {
-                Console.WriteLine("penismonger");
                 this.isOver = true;
             }
             else
@@ -82,7 +81,6 @@ namespace Project290.Screens
         public override void Draw()
         {
             base.Draw();
-            Console.WriteLine("penises");
             if (count < pictures.Length)
             {
                 Drawer.Draw(

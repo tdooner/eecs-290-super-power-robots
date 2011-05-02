@@ -47,7 +47,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
             this.m_Weapons = new Weapon[4];
             
-        }   
+        }
 
         public void AddWeapon(int side, String textureName, WeaponType weaponType, float health, float power)
         {
