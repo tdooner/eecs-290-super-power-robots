@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Bot>
-  <AI>BrickAI</AI>
+  <AI>HumanAI</AI>
   <Health>500</Health>
-  <Texture>4SideEnemyRobot</Texture>
-  <PositionX>600</PositionX>
-  <PositionY>600</PositionY>
+  <Texture>4SideFriendlyRobot</Texture>
+  <PositionX>200</PositionX>
+  <PositionY>200</PositionY>
   <Weapon>
     <Type>gun</Type>
     <Texture>Gun</Texture>

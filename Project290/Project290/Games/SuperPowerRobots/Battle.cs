@@ -28,48 +28,104 @@ namespace Project290.Games.SuperPowerRobots
 
         private SortedDictionary<ulong, Entity> m_Entities;
 
+        private SPRWorld sprWorld;
+
+        private World world;
+
+        private int botHalfWidth;
+
         public Battle(SPRWorld sprWorld, int botHalfWidth, World world)
         {
-            this.m_Entities = new SortedDictionary<ulong, Entity>();
+            this.sprWorld = sprWorld;
+            this.botHalfWidth = botHalfWidth;
+            this.world = world;
+
+            xmlDoc = new XmlDocument();
+
+            xmlDoc.Load("Games/SuperPowerRobots/Storage/Allies.xml");
 
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
 
-            Body tempBody = BodyFactory.CreateBody(world);
-            tempBody.BodyType = BodyType.Dynamic;
-            Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
-            f.OnCollision += MyOnCollision;
-            f.Friction = .5f;
-            f.Restitution = 0f;
-            tempBody.SetTransform(new Vector2(200, 200) * Settings.MetersPerPixel, 0);
-            Bot testing = new Bot(sprWorld, tempBody, Bot.Player.Human, Bot.Type.FourSided, new HumanAI(sprWorld), TextureStatic.Get("4SideFriendlyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
-            f.UserData = testing;
-
-            sprWorld.AddEntity(testing);
-            
-            // Enemy Robot
-            Body enemy = BodyFactory.CreateBody(world);
-            enemy.BodyType = BodyType.Dynamic;
-            Fixture g = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, enemy);
-            g.OnCollision += MyOnCollision;
-            g.Friction = .5f;
-            g.Restitution = 0f;
-            enemy.SetTransform(new Vector2(600, 600) * Settings.MetersPerPixel, 0);
-            Bot enemyBot = new Bot(sprWorld, enemy, Bot.Player.Computer, Bot.Type.FourSided, new ModeAI(sprWorld), TextureStatic.Get("4SideEnemyRobot"), 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, 100);
-            g.UserData = enemyBot;
-
-            sprWorld.AddEntity(enemyBot);
-
-            /*xmlDoc = new XmlDocument();
-
-            xmlDoc.Load("Games/SuperPowerRoobts/Storage/Allies.xml");
-
-            XmlNodeList Allies = xmlDoc.GetElementsByTagName("Bot");
+            CreateBots(xmlDoc, edges);
 
             xmlDoc.Load("Games/SuperPowerRobots/Storage/Battles.xml");
 
-            XmlNodeList Enemies = xmlDoc.GetElementsByTagName("Bot");
+            CreateBots(xmlDoc, edges);
+        }
 
-            Console.WriteLine(Enemies[0].InnerText);*/
+        public void CreateBots(XmlDocument xmlDoc, Vector2[] edges)
+        {
+            XmlNodeList nodes = xmlDoc.GetElementsByTagName("Bot");
+
+            foreach (XmlNode botNode in nodes)
+            {
+                XmlNodeList innerNodes = botNode.ChildNodes;
+                
+                Bot.Player AIType;
+
+                Console.WriteLine(innerNodes[0].InnerText);
+
+                SPRAI control;
+
+                switch (innerNodes[0].InnerText)
+                {
+                    case "HumanAI":
+                        AIType = Bot.Player.Human;
+                        control = new HumanAI(sprWorld);
+                        break;
+                    case "BrickAI":
+                        AIType = Bot.Player.Computer;
+                        control = new BrickAI(sprWorld);
+                        break;
+                    default:
+                        AIType = Bot.Player.Human;
+                        control = new HumanAI(sprWorld);
+                        break;
+                }
+
+                float health = float.Parse(innerNodes[1].InnerText);
+                Texture2D texture = TextureStatic.Get(innerNodes[2].InnerText);
+                Vector2 position = new Vector2(int.Parse(innerNodes[3].InnerText), int.Parse(innerNodes[4].InnerText));
+
+                Body tempBody = BodyFactory.CreateBody(world);
+                tempBody.BodyType = BodyType.Dynamic;
+                Fixture f = FixtureFactory.CreatePolygon(new Vertices(edges), 10f, tempBody);
+                f.OnCollision += MyOnCollision;
+                f.Friction = .5f;
+                f.Restitution = 0f;
+                tempBody.SetTransform(position * Settings.MetersPerPixel, 0);
+
+                Bot newBot = new Bot(sprWorld, tempBody, AIType, Bot.Type.FourSided, control, texture, 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, health);
+
+                for (int weaponNumber = 0; weaponNumber < 4; weaponNumber++)
+                {
+                    XmlNodeList weaponChilds = innerNodes[weaponNumber + 5].ChildNodes;
+                    int side = weaponNumber;
+                    WeaponType weaponType;
+                    switch (weaponChilds[0].InnerText)
+                    {
+                        case "gun":
+                            weaponType = WeaponType.gun;
+                            break;
+                        case "shield":
+                            weaponType = WeaponType.shield;
+                            break;
+                        case "melee":
+                            weaponType = WeaponType.melee;
+                            break;
+                        default:
+                            weaponType = WeaponType.gun;
+                            break;
+                    }
+                    String weaponTexture = weaponChilds[1].InnerText;
+                    float weaponHealth = float.Parse(weaponChilds[2].InnerText);
+                    float weaponPower = float.Parse(weaponChilds[3].InnerText);
+
+                    newBot.AddWeapon(weaponNumber, weaponTexture, weaponType, weaponHealth, weaponPower);
+                }
+
+                sprWorld.AddEntity(newBot);
+            }
         }
 
         public void AddEntity(Entity e)
