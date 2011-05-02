@@ -82,6 +82,13 @@ namespace Project290.Games.SuperPowerRobots.Controls
         public bool[] Weapons
         {
             get { return m_Weapons; }
+            protected set
+            {
+                if (value.Length == Weapons.Length)
+                {
+                    this.m_Weapons = value;
+                }
+            }
         }
 
         /// <summary>
