@@ -46,11 +46,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.m_Control = control;
 
             this.m_Weapons = new Weapon[4];
-
-            /*this.AddWeapon(0, "Gun", WeaponType.gun, 100f, 10f);
-            this.AddWeapon(1, "Gun", WeaponType.gun, 100f, 10f);
-            this.AddWeapon(2, "Shield", WeaponType.shield, 500f, 50f);
-            this.AddWeapon(3, "Gun", WeaponType.melee, 100f, 0f);*/
             
         }   
 
@@ -61,11 +56,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
             Weapon weapon = new Weapon(this.SPRWorld, this, relativePosition, relativeRotation, textureName, new Vector2(1,1), weaponType, health, power);
             this.m_Weapons[side] = weapon;
-        }
-
-        public Weapon[] GetWeapons()
-        {
-            return m_Weapons;
         }
 
         public Vector2 GetVelocity()
@@ -85,13 +75,19 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public bool IsPlayer()
         {
-            return m_player == Player.Human;
+            if (this.m_player == Bot.Player.Human) return true;
+            return false;
+        }
+
+        public Weapon[] GetWeapons()
+        {
+            return this.m_Weapons;
         }
 
         public override void Update(float dTime)
         {
-            this.Body.ResetDynamics();
             m_Control.Update(dTime, this);
+            this.Body.ResetDynamics();
             this.Body.ApplyLinearImpulse(10*m_Control.Move);
             this.Body.ApplyAngularImpulse(m_Control.Spin);
 
