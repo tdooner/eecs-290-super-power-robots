@@ -103,6 +103,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
             return m_Width;
         }
 
+        public void GetDamaged(float damage)
+        {
+            this.m_health -= damage;
+        }
+
         public void SetWidth(float width)
         {
             m_Width = width;
