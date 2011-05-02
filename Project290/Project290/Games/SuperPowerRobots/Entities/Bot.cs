@@ -24,7 +24,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private Texture2D texture;
         private List<Fixture> fixtures = new List<Fixture>();
         //temp variable, do not include in final project
-        private Bot.Player m_player;
+        public Bot.Player m_player { get; private set; }
         private Bot.Type m_type;
         private SPRAI m_Control;
 
@@ -58,6 +58,17 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.m_Weapons[side] = weapon;
         }
 
+        public void RemoveWeapon(Weapon w)
+        {
+            for (int i = 0; i < m_Weapons.Length; i++)
+            {
+                if (m_Weapons[i] == w)
+                {
+                    m_Weapons[i] = null;
+                }
+            }
+        }
+
         public Vector2 GetVelocity()
         {
             return this.Body.LinearVelocity;
@@ -86,6 +97,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public override void Update(float dTime)
         {
+            base.Update(dTime);
+
             m_Control.Update(dTime, this);
             this.Body.ResetDynamics();
             this.Body.ApplyLinearImpulse(10*m_Control.Move);
@@ -95,27 +108,36 @@ namespace Project290.Games.SuperPowerRobots.Entities
             int fire = 0; //mark the weapon to fire using the right stick
             for (int i = 0; i < weapons.Length; i++)
             {
-                if (weapons[i]) m_Weapons[i].Fire();
+                if (m_Weapons[i] != null && m_Weapons[fire] != null) // If the weapon is not dead.
+                {
+                    if (weapons[i]) m_Weapons[i].Fire();
 
-                Vector2 weapDir = new Vector2((float)Math.Cos(m_Weapons[i].GetAbsRotation()), (float)Math.Sin(m_Weapons[i].GetAbsRotation()));
-                Vector2 maxDir = new Vector2((float)Math.Cos(m_Weapons[fire].GetAbsRotation()), (float)Math.Sin(m_Weapons[fire].GetAbsRotation()));
-                if(Vector2.Dot(m_Control.Fire, weapDir) > Vector2.Dot(m_Control.Fire, maxDir)) fire = i;
+                    Vector2 weapDir = new Vector2((float)Math.Cos(m_Weapons[i].GetAbsRotation()), (float)Math.Sin(m_Weapons[i].GetAbsRotation()));
+                    Vector2 maxDir = new Vector2((float)Math.Cos(m_Weapons[fire].GetAbsRotation()), (float)Math.Sin(m_Weapons[fire].GetAbsRotation()));
+                    if (Vector2.Dot(m_Control.Fire, weapDir) > Vector2.Dot(m_Control.Fire, maxDir)) fire = i;
+                }
             }
 
             if (m_Control.Fire.LengthSquared() > 0) m_Weapons[fire].Fire();
 
-            foreach (Weapon w in m_Weapons)
+            for (int i = 0; i < m_Weapons.Length; i++)
             {
-                w.Update(dTime);
+                if (m_Weapons[i] != null)
+                {
+                    m_Weapons[i].Update(dTime);
+                }
             }
         }
 
         public override void Draw()
         {
             base.Draw();
-            foreach (Weapon w in m_Weapons)
+            for (int i = 0; i < m_Weapons.Length; i++)
             {
-                w.Draw();
+                if (m_Weapons[i] != null)
+                {
+                    m_Weapons[i].Draw();
+                }
             }
         }
     }

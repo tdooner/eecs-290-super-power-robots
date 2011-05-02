@@ -28,6 +28,9 @@ namespace Project290.Screens
         public IntroScreen(int scoreBoardIndex)
             : base()
         {
+            base.Disposed = true;
+            GameWorld.screens.Add(new GameScreen(this.scoreBoardIndex));
+            /*
             pictures = new String[5];
             thresh = new float[5];
             thresh[0] = 1000f;
@@ -46,7 +49,7 @@ namespace Project290.Screens
             GameWorld.audio.SongPlay("intro");
 
             this.FadingOut = false;
-            this.isOver = false;
+            this.isOver = false;*/
         }
 
         public void Update()
@@ -80,7 +83,7 @@ namespace Project290.Screens
         {
             base.Draw();
 
-            Drawer.Draw(
+            /*Drawer.Draw(
                 TextureStatic.Get(this.pictures[count]),
                 new Vector2(1920f / 2f, 1080f / 2f),
                 null,
@@ -89,7 +92,7 @@ namespace Project290.Screens
                 TextureStatic.GetOrigin(this.pictures[count]),
                 1f,
                 SpriteEffects.None,
-                0.5f);
+                0.5f);*/
         }
     }
 }

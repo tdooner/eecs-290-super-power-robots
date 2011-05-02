@@ -36,6 +36,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
 
         public override void Update(float dTime)
         {
+            base.Update(dTime);
+
             //if (!IsDead())
             //{
             this.Body.ResetDynamics();
@@ -77,6 +79,12 @@ namespace Project290.Games.SuperPowerRobots.Entities
             {
                 Bot bot = (Bot)b.UserData;
                 bot.TakeDamage(p.GetPower());
+            }
+            // If we hit a projectile (e.g. an axe)
+            if (b.UserData is Projectile)
+            {
+                Projectile o = (Projectile)b.UserData;
+                o.TakeDamage(p.GetPower());
             }
             if (!m_toRemove.Contains(a.Body))
                 m_toRemove.Add(a.Body);

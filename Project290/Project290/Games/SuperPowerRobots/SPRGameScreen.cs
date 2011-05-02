@@ -113,6 +113,12 @@ namespace Project290.Games.SuperPowerRobots
             //fantastica.ProcessChanges(); // Since bullets can be destroyed in the fantastica.Step()
 
 			previousGameTime = GameClock.Now;
+
+            if (this.sprWorld.m_isGameOver == true)
+            {
+                // Any type of stuff to be done after the bout is over shall go here.
+                // Wooo!
+            }
         }
 
         /// <summary>

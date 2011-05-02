@@ -83,6 +83,10 @@ namespace Project290.Games.SuperPowerRobots
                         AIType = Bot.Player.Computer;
                         control = new BrickAI(sprWorld);
                         break;
+                    case "ModeAI":
+                        AIType = Bot.Player.Computer;
+                        control = new ModeAI(sprWorld);
+                        break;
                     default:
                         AIType = Bot.Player.Human;
                         control = new HumanAI(sprWorld);
@@ -102,6 +106,7 @@ namespace Project290.Games.SuperPowerRobots
                 tempBody.SetTransform(position * Settings.MetersPerPixel, 0);
 
                 Bot newBot = new Bot(sprWorld, tempBody, AIType, Bot.Type.FourSided, control, texture, 2 * botHalfWidth * Settings.MetersPerPixel, 2 * botHalfWidth * Settings.MetersPerPixel, health);
+                f.UserData = newBot;
 
                 for (int weaponNumber = 0; weaponNumber < 4; weaponNumber++)
                 {

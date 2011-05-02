@@ -181,6 +181,15 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 m_AxeJoint.MotorSpeed = (float)Math.Cos(m_Time * 10) * 10;
                 this.m_firing = false;
             }
+
+            // Similar to Entity.Update()
+            if (this.m_health <= 0f)
+            {
+                this.m_owner.RemoveWeapon(this);
+            }
+
+            this.m_SPRWorld.World.ProcessChanges();
+            
         }
 
         public void TakeDamage(float damage)
