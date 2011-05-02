@@ -129,7 +129,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Games\SuperPowerRobots\IntroScreen.cs" />
+    <Compile Include="Games\SuperPowerRobots\Menus\LoadOutMenu.cs" />
     <Compile Include="Games\SuperPowerRobots\Menus\MainMenu.cs" />
+    <Compile Include="Games\SuperPowerRobots\Menus\MenuDelegates\LoadOutDelegate.cs" />
     <Compile Include="Games\SuperPowerRobots\Menus\MenuDelegates\PlayGameDelegate.cs" />
     <Compile Include="Games\SuperPowerRobots\ScoreKeeper.cs" />
     <Compile Include="Games\SuperPowerRobots\Settings.cs" />
