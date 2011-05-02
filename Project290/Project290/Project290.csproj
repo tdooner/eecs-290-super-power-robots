@@ -249,6 +249,7 @@
     <Compile Include="Physics\Settings.cs" />
     <Compile Include="Rendering\FontStatic.cs" />
     <Compile Include="Screens\Background\BackgroundScreen.cs" />
+    <Compile Include="Games\SuperPowerRobots\IntroScreen.cs" />
     <Compile Include="Screens\CreditsScreen.cs" />
     <Compile Include="Screens\GameOverScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />

@@ -64,7 +64,6 @@ namespace Project290.Games.SuperPowerRobots
         {
             // Tom's messing around with the physics engine!
 
-            // Note: In the world of Fantastica, 64px is 1 meter.
             previousGameTime = GameClock.Now;
             fantastica = new World(Vector2.Zero);
             Physics.Settings.MaxPolygonVertices = 30; // Defaults to 8? What are we, running on a TI-83 or something?

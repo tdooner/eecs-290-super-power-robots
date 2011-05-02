@@ -5,6 +5,7 @@ using System.Text;
 using Project290.GameElements;
 using Project290.Menus;
 using Project290.Menus.MenuDelegates;
+using Project290.Screens;
 
 namespace Project290.Games.SuperPowerRobots.Menus.MenuDelegates
 {
@@ -25,7 +26,7 @@ namespace Project290.Games.SuperPowerRobots.Menus.MenuDelegates
                 GameWorld.screens[GameWorld.screens.Count - 1].Disposed = true;
             }
 
-            GameWorld.screens.Play(new SPRGameScreen(this.scoreBoardIndex));
+            GameWorld.screens.Play(new IntroScreen(this.scoreBoardIndex));
         }
 
     }

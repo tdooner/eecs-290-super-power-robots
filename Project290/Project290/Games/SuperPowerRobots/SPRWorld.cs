@@ -27,7 +27,6 @@ namespace Project290.Games.SuperPowerRobots
         private SortedDictionary<ulong, Entity> m_Entities;
         public static Dictionary<String, Vertices> computedSpritePolygons = new Dictionary<string,Vertices>();
         private Battle battle;
-        //private Entity testing;
 
         // Anything that is a fixture must have an object type for collision logic purposes
         /*public enum ObjectTypes
