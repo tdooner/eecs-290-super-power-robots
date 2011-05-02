@@ -66,10 +66,10 @@ namespace Project290.Games.SuperPowerRobots
             Vector2[] outer = { new Vector2(0, 0) * Settings.MetersPerPixel, new Vector2(0, 1920) * Settings.MetersPerPixel, new Vector2(1080, 1920) * Settings.MetersPerPixel, new Vector2(1080, 0) * Settings.MetersPerPixel };
             Vector2[] inner = { new Vector2(200, 200) * Settings.MetersPerPixel, new Vector2(200, 1720) * Settings.MetersPerPixel, new Vector2(880, 1720) * Settings.MetersPerPixel, new Vector2(880, 200) * Settings.MetersPerPixel };
 
-            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 0f, new Vector2(960, 100) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 0f, new Vector2(100, 540) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 0f, new Vector2(960, 980) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
-            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 0f, new Vector2(1820, 540) * Settings.MetersPerPixel, SPRWorld.ObjectTypes.Wall).Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 100) * Settings.MetersPerPixel, "Wall").Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(100, 540) * Settings.MetersPerPixel, "Wall").Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 1920 * Settings.MetersPerPixel, 200 * Settings.MetersPerPixel, 1f, new Vector2(960, 980) * Settings.MetersPerPixel, "Wall").Body.BodyType = BodyType.Static;
+            FixtureFactory.CreateRectangle(world, 200 * Settings.MetersPerPixel, 1080 * Settings.MetersPerPixel, 1f, new Vector2(1820, 540) * Settings.MetersPerPixel, "Wall").Body.BodyType = BodyType.Static;
 
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
             
