@@ -44,6 +44,8 @@ namespace Project290.Games.SuperPowerRobots
 
             xmlDoc.Load("Games/SuperPowerRobots/Storage/Allies.xml");
 
+            //xmlDoc.
+
             XmlNodeList nodes = xmlDoc.GetElementsByTagName("Bot");
 
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
