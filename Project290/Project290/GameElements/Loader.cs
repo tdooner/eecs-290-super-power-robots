@@ -66,6 +66,7 @@ namespace Project290.GameElements
             TextureStatic.Load("Shield", @"SPRGame\shield_aligned");
             TextureStatic.Load("Projectile", @"SPRGame\whitestuff");
             TextureStatic.Load("background", @"SPRGame\SPRbackground");
+            TextureStatic.Load("boxartSPR", @"SPRGame\SPRBoxArt");
             TextureStatic.Load("pic1", @"SPRGame\1");
             TextureStatic.Load("pic2", @"SPRGame\2");
             TextureStatic.Load("pic3", @"SPRGame\3");
@@ -85,10 +86,10 @@ namespace Project290.GameElements
 
             GameInfoCollection.GameInfos.Add(new GameInfo(
                 "Super Power Robots",
-                "BoxArtGame5",
-                "These robots seem a little phallic",
-                "Owen, Tom, Ian, Sean (OTIS)",
-                "sampleInstructions",
+                "boxartSPR",
+                "Avenge your father's murder and fight\nto bring robot gladiators back\nto the world of Fantastica!",
+                "By Owen, Tom, Ian, and Sean",
+                "Use the control sticks to navigate, and the XYAB buttons (or the second joystick) to fire your weapons. After fights, customize your bot with your credits earned.",
                 scoreBoardIndex,
                 new LaunchSPRGameDelegate(scoreBoardIndex++)));
 

@@ -66,7 +66,7 @@ namespace Project290.Games.SuperPowerRobots
             // Write "Super Power Robots" at the top-center of the background.
             Drawer.DrawOutlinedString(
                 FontStatic.Get("defaultFont"),
-                "Super Power\n   Robots",
+                "",
                 this.position.Value + this.textDrawPosition,
                 Color.White,
                 0f,

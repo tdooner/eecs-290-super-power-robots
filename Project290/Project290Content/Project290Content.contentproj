@@ -250,6 +250,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SPRGame\SPRBoxArt.png">
+      <Name>SPRBoxArt</Name>
     <Compile Include="SPRGame\1.png">
       <Name>1</Name>
       <Importer>TextureImporter</Importer>

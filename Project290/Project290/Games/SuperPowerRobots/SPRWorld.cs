@@ -27,7 +27,6 @@ namespace Project290.Games.SuperPowerRobots
         private SortedDictionary<ulong, Entity> m_Entities;
         public static Dictionary<String, Vertices> computedSpritePolygons = new Dictionary<string,Vertices>();
         private Battle battle;
-        //private Entity testing;
 
         // Anything that is a fixture must have an object type for collision logic purposes
         /*public enum ObjectTypes
@@ -38,7 +37,7 @@ namespace Project290.Games.SuperPowerRobots
             Wall = 4
         }*/
 
-        public SPRWorld(World world)
+        public SPRWorld(World world, int currentLevel)
         {
             int botHalfWidth = 31; // Half the bot's width (e.g. the distance from the centroid to the edge)
             m_World = world;
@@ -73,7 +72,7 @@ namespace Project290.Games.SuperPowerRobots
 
             Vector2[] edges = { new Vector2(-botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, -botHalfWidth) * Settings.MetersPerPixel, new Vector2(botHalfWidth, botHalfWidth) * Settings.MetersPerPixel, new Vector2(-botHalfWidth, botHalfWidth) * Settings.MetersPerPixel };
             
-			this.battle = new Battle(this, botHalfWidth, world);
+			this.battle = new Battle(this, botHalfWidth, world, currentLevel);
 
         }
 
