@@ -53,7 +53,9 @@ namespace Project290.Games.SuperPowerRobots
         private int currentLevel;
 
         public ScoreKeeper scoreKeeper;
-        
+
+        private int m_scoreboardIndex;
+
         // DEBUG!!
         Body wall_e;
         World fantastica;
@@ -66,7 +68,7 @@ namespace Project290.Games.SuperPowerRobots
         public SPRGameScreen(int scoreboardIndex)
             : base(scoreboardIndex)
         {
-            // Tom's messing around with the physics engine!
+            this.m_scoreboardIndex = scoreboardIndex;
 
             currentLevel = 0;
             scoreKeeper = new ScoreKeeper(true);
@@ -98,19 +100,22 @@ namespace Project290.Games.SuperPowerRobots
         public override void Update()
         {
             base.Update();
+            
+            if (this.sprWorld.m_isGameOver == true)
+            {
+                GameWorld.screens.Play(new LoadOutScreen(m_scoreboardIndex));
+                ScoreKeeper.AddMoney(this.sprWorld.WinReward());
+                // Any type of stuff to be done after the bout is over shall go here.
+                // Wooo!
+                return;
+            }
 
             this.sprWorld.Update((GameClock.Now - previousGameTime) / 10000000f);
             
             fantastica.Step((GameClock.Now - previousGameTime) / 10000000f);
 
-			previousGameTime = GameClock.Now;
-
-            if (this.sprWorld.m_isGameOver == true)
-            {
-                ScoreKeeper.AddMoney(this.sprWorld.WinReward());
-                // Any type of stuff to be done after the bout is over shall go here.
-                // Wooo!
-            }
+            previousGameTime = GameClock.Now;
+            
         }
 
         /// <summary>
@@ -119,7 +124,6 @@ namespace Project290.Games.SuperPowerRobots
         public override void Draw()
         {
             base.Draw();
-
             this.sprWorld.Draw();
         }
     }

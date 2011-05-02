@@ -3,40 +3,6 @@
 <Levels>
   <Level>
     <Bot>
-      <AI>BrickAI</AI>
-      <Health>100</Health>
-      <Texture>4SideEnemyRobot</Texture>
-      <PositionX>1000</PositionX>
-      <PositionY>600</PositionY>
-      <Weapon>
-        <Type>shield</Type>
-        <Texture>Shield</Texture>
-        <Health>20</Health>
-        <Power>0</Power>
-      </Weapon>
-      <Weapon>
-        <Type>shield</Type>
-        <Texture>Shield</Texture>
-        <Health>20</Health>
-        <Power>0</Power>
-      </Weapon>
-      <Weapon>
-        <Type>shield</Type>
-        <Texture>Shield</Texture>
-        <Health>20</Health>
-        <Power>0</Power>
-      </Weapon>
-      <Weapon>
-        <Type>shield</Type>
-        <Texture>Shield</Texture>
-        <Health>20</Health>
-        <Power>0</Power>
-      </Weapon>
-    </Bot>
-    <Award>150</Award>
-  </Level>
-  <Level>
-    <Bot>
       <AI>ModeAI</AI>
       <Health>200</Health>
       <Texture>4SideEnemyRobot</Texture>
@@ -69,4 +35,39 @@
     </Bot>
     <Award>1000</Award>
   </Level>
+  <Level>
+    <Bot>
+      <AI>BrickAI</AI>
+      <Health>100</Health>
+      <Texture>4SideEnemyRobot</Texture>
+      <PositionX>1000</PositionX>
+      <PositionY>600</PositionY>
+      <Weapon>
+        <Type>gun</Type>
+        <Texture>Gun</Texture>
+        <Health>20</Health>
+        <Power>0</Power>
+      </Weapon>
+      <Weapon>
+        <Type>shield</Type>
+        <Texture>Shield</Texture>
+        <Health>20</Health>
+        <Power>0</Power>
+      </Weapon>
+      <Weapon>
+        <Type>shield</Type>
+        <Texture>Shield</Texture>
+        <Health>20</Health>
+        <Power>0</Power>
+      </Weapon>
+      <Weapon>
+        <Type>shield</Type>
+        <Texture>Shield</Texture>
+        <Health>20</Health>
+        <Power>0</Power>
+      </Weapon>
+    </Bot>
+    <Award>150</Award>
+  </Level>
+  
 </Levels>

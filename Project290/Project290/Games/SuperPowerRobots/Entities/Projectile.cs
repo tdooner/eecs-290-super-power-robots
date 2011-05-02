@@ -64,7 +64,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
                     m_toRemove.Add(a.Body);
                 return true;
             }
-
+            if (b.Body.IsBullet)
+                return true;
             // If we've gotten this far, b.UserData is an Object
             Projectile p = (Projectile)a.UserData;
             
@@ -92,6 +93,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
         }
         public static bool OnMeleeHit(Fixture a, Fixture b, Contact c)
         {
+            if (b.Body.IsBullet)
+                return true;
             Projectile p = (Projectile)a.UserData;
             // If we hit a weapon.
             if (b.UserData is Weapon)

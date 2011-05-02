@@ -36,6 +36,8 @@ namespace Project290.Games.SuperPowerRobots
 
         public int winReward { get; private set; }
 
+        public static string nextAllies = ""; // This will be populated so the user can customize their bot.
+
         public Battle(SPRWorld sprWorld, int botHalfWidth, World world, int currentLevel)
         {
             this.sprWorld = sprWorld;
@@ -44,7 +46,14 @@ namespace Project290.Games.SuperPowerRobots
 
             xmlDoc = new XmlDocument();
 
-            xmlDoc.Load("Games/SuperPowerRobots/Storage/Allies.xml");
+            if (nextAllies == "")
+            {
+                xmlDoc.Load("Games/SuperPowerRobots/Storage/Allies.xml");
+            }
+            else
+            {
+                xmlDoc.LoadXml(nextAllies);
+            }
 
             //xmlDoc.
 

@@ -20,10 +20,10 @@
       <Power>0</Power>
     </Weapon>
     <Weapon>
-      <Type>shield</Type>
-      <Texture>Shield</Texture>
+      <Type>gun</Type>
+      <Texture>Gun</Texture>
       <Health>300</Health>
-      <Power>0</Power>
+      <Power>10</Power>
     </Weapon>
     <Weapon>
       <Type>shield</Type>

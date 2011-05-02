@@ -11,34 +11,43 @@ namespace Project290.Games.SuperPowerRobots.Menus
 {
     class LoadOutMenu : Menu
     {
-        public LoadOutMenu(Vector2 position, MenuAction[] actions, float spacing,  int count, int[] weapons)
+        public LoadOutMenu(Vector2 position, MenuAction[] actions, int count)
             :base(position, actions)
         {
             MenuEntry gun = new MenuEntry(
                 "Gun",
                 new MenuAction[]
                 {
-                    new MenuAction(ActionType.Select, new LoadOutDelegate(count, 0, weapons))
+                    new MenuAction(ActionType.Select, new LoadOutDelegate(count, "Gun"))
                 },
                 position);
 
             MenuEntry axe = new MenuEntry(
-                "Shield",
+                "Melee",
                 new MenuAction[]
                 {
-                    new MenuAction(ActionType.Select, new LoadOutDelegate(count, 1, weapons))
+                    new MenuAction(ActionType.Select, new LoadOutDelegate(count, "Melee"))
                 },
-                position);
+                position + new Vector2(0, 80));
 
             MenuEntry shield = new MenuEntry(
                 "Shield",
                 new MenuAction[]
                 {
-                    new MenuAction(ActionType.Select, new LoadOutDelegate(count, 0, weapons))
+                    new MenuAction(ActionType.Select, new LoadOutDelegate(count, "Shield"))
                 },
-                position);
+                position + new Vector2(0,160));
+
+            gun.UpperMenu = shield;
+            gun.LowerMenu = axe;
+            axe.UpperMenu = gun;
+            axe.LowerMenu = shield;
+            shield.UpperMenu = axe;
+            shield.LowerMenu = gun;
+
+            this.Add(gun);
+            this.Add(axe);
+            this.Add(shield);
         }
     }
 }
-
-ActionType.Select, new LoadOutDelegate(count, 0, weapons)

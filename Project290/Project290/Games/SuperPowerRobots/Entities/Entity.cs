@@ -106,7 +106,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
         public void TakeDamage(float damage)
         {
             this.m_health -= damage;
-            ScoreKeeper.AddScore((int)damage);
         }
 
         public void SetWidth(float width)
@@ -142,7 +141,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 this.Body.Dispose();
             }
 
-            this.m_SPRWorld.World.ProcessChanges(); // Let's not be ashamed to call this method to cover up our lack of understanding the physics library.
+            this.m_SPRWorld.World.ProcessChanges();
         }
 
         public virtual void Draw()

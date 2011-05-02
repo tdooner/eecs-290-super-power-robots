@@ -10,25 +10,24 @@ namespace Project290.Games.SuperPowerRobots.Menus.MenuDelegates
 {
     class LoadOutDelegate : IMenuDelegate
     {
-        int[] weapons;
-        int count;
+        int thecount;
+        string chosen;
 
-         public LoadOutDelegate(int count, int type, int[] weapons)
+         public LoadOutDelegate(int count, string name)
             :base()
         {
-            this.count = count;
-            this.weapons = weapons;
-            weapons[count] = type;
-            count++;
+            thecount = count;
+            chosen = name;
         }
 
         public void Run()
         {
-            if (count == 3)
+            LoadOutScreen.save(thecount, chosen);
+            /*if (count == 3)
             {
                 GameWorld.screens[GameWorld.screens.Count - 1].Disposed = true;
             }
-            GameWorld.screens.Play(new LoadOutScreen(count, weapons));
+            GameWorld.screens.Play(new LoadOutScreen(0));*/
         }
     }
 }
