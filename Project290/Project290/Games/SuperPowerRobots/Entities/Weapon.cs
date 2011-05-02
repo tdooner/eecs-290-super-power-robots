@@ -85,7 +85,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 f2.Friction = 0.5f;
                 f2.Restitution = 0f;
                 tempBody.SetTransform(this.GetAbsPosition(), this.GetAbsRotation());
-                Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Axe"), new Vector2(0, 0), this.GetRelRotation(), 5, Settings.MetersPerPixel * 80, 80 * Settings.MetersPerPixel, m_power);
+                Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Axe"), new Vector2(0, 0), this.GetRelRotation(), 5, Settings.MetersPerPixel * 80, 80 * Settings.MetersPerPixel, m_power, m_health);
                 f2.UserData = justFired;
                 f2.OnCollision += Projectile.OnMeleeHit;
                 RevoluteJoint joint = JointFactory.CreateRevoluteJoint(m_SPRWorld.World, this.m_owner.Body, tempBody, Vector2.Zero);
@@ -167,7 +167,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 Fixture f = FixtureFactory.CreateCircle(4 * Settings.MetersPerPixel, 1f, tempBody);
                 f.OnCollision += Projectile.OnBulletHit;
                 Vector2 initialVelocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation))/10;
-                Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel, m_power);
+                Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel, m_power, 1);
                 f.UserData = justFired;
                 
                 this.m_SPRWorld.AddEntity(justFired);

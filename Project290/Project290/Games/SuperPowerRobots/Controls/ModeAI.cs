@@ -62,7 +62,29 @@ namespace Project290.Games.SuperPowerRobots.Controls
         {
             if (m_Self.getHealth() >= .5 * m_Self.getMaxHealth() || m_Self.getHealth() < .2 * m_Self.getMaxHealth())
             {
-                if (m_ModeTimeout <= 0) {
+                bool hasM = false;
+                bool hasR = false;
+                foreach (Weapon w in m_Self.GetWeapons())
+                {
+                    if (w != null)
+                    {
+                        if (w.GetWeaponType() == WeaponType.melee)
+                            hasM = true;
+                        else if (w.GetWeaponType() == WeaponType.gun)
+                            hasR = true;
+                    }
+                }
+
+                if (!hasM)
+                {
+                    if (!hasR)
+                    {
+                        m_Mode = Mode.DEFENSE;
+                    }
+                    m_Mode = Mode.RANGED;
+                } else if (!hasR){
+                    m_Mode = Mode.MELEE;
+                } else if (m_ModeTimeout <= 0) {
                     m_Mode = (m_Mode == Mode.RANGED ? Mode.MELEE : Mode.RANGED);
                     m_ModeTimeout = new Random().Next(5) + 3;
                 }

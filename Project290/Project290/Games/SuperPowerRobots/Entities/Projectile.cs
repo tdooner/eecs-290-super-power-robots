@@ -19,8 +19,8 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private float m_power;
         private static List<Body> m_toRemove;
 
-        public Projectile(SPRWorld sprWorld, Body body, Texture2D texture, Vector2 velocity, float rotation, float life, float width, float height, float power)
-            : base(sprWorld, body, texture, width, height, (float)1.0)
+        public Projectile(SPRWorld sprWorld, Body body, Texture2D texture, Vector2 velocity, float rotation, float life, float width, float height, float power, float health)
+            : base(sprWorld, body, texture, width, height, health)
         {
             this.m_rotation = rotation;
             this.m_velocity = velocity;
