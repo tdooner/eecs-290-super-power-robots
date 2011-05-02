@@ -6,7 +6,7 @@
       <AI>ModeAI</AI>
       <Health>200</Health>
       <Texture>4SideEnemyRobot</Texture>
-      <PositionX>600</PositionX>
+      <PositionX>1000</PositionX>
       <PositionY>600</PositionY>
       <Weapon>
         <Type>gun</Type>
@@ -74,7 +74,7 @@
       <AI>ModeAI</AI>
       <Health>300</Health>
       <Texture>4SideEnemyRobot</Texture>
-      <PositionX>1200</PositionX>
+      <PositionX>1000</PositionX>
       <PositionY>600</PositionY>
       <Weapon>
         <Type>gun</Type>
@@ -142,8 +142,8 @@
       <AI>ModeAI</AI>
       <Health>200</Health>
       <Texture>4SideEnemyRobot</Texture>
-      <PositionX>600</PositionX>
-      <PositionY>600</PositionY>
+      <PositionX>1000</PositionX>
+      <PositionY>300</PositionY>
       <Weapon>
         <Type>gun</Type>
         <Texture>Gun</Texture>
@@ -173,7 +173,7 @@
       <AI>ModeAI</AI>
       <Health>200</Health>
       <Texture>4SideEnemyRobot</Texture>
-      <PositionX>600</PositionX>
+      <PositionX>1000</PositionX>
       <PositionY>600</PositionY>
       <Weapon>
         <Type>gun</Type>
