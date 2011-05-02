@@ -12,17 +12,19 @@ namespace Project290.Games.SuperPowerRobots.Menus.MenuDelegates
     {
         int thecount;
         string chosen;
+        LoadOutScreen parent;
 
-         public LoadOutDelegate(int count, string name)
+         public LoadOutDelegate(int count, string name, LoadOutScreen l)
             :base()
         {
             thecount = count;
             chosen = name;
+            parent = l;
         }
 
         public void Run()
         {
-            LoadOutScreen.save(thecount, chosen);
+            parent.save(chosen);
             /*if (count == 3)
             {
                 GameWorld.screens[GameWorld.screens.Count - 1].Disposed = true;

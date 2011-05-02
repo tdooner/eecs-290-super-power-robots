@@ -2,7 +2,7 @@
 
 namespace Project290.Games.SuperPowerRobots
 {
-    class ScoreKeeper
+    public class ScoreKeeper
     {
         public static int score { get; private set; }
         public static int money { get; private set; }

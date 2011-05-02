@@ -28,40 +28,30 @@ namespace Project290.Games.SuperPowerRobots
     {
         private int count;
         private LoadOutMenu menu;
-        private Vector2 textDrawPosition;
-        private Vector2 textDrawOrigin;
+        private SPRGameScreen parentobj;
 
         private static string[] weapons;
         private string yWeapons;
         private string xWeapons;
         private string bWeapons;
         private string aWeapons;
-        private Bot bot;
 
-        public LoadOutScreen(int scoreboardIndex)
+        public LoadOutScreen(int scoreboardIndex, SPRGameScreen p)
             : base(scoreboardIndex)
         {
             weapons = new string[4];
+            count = 0;
+            parentobj = p;
+
             this.menu = new LoadOutMenu(
                 new Vector2(0, -60),
                 new MenuAction[]
                 {
-                    new MenuAction(ActionType.Select, new LoadOutDelegate(count, "Gun")),
+                    new MenuAction(ActionType.Select, new LoadOutDelegate(count, "Gun", this)),
                 },
-            count);
+            count, this);
             this.menu.position = new Vector2(1920f / 2f, 1080f / 2f);
 
-            Dictionary<string, string> a = new Dictionary<string, string>();
-            a.Add("Gun", "gun");
-            a.Add("Melee", "shield");
-            a.Add("Shield", "shield");
-            // let's assume certain things are selected...
-            xWeapons = "Gun";
-            yWeapons = "Melee";
-            aWeapons = "Gun";
-            bWeapons = "Shield";
-
-            Battle.nextAllies = "<Allies>\n  <Bot>\n    <AI>HumanAI</AI>\n    <Health>500</Health>\n    <Texture>4SideFriendlyRobot</Texture>\n    <PositionX>400</PositionX>\n    <PositionY>400</PositionY>\n    <Weapon>\n      <Type>" + a[xWeapons] + "</Type>\n<Texture>" + xWeapons + "</Texture>\n      <Health>300</Health>\n      <Power>10</Power>\n    </Weapon>\n    <Weapon>\n      <Type>" + a[yWeapons] + "</Type>\n      <Texture>" + yWeapons + "</Texture>\n      <Health>300</Health>\n      <Power>10</Power>\n    </Weapon>\n    <Weapon>\n       <Type>" + a[aWeapons] + "</Type>\n<Texture>" + aWeapons + "</Texture>\n      <Health>300</Health>\n      <Power>10</Power>\n    </Weapon>\n    <Weapon>\n       <Type>" + a[bWeapons] + "</Type>\n<Texture>" + bWeapons + "</Texture>\n      <Health>300</Health>\n      <Power>10</Power>\n    </Weapon>\n  </Bot>\n  <Level>0</Level>\n  <HasWatchedIntro>0</HasWatchedIntro>\n</Allies>\n";
         }
 
 
@@ -70,7 +60,7 @@ namespace Project290.Games.SuperPowerRobots
             base.Update();
             this.menu.Update();
         }
-        public static void save(int count, string weapon)
+        public void save(string weapon)
         {
             System.Threading.Thread.Sleep(250);
             weapons[count] = weapon;
@@ -78,6 +68,24 @@ namespace Project290.Games.SuperPowerRobots
             if (count == 4)
             {
                 // gtfo.
+                Dictionary<string, string> a = new Dictionary<string, string>();
+                a.Add("Gun", "gun");
+                a.Add("Melee", "shield");
+                a.Add("Shield", "shield");
+                Dictionary<string, string> b = new Dictionary<string, string>();
+                b.Add("Gun", "Gun");
+                b.Add("Melee", "Shield");
+                b.Add("Shield", "Shield");
+                // let's assume certain things are selected...
+                xWeapons = weapons[0];
+                yWeapons = weapons[1];
+                aWeapons = weapons[2];
+                bWeapons = weapons[3];
+
+                Battle.nextAllies = "<Allies>\n  <Bot>\n    <AI>HumanAI</AI>\n    <Health>500</Health>\n    <Texture>4SideFriendlyRobot</Texture>\n    <PositionX>400</PositionX>\n    <PositionY>400</PositionY>\n    <Weapon>\n      <Type>" + a[xWeapons] + "</Type>\n<Texture>" + b[xWeapons] + "</Texture>\n      <Health>300</Health>\n      <Power>10</Power>\n    </Weapon>\n    <Weapon>\n      <Type>" + a[yWeapons] + "</Type>\n      <Texture>" + b[yWeapons] + "</Texture>\n      <Health>300</Health>\n      <Power>10</Power>\n    </Weapon>\n    <Weapon>\n       <Type>" + a[aWeapons] + "</Type>\n<Texture>" + b[aWeapons] + "</Texture>\n      <Health>300</Health>\n      <Power>10</Power>\n    </Weapon>\n    <Weapon>\n       <Type>" + a[bWeapons] + "</Type>\n<Texture>" + b[bWeapons] + "</Texture>\n      <Health>300</Health>\n      <Power>10</Power>\n    </Weapon>\n  </Bot>\n  <Level>0</Level>\n  <HasWatchedIntro>0</HasWatchedIntro>\n</Allies>\n";
+
+                this.Disposed = true;
+                parentobj.NextLevel();
             }
         }
         public override void Draw()
@@ -94,7 +102,7 @@ namespace Project290.Games.SuperPowerRobots
                 new Vector2(300, 100),
                 Color.White,
                 0f,
-                this.textDrawOrigin,
+                new Vector2(1920/2, 100),
                 0.35f,
                 SpriteEffects.None,
                 1f);

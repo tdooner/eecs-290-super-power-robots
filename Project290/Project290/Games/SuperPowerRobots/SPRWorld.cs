@@ -28,6 +28,7 @@ namespace Project290.Games.SuperPowerRobots
         public static Dictionary<String, Vertices> computedSpritePolygons = new Dictionary<string,Vertices>();
         private Battle battle;
         public bool m_isGameOver { get; private set; }
+        public bool m_hasLost { get; private set; }
 
         // Anything that is a fixture must have an object type for collision logic purposes
         /*public enum ObjectTypes
@@ -85,18 +86,12 @@ namespace Project290.Games.SuperPowerRobots
                 this.m_Entities.Add(e.GetID(), e);
         }
 
-        public bool MyOnCollision(Fixture f1, Fixture f2, Contact c)
-        {
-            //f2.Body.Dispose();
-            return true;
-        }
-
         public void Update(float dTime)
         {
             //then call the entity updates, take damage, listen to controls, spawn any projectiles, etc.
 
             //update all entities
-            for (int i = 0; i < m_Entities.Values.Count; i++ )
+            for (int i = 0; i < m_Entities.Values.Count; i++)
             {
                 m_Entities.Values.ElementAt(i).Update(dTime);
             }
@@ -124,12 +119,15 @@ namespace Project290.Games.SuperPowerRobots
 
             // Detect if the game is over (i.e. all Computer bots are destroyed)
             this.m_isGameOver = true;
+            this.m_hasLost = true;
             foreach (Entity e in m_Entities.Values)
             {
                 if (e is Bot)
                 {
                     if (((Bot)e).m_player == Bot.Player.Computer)
                         this.m_isGameOver = false;
+                    if (((Bot)e).m_player == Bot.Player.Human)
+                        this.m_hasLost = false;
                 }
             }
         }

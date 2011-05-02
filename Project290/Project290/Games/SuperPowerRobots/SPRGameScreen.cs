@@ -16,7 +16,7 @@ using Project290.Games.SuperPowerRobots.Entities;
 
 namespace Project290.Games.SuperPowerRobots
 {
-    class SPRGameScreen : GameScreen
+    public class SPRGameScreen : GameScreen
     {
         /// <summary>
         /// The message on the screen.
@@ -55,7 +55,7 @@ namespace Project290.Games.SuperPowerRobots
         public ScoreKeeper scoreKeeper;
 
         private int m_scoreboardIndex;
-
+        private bool addedEndScreen = false;
         // DEBUG!!
         Body wall_e;
         World fantastica;
@@ -83,6 +83,15 @@ namespace Project290.Games.SuperPowerRobots
             this.Reset();
         }
 
+        public void NextLevel()
+        {
+            fantastica = new World(Vector2.Zero);
+            Physics.Settings.MaxPolygonVertices = 30; // Defaults to 8? What are we, running on a TI-83 or something?
+            Physics.Settings.EnableDiagnostics = false;
+            addedEndScreen = false;
+            this.sprWorld = new SPRWorld(fantastica, ++currentLevel);
+        }
+
         /// <summary>
         /// Resets this instance. This will be called when a new game is played. Reset all of
         /// your objects here so that you do not need to reallocate the memory for them.
@@ -101,15 +110,13 @@ namespace Project290.Games.SuperPowerRobots
         {
             base.Update();
             
-            if (this.sprWorld.m_isGameOver == true)
+            if (this.sprWorld.m_isGameOver == true && addedEndScreen == false)
             {
-                GameWorld.screens.Play(new LoadOutScreen(m_scoreboardIndex));
-                ScoreKeeper.AddMoney(this.sprWorld.WinReward());
-                // Any type of stuff to be done after the bout is over shall go here.
-                // Wooo!
-                return;
+                GameWorld.screens.Play(new LoadOutScreen(m_scoreboardIndex, this));
+                addedEndScreen = true;
             }
-
+            if (addedEndScreen)
+                return;
             this.sprWorld.Update((GameClock.Now - previousGameTime) / 10000000f);
             
             fantastica.Step((GameClock.Now - previousGameTime) / 10000000f);
