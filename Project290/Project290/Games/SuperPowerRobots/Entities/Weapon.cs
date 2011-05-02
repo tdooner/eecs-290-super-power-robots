@@ -36,13 +36,16 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private Fixture m_Fixture;
         private Texture2D m_Texture;
         private Vector2 m_Scale;
+        private RevoluteJoint m_AxeJoint;
+        private float m_Time;
 
         public Weapon(SPRWorld sprWorld, Bot bot, Vector2 relativePosition, float relativeRotation, String textureName, Vector2 scale, WeaponType weaponType, float health, float power)
         {
             m_SPRWorld = sprWorld;
+            m_Time = 0;
             this.m_owner = bot;
             this.m_firing = false;
-            this.m_reloadTime = .2f;
+            this.m_reloadTime = weaponType == WeaponType.melee ? 0 : .2f;
             this.m_reloading = 0;
             this.weaponType = weaponType;
             this.m_power = power;
@@ -68,18 +71,31 @@ namespace Project290.Games.SuperPowerRobots.Entities
             f.Friction = 0.5f;
             f.Restitution = 0f;
             f.UserData = this;
-            /*if (this.weaponType == WeaponType.melee)
+            if (this.weaponType == WeaponType.melee)
             {
                 Body tempBody = BodyFactory.CreateBody(m_SPRWorld.World);
                 tempBody.BodyType = BodyType.Dynamic;
-                float rotation = this.GetRotation();
-                tempBody.Position = this.GetPosition();
-                //tempBody.SetTransform(tempBody.Position, 0);
-                Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Axe"), new Vector2(0, 0), this.GetRotation(), 5, Settings.MetersPerPixel * 5, 5 * Settings.MetersPerPixel);
+                Vertices v2 = SPRWorld.computedSpritePolygons["Axe"];
+                // Simplify the object until it has few enough verticies.
+                while (v2.Count > Physics.Settings.MaxPolygonVertices) // Infinite loop potential?
+                {
+                    v2 = SimplifyTools.DouglasPeuckerSimplify(v2, 2); // Where 2 is a completely arbitrary number?
+                }
+                Fixture f2 = FixtureFactory.CreatePolygon(SPRWorld.computedSpritePolygons[textureName], 0.1f, tempBody);
+                f2.Friction = 0.5f;
+                f2.Restitution = 0f;
+                tempBody.SetTransform(this.GetAbsPosition(), this.GetAbsRotation());
+                Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Axe"), new Vector2(0, 0), this.GetRelRotation(), 5, Settings.MetersPerPixel * 80, 80 * Settings.MetersPerPixel, m_power);
+                f2.UserData = justFired;
                 RevoluteJoint joint = JointFactory.CreateRevoluteJoint(m_SPRWorld.World, this.m_owner.Body, tempBody, Vector2.Zero);
-                joint.LowerLimit = rotation - (float)Math.PI / 4f;
-                joint.UpperLimit = rotation + (float)Math.PI / 4f;
-            }*/
+                joint.MaxMotorTorque = 160;
+                joint.LimitEnabled = true;
+                joint.MotorEnabled = true;
+                joint.LowerLimit =  - (float)Math.PI / 4f;
+                joint.UpperLimit = (float)Math.PI / 4f;
+                m_AxeJoint = joint;
+                m_SPRWorld.AddEntity(justFired);
+            }
         }
         //Weapons can spawn Projectiles, attached or unattached.
 
@@ -133,6 +149,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
         
         public void Update(float dTime)
         {
+            m_Time += dTime;
             if (m_reloading > 0)
             {
                 m_reloading -= dTime;
@@ -153,13 +170,16 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 f.UserData = justFired;
                 
                 this.m_SPRWorld.AddEntity(justFired);
-                f.UserData = justFired;
-                m_SPRWorld.AddEntity(justFired);
                 this.m_firing = false;
             }
-            
+
+            if (!this.m_firing && weaponType == WeaponType.melee)
+                m_AxeJoint.MotorSpeed = 0;
+
 			if (this.m_firing && weaponType == WeaponType.melee)
             {
+                m_AxeJoint.MotorSpeed = (float)Math.Cos(m_Time * 10) * 10;
+                this.m_firing = false;
             }
         }
 

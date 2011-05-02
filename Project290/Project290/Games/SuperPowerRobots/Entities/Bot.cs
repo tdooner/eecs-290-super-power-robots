@@ -50,7 +50,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.AddWeapon(0, "Gun", WeaponType.gun, 100f, 10f);
             this.AddWeapon(1, "Gun", WeaponType.gun, 100f, 10f);
             this.AddWeapon(2, "Shield", WeaponType.shield, 500f, 50f);
-            this.AddWeapon(3, "Gun", WeaponType.melee, 100f, 0f);
+            this.AddWeapon(3, "Shield", WeaponType.melee, 100f, 0f);
             
         }   
 

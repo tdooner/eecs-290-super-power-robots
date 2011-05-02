@@ -26,6 +26,7 @@ namespace Project290.Games.SuperPowerRobots.Controls
         private Mode m_Mode;
         private Bot m_Self;
         private Bot m_Player;
+        private float m_ModeTimeout;
 
         public ModeAI(SPRWorld world)
             : base(world)
@@ -35,10 +36,12 @@ namespace Project290.Games.SuperPowerRobots.Controls
                 if(e is Bot && ((Bot)e).IsPlayer())
                     m_Player = (Bot)e;
             }
+            m_ModeTimeout = 0;
         }
 
         public override void Update(float dTime, Bot self)
         {
+            m_ModeTimeout -= dTime;
             m_Self = self;
             this.chooseMode();
             Vector2 move = this.chooseMove();
@@ -57,7 +60,17 @@ namespace Project290.Games.SuperPowerRobots.Controls
 
         private void chooseMode()
         {
-            m_Mode = Mode.MELEE;
+            if (m_Self.getHealth() >= .5 * m_Self.getMaxHealth() || m_Self.getHealth() < .2 * m_Self.getMaxHealth())
+            {
+                if (m_ModeTimeout <= 0) {
+                    m_Mode = (m_Mode == Mode.RANGED ? Mode.MELEE : Mode.RANGED);
+                    m_ModeTimeout = new Random().Next(5) + 3;
+                }
+            }
+            else
+            {
+                m_Mode = Mode.DEFENSE;
+            }
         }
 
         private Vector2 chooseMove()
@@ -187,7 +200,8 @@ namespace Project290.Games.SuperPowerRobots.Controls
         //choose the side of the bot to face towards the player, -1 if don't care
         private int chooseSide()
         {
-            if (m_Mode == Mode.DEFENSE)
+            Vector2 toP = m_Player.GetPosition() - m_Self.GetPosition();
+            if (m_Mode == Mode.DEFENSE || (m_Mode == Mode.MELEE && toP.Length() > 200 * Settings.MetersPerPixel))
             {
                 int bestShield = -1;
                 Weapon[] weapons = m_Self.GetWeapons();
