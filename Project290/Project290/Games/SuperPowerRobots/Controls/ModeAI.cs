@@ -64,28 +64,31 @@ namespace Project290.Games.SuperPowerRobots.Controls
             if (m_Mode == Mode.DEFENSE)
             {
                 Vector2 toP = m_Player.GetPosition() - m_Self.GetPosition();
-                Vector2[] corners = { new Vector2(300, 300) * Settings.MetersPerPixel, new Vector2(1620, 300) * Settings.MetersPerPixel, new Vector2(1620, 780) * Settings.MetersPerPixel, new Vector2(300, 780) * Settings.MetersPerPixel};
-                Vector2[] toCorners = new Vector2[corners.Length];
+                Vector2[] corners = {new Vector2(300, 300) * Settings.MetersPerPixel, new Vector2(1620, 300) * Settings.MetersPerPixel, new Vector2(1620, 780) * Settings.MetersPerPixel, new Vector2(300, 780) * Settings.MetersPerPixel};
+                List<Vector2> cornList = new List<Vector2>(corners);
+
+                int bad = 0;
+                for (int i = 0; i < cornList.Count; i++ )
+                {
+                    Vector2 pToCorn = cornList.ElementAt(i) - m_Player.GetPosition();
+                    Vector2 badCorn = cornList.ElementAt(bad) - m_Player.GetPosition();
+                    if (pToCorn.Length() < badCorn.Length()) bad = i;
+                }
+
+                cornList.RemoveAt(bad);
+
+                Vector2[] toCorners = new Vector2[cornList.Count];
 
                 int best = 0;
-                int secBest = 0;
-                for (int i = 0; i < corners.Length; i++)
+                for (int i = 0; i < toCorners.Length; i++)
                 {
-                    toCorners[i] = corners[i] - m_Self.GetPosition();
+                    toCorners[i] = cornList[i] - m_Self.GetPosition();
                         if (Vector2.Dot(toCorners[i], toP) < Vector2.Dot(toCorners[best], toP))
                         {
-                            secBest = best;
                             best = i;
-                        } else if (Vector2.Dot(toCorners[i], toP) < Vector2.Dot(toCorners[secBest], toP ) || toCorners[secBest].Length() < 200 * Settings.MetersPerPixel)
-                        {
-                            secBest = i;
                         }
                 }
 
-                if (toCorners[best].Length() < 200 * Settings.MetersPerPixel && toP.Length() < 300 * Settings.MetersPerPixel)
-                {
-                    best = secBest;
-                }
                 Vector2 move = toCorners[best];
                 move.Normalize();
                 return move;
