@@ -132,10 +132,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 tempBody.Position = this.GetAbsPosition() + 45 * Settings.MetersPerPixel * (new Vector2((float) Math.Cos(rotation), (float)Math.Sin(rotation)));
                 tempBody.SetTransform(tempBody.Position, 0);
                 Fixture f = FixtureFactory.CreateCircle(4 * Settings.MetersPerPixel, 1f, tempBody);
-                f.UserData = SPRWorld.ObjectTypes.Bullet;
-                f.OnCollision += OnBulletHit;
+                f.OnCollision += Projectile.OnBulletHit;
                 Vector2 initialVelocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation))/100;
                 Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel, m_power);
+                f.UserData = justFired;
+                
                 this.m_SPRWorld.AddEntity(justFired);
                 f.UserData = justFired;
                 m_SPRWorld.AddEntity(justFired);
@@ -164,37 +165,6 @@ namespace Project290.Games.SuperPowerRobots.Entities
                m_Scale,
                SpriteEffects.None,
                .3f);
-        }
-
-        // Maybe moving this method to Projectile is apprporiate.
-        public bool OnBulletHit(Fixture a, Fixture b, Contact c)
-        {
-            // Fixture a is always the bullet, and Fixture b is what it hit.
-            if ((SPRWorld.ObjectTypes) b.UserData == SPRWorld.ObjectTypes.Wall)
-            {
-                Projectile p = (Projectile) a.UserData;
-                if (b.UserData is Weapon)
-                {
-                    Weapon w = (Weapon) b.UserData;
-                    w.GetDamaged(p.GetPower());
-                }
-
-                if (b.UserData is Bot)
-                {
-                    Bot bot = (Bot)b.UserData;
-                    bot.GetDamaged(p.GetPower());
-                }
-                a.Body.Dispose(); // Simply delete the bullet.
-            }
-            if ((SPRWorld.ObjectTypes)b.UserData == SPRWorld.ObjectTypes.Weapon)
-            {
-                // Sean's TODO: Add damage calculations....
-                
-                a.Body.Dispose(); // Simply delete the bullet.
-            }
-            return true;
-        }
-
-        
+        }        
     }
 }

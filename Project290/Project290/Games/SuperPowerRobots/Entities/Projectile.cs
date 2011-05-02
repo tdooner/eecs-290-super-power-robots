@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Project290.Physics.Collision.Shapes;
 using Project290.Physics.Dynamics;
 using Project290.Rendering;
+using Project290.Physics.Dynamics.Contacts;
 
 namespace Project290.Games.SuperPowerRobots.Entities
 {
@@ -16,6 +17,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
         private float m_rotation;
         private float m_Life;
         private float m_power;
+        private static List<Body> m_toRemove;
 
         public Projectile(SPRWorld sprWorld, Body body, Texture2D texture, Vector2 velocity, float rotation, float life, float width, float height, float power)
             : base(sprWorld, body, texture, width, height, (float)1.0)
@@ -24,6 +26,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
             this.m_velocity = velocity;
             this.m_Life = life;
             this.m_power = power;
+            m_toRemove = new List<Body>();
         }
 
         public float GetPower()
@@ -37,9 +40,47 @@ namespace Project290.Games.SuperPowerRobots.Entities
             //{
             this.Body.ResetDynamics();
             this.Body.ApplyLinearImpulse(m_velocity);
+
+            foreach (Body b in m_toRemove)
+            {
+                b.Dispose();
+            }
+
+            m_toRemove = new List<Body>();
             //    m_Life -= dTime;
             //    if (m_Life <= 0) this.SetDead(true);
             //}
+        }
+
+        public static bool OnBulletHit(Fixture a, Fixture b, Contact c)
+        {
+            // Fixture a is always the bullet, and Fixture b is what it hit.
+
+            if (b.UserData is String && b.UserData == "Wall")
+            {
+                if (!m_toRemove.Contains(a.Body))
+                    m_toRemove.Add(a.Body);
+                return true;
+            }
+
+            // If we've gotten this far, b.UserData is an Object
+            Projectile p = (Projectile)a.UserData;
+            
+            // If we hit a weapon.
+            if (b.UserData is Weapon)
+            {
+                Weapon w = (Weapon)b.UserData;
+                w.GetDamaged(p.GetPower());
+            }
+            // If we hit a bot
+            if (b.UserData is Bot)
+            {
+                Bot bot = (Bot)b.UserData;
+                bot.GetDamaged(p.GetPower());
+            }
+            if (!m_toRemove.Contains(a.Body))
+                m_toRemove.Add(a.Body);
+            return true;
         }
     }
 }
