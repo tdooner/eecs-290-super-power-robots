@@ -52,11 +52,12 @@ namespace Project290.Games.SuperPowerRobots.Controls
 
             this.Spin = Math.Min(Math.Max(SPRWorld.SignedAngle(facing, desired) * 4, -1), 1);
             this.Move = move;
+            this.Weapons = chooseFire();
         }
 
         private void chooseMode()
         {
-            m_Mode = Mode.DEFENSE;
+            m_Mode = Mode.MELEE;
         }
 
         private Vector2 chooseMove()
@@ -112,6 +113,61 @@ namespace Project290.Games.SuperPowerRobots.Controls
                     Vector2 sideStep = new Vector2(-move.Y, move.X);
                     return sideStep * Math.Sign(SPRWorld.SignedAngle(move, toMid));
                 }*/
+            } else if(m_Mode == Mode.RANGED)
+            {
+                Vector2 toP = m_Player.GetPosition() - m_Self.GetPosition();
+
+                if (toP.Length() < 300 * Settings.MetersPerPixel)
+                {
+                    toP.Normalize();
+                    return -toP;
+                }
+                else if (toP.Length() > 400 * Settings.MetersPerPixel)
+                {
+                    toP.Normalize();
+                    return toP;
+                }
+                else
+                {
+                    return Vector2.Zero;
+                }
+            }
+            else if (m_Mode == Mode.MELEE)
+            {
+                Vector2 toP = m_Player.GetPosition() - m_Self.GetPosition();
+                float[] angles = new float[4];
+
+                int closest = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    float rota = m_Player.GetRotation() + i * (float)Math.PI / 2;
+                    float rotb = m_Player.GetRotation() + closest * (float)Math.PI / 2;
+                    float a = Vector2.Dot(new Vector2((float)Math.Cos(rota), (float)Math.Sin(rota)), -toP);
+                    float b = Vector2.Dot(new Vector2((float)Math.Cos(rotb), (float)Math.Sin(rotb)), -toP);
+
+                    if (a > b) closest = i;
+                }
+
+                float best = m_Player.GetRotation() + closest * (float)Math.PI / 2;
+                Vector2 rot = new Vector2((float)Math.Cos(best), (float)Math.Sin(best));
+                float angle = SPRWorld.SignedAngle(rot, -toP);
+
+                float rotation = 0;
+
+                if (angle < 0)
+                {
+                    rotation = ((float)Math.PI + angle) / 2;
+                }
+                else
+                {
+                    rotation = (-(float)Math.PI + angle) / 2;
+                }
+
+                float angleToPlayer = (float)Math.Atan2(toP.Y, toP.X);
+                toP.Normalize();
+                Vector2 walk = toP + 2 * new Vector2((float)Math.Cos(angleToPlayer + rotation), (float)Math.Sin(angleToPlayer + rotation));
+                walk.Normalize();
+                return walk;
             }
             else
             {
@@ -121,15 +177,19 @@ namespace Project290.Games.SuperPowerRobots.Controls
 
         private bool[] chooseFire()
         {
-            return new bool[4];
+            bool[] weaps = new bool[4];
+            int side = chooseSide();
+            if (side >= 0)
+                weaps[side] = true;
+            return weaps;
         }
 
-        //choose the side of the bot to face towards the player
+        //choose the side of the bot to face towards the player, -1 if don't care
         private int chooseSide()
         {
             if (m_Mode == Mode.DEFENSE)
             {
-                int bestShield = 0;
+                int bestShield = -1;
                 Weapon[] weapons = m_Self.GetWeapons();
                 for (int i = 0; i < 4; i++)
                 {
@@ -148,6 +208,30 @@ namespace Project290.Games.SuperPowerRobots.Controls
                 }
 
                 return bestShield;
+            }
+            else if (m_Mode == Mode.RANGED)
+            {
+                int bestGun = -1;
+                Weapon[] weapons = m_Self.GetWeapons();
+                for (int i = 0; i < 4; i++)
+                {
+                    if (weapons[i].GetWeaponType() == WeaponType.gun && (bestGun < 0 || weapons[bestGun].GetWeaponType() != WeaponType.gun || weapons[i].GetPower() > weapons[bestGun].GetPower()))
+                        bestGun = i;
+                }
+
+                return bestGun;
+            }
+            else if (m_Mode == Mode.MELEE)
+            {
+                int bestMelee = -1;
+                Weapon[] weapons = m_Self.GetWeapons();
+                for (int i = 0; i < 4; i++)
+                {
+                    if (weapons[i].GetWeaponType() == WeaponType.melee && (bestMelee < 0 || weapons[bestMelee].GetWeaponType() != WeaponType.melee || weapons[i].GetPower() > weapons[bestMelee].GetPower()))
+                        bestMelee = i;
+                }
+
+                return bestMelee;
             }
             else
             {
