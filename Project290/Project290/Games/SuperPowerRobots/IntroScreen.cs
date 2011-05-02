@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Project290.Screens;
 using Project290.Inputs;
+using Microsoft.Xna.Framework;
+using Project290.Screens;
+using Project290.Inputs;
 
 namespace Project290.Games.SuperPowerRobots
 {
@@ -61,7 +64,6 @@ namespace Project290.Games.SuperPowerRobots
 
             if (count >= thresh.Length)
             {
-                Console.WriteLine("bbbbb");
                 this.isOver = true;
             }
             else
@@ -90,7 +92,6 @@ namespace Project290.Games.SuperPowerRobots
         public override void Draw()
         {
             base.Draw();
-            Console.WriteLine("aaaaa");
             if (count < pictures.Length)
             {
                 Drawer.DrawRectangle(

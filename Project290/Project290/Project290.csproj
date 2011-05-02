@@ -113,6 +113,7 @@
     <Compile Include="FancyFont\FancyString.cs" />
     <Compile Include="Games\StupidGame\StupidGameScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\Battle.cs" />
+    <Compile Include="Games\SuperPowerRobots\LoadOutScreen.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\BrickAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\HumanAI.cs" />
     <Compile Include="Games\SuperPowerRobots\Controls\ModeAI.cs" />
