@@ -11,7 +11,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Project290.Screens;
 using Project290.Inputs;
+using Microsoft.Xna.Framework;
+using Project290.Screens;
+using Project290.Inputs;
 
+>>>>>>> 357fca1f36e0fe43cbadacf77028bb3adc8cd2d1
 namespace Project290.Games.SuperPowerRobots
 {
     /// <summary>
@@ -52,11 +56,19 @@ namespace Project290.Games.SuperPowerRobots
         }
 
         public override void Update()
+<<<<<<< HEAD
         {
             if (GameWorld.controller.ContainsBool(ActionType.AButton) && time > 500)
             {
                 count++;
                 time = 0;
+=======
+        {
+            if (GameWorld.controller.ContainsBool(ActionType.AButton) && time > 500)
+            {
+                count++;
+                time = 0;
+>>>>>>> 357fca1f36e0fe43cbadacf77028bb3adc8cd2d1
             }
 
             if (count >= thresh.Length)
