@@ -6,4 +6,28 @@
   <Texture>4SideFriendlyRobot</Texture>
   <PositionX>200</PositionX>
   <PositionY>200</PositionY>
+  <Weapon>
+    <Type>gun</Type>
+    <Texture>Gun</Texture>
+    <Health>100</Health>
+    <Power>10</Power>
+  </Weapon>
+  <Weapon>
+    <Type>gun</Type>
+    <Texture>Gun</Texture>
+    <Health>100</Health>
+    <Power>10</Power>
+  </Weapon>
+  <Weapon>
+    <Type>shield</Type>
+    <Texture>Shield</Texture>
+    <Health>500</Health>
+    <Power>50</Power>
+  </Weapon>
+  <Weapon>
+    <Type>gun</Type>
+    <Texture>Gun</Texture>
+    <Health>100</Health>
+    <Power>10</Power>
+  </Weapon>
 </Bot>
