@@ -121,6 +121,11 @@ namespace Project290.Games.SuperPowerRobots.Entities
             return m_health;
         }
 
+        public float GetPower()
+        {
+            return m_power;
+        }
+
         public float GetAbsRotation()
         {
             return m_owner.GetRotation() + m_Rotation;
@@ -143,7 +148,7 @@ namespace Project290.Games.SuperPowerRobots.Entities
                 tempBody.SetTransform(tempBody.Position, 0);
                 Fixture f = FixtureFactory.CreateCircle(4 * Settings.MetersPerPixel, 1f, tempBody);
                 f.OnCollision += Projectile.OnBulletHit;
-                Vector2 initialVelocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation))/100;
+                Vector2 initialVelocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation))/10;
                 Projectile justFired = new Projectile(m_SPRWorld, tempBody, TextureStatic.Get("Projectile"), initialVelocity, this.GetAbsRotation(), 5, 5 * Settings.MetersPerPixel, 5 * Settings.MetersPerPixel, m_power);
                 f.UserData = justFired;
                 
